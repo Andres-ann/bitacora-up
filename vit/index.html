@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="./assets/img/favicon.jpg">
+
+  <!-- Bootstrap & CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+  <title>Vitacora UP</title>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-md-center p-5">
+      <div class="col-sm-6 card shadow-lg text-center p-sm-5">
+        <div class="card-body">
+          <!-- Button config -->
+          <a href="./assets/frases-vitacora.html" class="d-flex flex-row-reverse bd-highlight">
+            <i class="bi bi-gear text-muted text-decoration-none"></i>
+          </a>
+
+          <!-- Logo & Tittle -->
+          <img src="./assets/img/logoup.png" alt="logoUP" class="rounded-circle img-fluid shadow">
+          <h1 class="display-3 mt-4 p-sm-4">Vitacora UP</h1>
+          <h3 class="display-6 pb-2">Descubrí una frase</h3>
+
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-lg btn-danger m-3 shadow" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" onclick="writeFront(); audio.play();">
+            Hace click aca!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal-frases">
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                onclick="location.reload()">
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12 pt-4 fst-italic">
+                  <h3 class="p-5" id="fraseFront"></h3>
+                </div>
+                <div class="modal-footer">
+                  <div>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal" onclick="location.reload()">
+                      Cerrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap Bundle with Popper & JS-->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script type="text/javascript">
+    let audio = new Audio();
+    audio.src = "./assets/audio/patito.mp3";
+  </script>
+  <script src="./assets/js/bootstrap.bundle.min.js"></script>
+  <script src="./assets/js/bootstrap.min.js"></script>
+  <script src="./assets/js/scripts.js"></script>
+</body>
+
+</html>
