@@ -8,7 +8,7 @@ const conexion = require('./database/db');
 router.get('/', (req, res) => {    
     conexion.query('SELECT * FROM frases', (err, results) => {
         if (err) {
-            throw error;
+            throw err;
         } else {
             res.render('index', { results:results });
         }

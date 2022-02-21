@@ -1,8 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const { json } = require('express/lib/response');
 const app = express();
 
-const port = 3200;
+const port = process.env.PORT || 3200;
 
 app.set('view engine', 'ejs');
 
