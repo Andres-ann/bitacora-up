@@ -14,7 +14,6 @@ router.get('/', (req, res) => {
         }
     })
 });
-
 //Crear registros
 router.get('/create', (req, res) => {    
     res.render('create');
@@ -44,7 +43,6 @@ router.get('/delete/:id', (req, res) => {
         }
     })
 });
-
 
 const crud = require('./controllers/crud');
 router.post('/save' ,crud.save);

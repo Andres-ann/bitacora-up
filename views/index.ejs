@@ -36,33 +36,33 @@
                     <h3 class="display-6">Descubrí una frase aleatoria</h3>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-lg btn-danger m-3 shadow" data-bs-toggle="modal"
-                        data-bs-target="#modal" onclick="writeFront(); audio.play();">
+                    <a href="/view" type="button" class="btn btn-lg btn-danger m-3 shadow" data-bs-toggle="modal"
+                        data-bs-target="#modal">
                         Hace click aca!
-                    </button>
+                    </a>
                 </div>
             </div>
 
             <!-- Modal -->
-            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <h5 class="display-6">  </h5>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-outline-secondary">
+                                <i class="bi bi-hand-thumbs-up"></i>
+                                <span class="badge bg-secondary"> 0 </span>
+                            </button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Salir</button>
                         </div>
                     </div>
                 </div>
             </div>
-
 
             <div class="card-body">
                 <div class="d-flex justify-content-end mb-4">
@@ -89,13 +89,12 @@
                                 <td><%= frases.frase %></td>
                                 <td><%= frases.autor %></td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-outline-secondary">
+                                    <a class="btn btn-outline-secondary">
                                         <i class="bi bi-hand-thumbs-up"></i>
                                         <span class="badge bg-secondary">
                                             <%= frases.likes %> </td>
-                                        </span>
-                                    </button>
-                                    
+                                </span>
+                                </button>
                                 <td class="text-center">
                                     <a href="/edit/<%= frases.id %>" class="btn btn-outline-warning mb-1">
                                         <i class="bi bi-pencil-square"></i>
@@ -373,7 +372,7 @@
     </script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Alert -->
+    <!-- Alert Delete -->
     <script>
         function confirm(id) {
             const swalWithBootstrapButtons = Swal.mixin({
@@ -394,9 +393,21 @@
                 reverseButtons: true
             }).then((result) => {
                 if (result.isConfirmed) {
-
-                    window.location = '/delete/' + id
-
+                    Swal.fire({
+                        icon: 'question',
+                        title: 'Ingresa la contraseña para eliminar',
+                        html: `<input type="password" id="password" class="swal2-input" placeholder="Contraseña...">`,
+                        confirmButtonText: 'OK',
+                        preConfirm: () => {
+                            const password = Swal.getPopup().querySelector('#password').value
+                            if (password === '') {
+                                Swal.showValidationMessage(`Por favor, ingresa una contraseña`)
+                            } else if (password === '!delete') {
+                                return window.location = '/delete/' + id
+                                Swal.fire('¡El registro se ha eliminado correctamente!')
+                            }
+                        }
+                    })
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
