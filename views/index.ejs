@@ -51,7 +51,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h5 class="display-6">  </h5>
+                            <h5 class="display-6"> </h5>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-secondary">
@@ -403,8 +403,14 @@
                             if (password === '') {
                                 Swal.showValidationMessage(`Por favor, ingresa una contraseña`)
                             } else if (password === '!delete') {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '¡El registro se ha eliminado correctamente!',
+                                    showConfirmButton: false,
+                                    timer: 4000
+                                })
                                 return window.location = '/delete/' + id
-                                Swal.fire('¡El registro se ha eliminado correctamente!')
                             }
                         }
                     })
