@@ -78,23 +78,22 @@
                                 <th scope="col" class="col-1">#</th>
                                 <th scope="col" class="col-6">Frase</th>
                                 <th scope="col" class="col-1">Autor</th>
-                                <th scope="col" class="col-2">Likes</th>
+                                <th scope="col" class="col-2">Valoración</th>
                                 <th scope="col" class="col-2">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% results.forEach((frases)=> { %>
                             <tr>
-                                <th scope="row" class="text-center"> <%= frases.id %></th>
+                                <td scope="row" class="text-center"> <%= frases.id %></td>
                                 <td><%= frases.frase %></td>
                                 <td><%= frases.autor %></td>
                                 <td class="text-center">
-                                    <a class="btn btn-outline-secondary">
-                                        <i class="bi bi-hand-thumbs-up"></i>
-                                        <span class="badge bg-secondary">
-                                            <%= frases.likes %> </td>
-                                </span>
-                                </button>
+                                    <button class="btn btn-outline-warning">
+                                        <i class="bi bi-star"></i>
+                                        <span class="badge bg-warning"> <%= frases.likes %> </span>
+                                    </button>
+                                </td>
                                 <td class="text-center">
                                     <a onclick="confirmEdit(<%= frases.id %>)" class="btn btn-outline-warning mb-1">
                                         <i class="bi bi-pencil-square"></i>
@@ -120,6 +119,7 @@
     <script>
         $(document).ready(function () {
             $('#frases').DataTable({
+                "order": [[ 0, "desc" ]],
                 language: {
                     "processing": "Procesando...",
                     "lengthMenu": "Mostrar _MENU_ registros",
