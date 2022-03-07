@@ -44,6 +44,16 @@ router.get('/delete/:id', (req, res) => {
     })
 });
 
+router.get('/random', (req, res) => {    
+    conexion.query('SELECT * FROM frases ORDER BY RAND() LIMIT 1', (err, results) => {
+        if (err) {
+            throw err;
+        } else {
+            res.render('random', { random:results[0] });
+        }
+    })
+});
+
 const crud = require('./controllers/crud');
 router.post('/save' ,crud.save);
 router.post('/update', crud.update);
