@@ -16,10 +16,7 @@ import {
 	Trash,
 } from 'react-bootstrap-icons';
 
-import dotenv from 'dotenv';
-dotenv.config();
-
-const URI = process.env.MYSQL_ADDON_URI || 'http://localhost:8000/frases/';
+const URI = 'http://localhost:8000/frases/';
 
 const ShowFrasesComponent = () => {
 	const [frases, setFrase] = useState([]);

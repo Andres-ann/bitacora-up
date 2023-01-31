@@ -8,7 +8,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/frases', frasesRouter);
-
 try {
 	await db.authenticate();
 	console.log('Conexión exitosa a la BD');
@@ -17,5 +16,5 @@ try {
 }
 
 app.listen(8000, () => {
-	console.log(`listening on port http://localhost:8000`);
+	console.log(`listening on port 8000`);
 });

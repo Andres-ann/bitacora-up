@@ -6,10 +6,8 @@ import axios from 'axios';
 
 //Icons
 import { XLg, PatchCheckFill, Twitter, HeartFill, Share } from 'react-bootstrap-icons';
-import dotenv from 'dotenv';
-dotenv.config();
 
-const URI = process.env.MYSQL_ADDON_URI || 'http://localhost:8000/frases/';
+const URI = 'http://localhost:8000/frases/';
 
 const ViewFraseComponent = () => {
 	const [frase, setFrase] = useState('');
@@ -46,89 +44,95 @@ const ViewFraseComponent = () => {
 	let today = moment().format('HH:mm A • DD/MM/YYYY - ');
 
 	return (
-		<div className='d-flex justify-content-center mt-5 pt-5'>
-			<div className='card col-sm-6 shadow-lg'>
-				<div className='d-flex flex-row-reverse'>
-					<Link to={'/'} className='btn'>
-						<XLg />
-					</Link>
-				</div>
+		<div>
+			<div className='d-flex justify-content-center mt-5 pt-5'>
+				<div className='card col-sm-6 shadow-lg'>
+					<div className='d-flex flex-row-reverse'>
+						<Link to={'/'} className='btn'>
+							<XLg />
+						</Link>
+					</div>
 
-				<div className='card m-3 p-3'>
-					<div className='row mt-2'>
-						<div className='col-3 col-sm-1'>
-							<img
-								src='https://i.ibb.co/4dnHTpF/logoup.jpg'
-								className='border rounded-circle'
-								width='60px'
-								alt='...'
-							/>
-						</div>
-						<div className='col-6 col-sm-8 ms-sm-4 me-3 me-sm-4 pt-1'>
-							<p className='fw-bolder'>
-								Bitácora UP
-								<span className='ms-1 text-primary'>
-									<PatchCheckFill />
-								</span>
-								<br />
-								<span className='fw-lighter fst-italic text-muted'>@bitacora_UP</span>
-							</p>
-						</div>
-						<div className='col-1 fs-2 text-primary pe-5'>
-							<Twitter />
-						</div>
-						<form className='ps-4' onSubmit={update}>
-							<div className='mb-3'>
-								<input
-									value={frase}
-									onChange={(e) => setFrase(e.target.value)}
-									type='text'
-									className='form-control'
-									hidden
-								/>
-								<p>{frase}</p>
-							</div>
-
-							<div className='mb-3'>
-								<input
-									value={autor}
-									onChange={(e) => setAutor(e.target.value)}
-									type='text'
-									className='form-control'
-									hidden
-								/>
-								<p className='fst-italic'>- {autor}</p>
-							</div>
-
-							<div className='col-5 mb-3'>
-								<input
-									value={likes}
-									onChange={(e) => setLikes(e.target.value)}
-									type='number'
-									className='form-control'
-									hidden
+					<div className='card m-3 p-3'>
+						<div className='row mt-2'>
+							<div className='col-3 col-sm-1'>
+								<img
+									src='https://i.ibb.co/4dnHTpF/logoup.jpg'
+									className='border rounded-circle'
+									width='60px'
+									alt='...'
 								/>
 							</div>
-							<div className='mb-1 mt-5'>
-								<small>
-									{today} <span className='text-primary'>Twitter for UP</span>
-								</small>
+							<div className='col-6 col-sm-8 ms-sm-4 me-3 me-sm-4 pt-1'>
+								<p className='fw-bolder'>
+									Bitácora UP
+									<span className='ms-1 text-primary'>
+										<PatchCheckFill />
+									</span>
+									<br />
+									<span className='fw-lighter fst-italic text-muted'>@bitacora_UP</span>
+								</p>
 							</div>
-							<hr />
-							<div className='d-flex justify-content-center'>
-								<div>
-									<button type='submit' className='btn btn-sm' onClick={() => setLikes(likes + 1)}>
-										<HeartFill className='text-danger' />
-										<span className='ms-1 text-muted'>{likes}</span>
-									</button>
+							<div className='col-1 fs-2 text-primary pe-5'>
+								<Twitter />
+							</div>
+							<form className='ps-4' onSubmit={update}>
+								<div className='mb-3'>
+									<input
+										value={frase}
+										onChange={(e) => setFrase(e.target.value)}
+										type='text'
+										className='form-control'
+										hidden
+									/>
+									<p>{frase}</p>
 								</div>
-								<div>
-									<button className='btn btn-sm' onClick={() => share()}>
-										<Share />
-									</button>
+
+								<div className='mb-3'>
+									<input
+										value={autor}
+										onChange={(e) => setAutor(e.target.value)}
+										type='text'
+										className='form-control'
+										hidden
+									/>
+									<p className='fst-italic'>- {autor}</p>
 								</div>
-							</div>
-						</form>
+
+								<div className='col-5 mb-3'>
+									<input
+										value={likes}
+										onChange={(e) => setLikes(e.target.value)}
+										type='number'
+										className='form-control'
+										hidden
+									/>
+								</div>
+								<div className='mb-1 mt-5'>
+									<small>
+										{today} <span className='text-primary'>Twitter for UP</span>
+									</small>
+								</div>
+								<hr />
+								<div className='d-flex justify-content-center'>
+									<div>
+										<button
+											type='submit'
+											className='btn btn-sm'
+											onClick={() => setLikes(likes + 1)}
+										>
+											<HeartFill className='text-danger' />
+											<span className='ms-1 text-muted'>{likes}</span>
+										</button>
+									</div>
+									<div>
+										<button className='btn btn-sm' onClick={() => share()}>
+											<Share />
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -33,7 +33,7 @@ CREATE TABLE `frases` (
   `autor` varchar(50) NOT NULL,
   `likes` int(3) NOT NULL DEFAULT 0,
   `createdAt` date NOT NULL,
-  `updatedAt` date NOT NULL
+  `updatedAt` date NOT NULL,
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

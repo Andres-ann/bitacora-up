@@ -6,10 +6,7 @@ import Footer from './footer';
 //Icons
 import { Check2Circle, XCircle } from 'react-bootstrap-icons';
 
-import dotenv from 'dotenv';
-dotenv.config();
-
-const URI = process.env.MYSQL_ADDON_URI || 'http://localhost:8000/frases/';
+const URI = 'http://localhost:8000/frases/';
 
 const CreateFraseComponent = () => {
 	const [frase, setFrase] = useState('');

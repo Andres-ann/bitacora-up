@@ -28,8 +28,6 @@ export const getFrase = async (req, res) => {
 	}
 };
 
-//** Mostrar un registro aleatorio */
-
 //** Crear un registro */
 export const createFrase = async (req, res) => {
 	try {
