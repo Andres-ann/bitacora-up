@@ -16,7 +16,7 @@ import {
 	Trash,
 } from 'react-bootstrap-icons';
 
-const URI = 'http://localhost:8000/frases/';
+const URI = 'https://bitacora-up-api.onrender.com/frases/';
 
 const ShowFrasesComponent = () => {
 	const [frases, setFrase] = useState([]);

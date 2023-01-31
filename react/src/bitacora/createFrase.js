@@ -6,7 +6,7 @@ import Footer from './footer';
 //Icons
 import { Check2Circle, XCircle } from 'react-bootstrap-icons';
 
-const URI = 'http://localhost:8000/frases/';
+const URI = 'https://bitacora-up-api.onrender.com/frases/';
 
 const CreateFraseComponent = () => {
 	const [frase, setFrase] = useState('');

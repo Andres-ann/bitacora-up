@@ -7,7 +7,7 @@ import axios from 'axios';
 //Icons
 import { XLg, PatchCheckFill, Twitter, HeartFill, Share } from 'react-bootstrap-icons';
 
-const URI = 'http://localhost:8000/frases/';
+const URI = 'https://bitacora-up-api.onrender.com/frases/';
 
 const ViewFraseComponent = () => {
 	const [frase, setFrase] = useState('');
