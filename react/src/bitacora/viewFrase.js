@@ -77,7 +77,7 @@ const ViewFraseComponent = () => {
 								<Twitter />
 							</div>
 							<form className='ps-4' onSubmit={update}>
-								<div className='mb-3'>
+								<div className='mb-3 mt-2'>
 									<input
 										value={frase}
 										onChange={(e) => setFrase(e.target.value)}
