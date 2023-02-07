@@ -109,7 +109,7 @@ const ViewFraseComponent = () => {
 									/>
 								</div>
 
-								<div className='text-primary mt-5 pt-5'>
+								<div className='text-primary mt-5 pt-2'>
 									<small>
 										#Up #UnionPersonal #Upcn #yLasParitarias? #VivaPeron #aNismanLoMataron
 										#QueVuelvaElHome #JuiraRodrigo #Allá #PiqueterosDuros #PeronismoMilitante
