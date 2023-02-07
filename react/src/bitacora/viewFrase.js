@@ -108,8 +108,16 @@ const ViewFraseComponent = () => {
 										hidden
 									/>
 								</div>
-								<div className='mb-1 mt-5'>
+
+								<div className='text-primary mt-5 pt-5'>
 									<small>
+										#Up #UnionPersonal #Upcn #yLasParitarias? #VivaPeron #aNismanLoMataron
+										#QueVuelvaElHome #JuiraRodrigo #Allá #PiqueterosDuros #PeronismoMilitante
+									</small>
+								</div>
+
+								<div className='mb-1 mt-3'>
+									<small className='text-muted'>
 										{today} <span className='text-primary'>Twitter for UP</span>
 									</small>
 								</div>
@@ -126,7 +134,7 @@ const ViewFraseComponent = () => {
 										</button>
 									</div>
 									<div>
-										<button className='btn btn-sm' onClick={() => share()}>
+										<button className='btn btn-sm text-muted' onClick={() => share()}>
 											<Share />
 										</button>
 									</div>
