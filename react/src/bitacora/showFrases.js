@@ -204,7 +204,7 @@ const ShowFrasesComponent = () => {
 								progressPending={pending}
 								pagination
 								paginationComponentOptions={paginationOptions}
-								noDataComponent={<span>No se encontró ningun elemento</span>}
+								noDataComponent={<span>Esto puede tardar más de lo esperado.. Si la información no aparece, recarga el navegador &#129299</span>}
 							/>
 						</div>
 					</div>
