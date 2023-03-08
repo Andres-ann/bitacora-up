@@ -6,6 +6,7 @@ import ShowFrasesComponent from './bitacora/showFrases';
 import CreateFraseComponent from './bitacora/createFrase';
 import EditFraseComponent from './bitacora/editFrase';
 import ViewFraseComponent from './bitacora/viewFrase';
+import EditHashtagComponent from './bitacora/editHashtags';
 
 function App() {
 	return (
@@ -16,6 +17,7 @@ function App() {
 						<Route path='/' element={<ShowFrasesComponent />} />
 						<Route path='/create' element={<CreateFraseComponent />} />
 						<Route path='/edit/:id' element={<EditFraseComponent />} />
+						<Route path='/editht/:id' element={<EditHashtagComponent />} />
 						<Route path='/id/:id' element={<ViewFraseComponent />} />
 					</Routes>
 				</BrowserRouter>

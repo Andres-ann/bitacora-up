@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Footer from './footer';
+import ShowHashtagComponent from './showHashtags';
 import moment from 'moment';
 import axios from 'axios';
 
@@ -111,8 +112,11 @@ const ViewFraseComponent = () => {
 
 								<div className='text-primary mt-5 pt-2'>
 									<small>
-										#FelizDiaDeLucha #MuerteAlMacho #OportunidadesDeMejora #LaLoooooz #TresTirosEnLaRodilla #VolvieronLosMemes #UnionPersonal #Upcn #yLasParitarias? #VivaPeron 
-										#QueVuelvaElHome #JuiraRodrigo #Allá #PiqueterosDuros #PeronismoMilitante
+										<ShowHashtagComponent />
+										#FelizDiaDeLucha #MuerteAlMacho #OportunidadesDeMejora #LaLoooooz
+										#TresTirosEnLaRodilla #VolvieronLosMemes #UnionPersonal #Upcn #yLasParitarias?
+										#VivaPeron #QueVuelvaElHome #JuiraRodrigo #Allá #PiqueterosDuros
+										#PeronismoMilitante
 									</small>
 								</div>
 
