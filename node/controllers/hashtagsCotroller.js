@@ -1,4 +1,4 @@
-import frasesModel from '../models/hashtagsModel';
+import hashtagsModel from '../models/hashtagsModel';
 
 //** metodos para el CRUD */
 
