@@ -111,7 +111,7 @@ const ViewFraseComponent = () => {
 
 								<div className='text-primary mt-5 pt-2'>
 									<small>
-										#OportunidadesDeMejora #LaLoooooz #TresTirosEnLaRodilla #VolvieronLosMemes #UnionPersonal #Upcn #yLasParitarias? #VivaPeron 
+										#MuerteAlMacho #OportunidadesDeMejora #LaLoooooz #TresTirosEnLaRodilla #VolvieronLosMemes #UnionPersonal #Upcn #yLasParitarias? #VivaPeron 
 										#QueVuelvaElHome #JuiraRodrigo #Allá #PiqueterosDuros #PeronismoMilitante
 									</small>
 								</div>
