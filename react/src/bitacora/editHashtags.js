@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Footer from './footer';
 
@@ -11,12 +11,11 @@ const URI = 'https://bitacora-up-api.onrender.com/hashtags/';
 const EditHashtagComponent = () => {
 	const [hashtag, setHashtag] = useState('');
 	const navigate = useNavigate();
-	const { id } = useParams();
 
 	//procedimiento para actualizar un hashtag
 	const update = async (e) => {
 		e.preventDefault();
-		await axios.put(URI + id, { hashtag: hashtag });
+		await axios.put(URI + 1, { hashtag: hashtag });
 		navigate('/');
 	};
 
@@ -25,8 +24,9 @@ const EditHashtagComponent = () => {
 	}, []);
 
 	const getHashtagId = async () => {
-		const res = await axios.get(URI + id);
+		const res = await axios.get(URI + 1);
 		setHashtag(res.data.hashtag);
+		console.log(res.data.hashtag);
 	};
 
 	return (
@@ -41,7 +41,7 @@ const EditHashtagComponent = () => {
 							Hashtags
 						</label>
 						<textarea
-							value={hashtag.toLowerCase()}
+							value={hashtag}
 							onChange={(e) => setHashtag(e.target.value)}
 							type='text'
 							className='form-control'

@@ -1,13 +1,11 @@
-import hashtagsModel from '../models/hashtagsModel';
+import hashtagsModel from '../models/hashtagsModel.js';
 
 //** metodos para el CRUD */
 
 //** Mostrar todos los registros */
 export const getAllHashtags = async (req, res) => {
 	try {
-		const hashtags = await hashtagsModel.findAll({
-			order: [['id', 'ASC']],
-		});
+		const hashtags = await hashtagsModel.findAll();
 		res.json(hashtags);
 	} catch (error) {
 		res.json({ message: error.message });

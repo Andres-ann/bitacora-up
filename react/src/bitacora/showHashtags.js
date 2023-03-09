@@ -14,16 +14,16 @@ const ShowHashtagComponent = () => {
 	const getHashtag = async () => {
 		const res = await axios.get(URI);
 		setHashtags(res.data);
+		console.log(res.data);
 	};
 
 	return (
 		<div>
-			{hashtags.map((item) => (
-				<div key={item.id}>
-					<h1>afsdfsdf</h1>
-					<h3>{item.hashtag}</h3>
-				</div>
-			))}
+			<small>
+				{hashtags.map((item) => (
+					<div key={item.id}>{item.hashtag}</div>
+				))}
+			</small>
 		</div>
 	);
 };
