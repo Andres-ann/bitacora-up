@@ -7,6 +7,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PostsComponent } from './components/posts/posts.component';
 import { PostItemComponent } from './components/post-item/post-item.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ButtonFloatComponent } from './components/button-float/button-float.component';
+import { ShowComponent } from './pages/show/show.component';
+import { EditComponent } from './pages/edit/edit.component';
+import { CreateComponent } from './pages/create/create.component';
 
 @NgModule({
   declarations: [
@@ -14,13 +19,14 @@ import { PostItemComponent } from './components/post-item/post-item.component';
     HeaderComponent,
     HomeComponent,
     PostsComponent,
-    PostItemComponent
+    PostItemComponent,
+    ButtonFloatComponent,
+    ShowComponent,
+    EditComponent,
+    CreateComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
