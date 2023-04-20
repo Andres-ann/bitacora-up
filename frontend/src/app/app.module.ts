@@ -12,6 +12,9 @@ import { ButtonFloatComponent } from './components/button-float/button-float.com
 import { ShowComponent } from './pages/show/show.component';
 import { EditComponent } from './pages/edit/edit.component';
 import { CreateComponent } from './pages/create/create.component';
+import { GenericFormComponent } from './components/generic-form/generic-form.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,8 +27,16 @@ import { CreateComponent } from './pages/create/create.component';
     ShowComponent,
     EditComponent,
     CreateComponent,
+    GenericFormComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
