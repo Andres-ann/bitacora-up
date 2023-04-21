@@ -13,7 +13,9 @@ const frasesSchema = new mongoose.Schema(
 		},
 		likes: {
 			type: Number,
-			required: [true, 'please complete this field'],
+		},
+		visualizaciones: {
+			type: Number,
 		},
 	},
 	{

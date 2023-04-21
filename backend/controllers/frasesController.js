@@ -5,7 +5,7 @@ import { frasesModel } from '../models/frasesModel.js';
 //Mostrar todas las frases
 export const getAllFrases = async (req, res) => {
 	try {
-		const frases = await frasesModel.find();
+		const frases = await frasesModel.find().sort({ createdAt: -1 });
 		res.status(200).json(frases);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
