@@ -16,4 +16,10 @@ export class HomeComponent implements OnInit {
       this.posts = data;
     });
   }
+
+  updateFrasesList() {
+    this.crudService.getFrases().subscribe((res) => {
+      this.posts = res;
+    });
+  }
 }
