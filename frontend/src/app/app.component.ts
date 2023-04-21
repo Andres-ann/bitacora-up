@@ -12,8 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private crudService: CrudService) {}
 
   ngOnInit(): void {
-    this.crudService.getFrases().subscribe((res) => {
-      console.log(res);
-    });
+    this.crudService.getFrases().subscribe((res) => {});
   }
 }

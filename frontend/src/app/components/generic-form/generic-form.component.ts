@@ -16,23 +16,25 @@ export class GenericFormComponent implements OnInit {
     private router: Router
   ) {}
 
-  formFrases: FormGroup;
+  formFrase: FormGroup;
   @Input()
   modelFrases: Frases;
   @Output()
   submitValues: EventEmitter<Frases> = new EventEmitter<Frases>();
 
   ngOnInit(): void {
-    this.formFrases = this.formBuilder.group({
+    this.formFrase = this.formBuilder.group({
       frase: ['', Validators.required],
       autor: ['', Validators.required],
+      likes: [0],
+      visualizaciones: [0],
     });
     if (this.modelFrases !== undefined) {
-      this.formFrases.patchValue(this.formFrases);
+      this.formFrase.patchValue(this.modelFrases);
     }
   }
 
   onSubmit(): void {
-    this.submitValues.emit(this.formFrases.value);
+    this.submitValues.emit(this.formFrase.value);
   }
 }

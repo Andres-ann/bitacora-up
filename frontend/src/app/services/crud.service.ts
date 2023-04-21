@@ -13,7 +13,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CrudService {
-  private REST_API: string = 'http://localhost:8000/api/products';
+  private REST_API: string = 'http://localhost:8000/api/frases';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private httpClient: HttpClient) {}
