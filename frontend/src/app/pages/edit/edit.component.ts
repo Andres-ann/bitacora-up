@@ -29,8 +29,8 @@ export class EditComponent implements OnInit {
     });
   }
 
-  onSubmit(product: Frases) {
-    this.crudService.updateFrase(this.id, product).subscribe({
+  onSubmit(frase: Frases) {
+    this.crudService.updateFrase(this.id, frase).subscribe({
       next: () => {
         this.router.navigateByUrl('/');
       },

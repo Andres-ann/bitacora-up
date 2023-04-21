@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-center">
       <div class="col col-sm-8">
         <div class="card h-100">
-          <app-generic-form *ngIf="model" (submitValues)="onSubmit($event)"> </app-generic-form>
+          <app-generic-form *ngIf="model" [modelFrases]="model" (submitValues)="onSubmit($event)"></app-generic-form>
         </div>
       </div>
     </div>
