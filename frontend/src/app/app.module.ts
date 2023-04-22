@@ -15,6 +15,7 @@ import { CreateComponent } from './pages/create/create.component';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MenuFixedComponent } from './components/menu-fixed/menu-fixed.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     EditComponent,
     CreateComponent,
     GenericFormComponent,
+    MenuFixedComponent,
   ],
   imports: [
     BrowserModule,
