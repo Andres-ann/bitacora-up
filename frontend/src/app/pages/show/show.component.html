@@ -1,34 +1,15 @@
 <div class="container h-100">
   <div class="row h-100">
     <div class="d-flex justify-content-center">
-      <div class="col col-sm-8 pt-5 card mx-auto shadow">
-        <div class="card m-1 m-sm-5 p-3">
-          <app-post-item></app-post-item>
-
-          <div class="d-flex justify-content-evenly">
-            <div>
-              <button class="btn btn-sm">
-                <span><i class="bi bi-heart"></i> 22 </span>
-              </button>
-            </div>
-
-            <div>
-              <button class="btn btn-sm">
-                <span><i class="bi bi-bar-chart"></i> 105 </span>
-              </button>
-            </div>
-
-            <div>
-              <button class="btn btn-sm">
-                <span><i class="bi bi-upload"></i></span>
-              </button>
-            </div>
-          </div>
+      <div class="col col-sm-6 pt-5 mx-auto">
+        <div class="card col-11 m-1 m-sm-5 p-3">
+          <app-post-item
+            *ngFor="let post of posts; let i = index"
+            [post]="post"
+            [i]="i"
+          ></app-post-item>
         </div>
       </div>
     </div>
   </div>
-  <app-button-float></app-button-float>
-
-  <app-menu-fixed></app-menu-fixed>
 </div>

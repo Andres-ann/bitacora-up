@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Frases } from 'src/app/models/frases.model';
-import { CrudService } from 'src/app/services/crud.service';
 
 @Component({
   selector: 'app-generic-form',
@@ -10,11 +8,7 @@ import { CrudService } from 'src/app/services/crud.service';
   styleUrls: ['./generic-form.component.css'],
 })
 export class GenericFormComponent implements OnInit {
-  constructor(
-    private formBuilder: FormBuilder,
-    private crudService: CrudService,
-    private router: Router
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   formFrase: FormGroup;
   @Input()

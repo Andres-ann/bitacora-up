@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Frases } from 'src/app/models/frases.model';
 import { CrudService } from 'src/app/services/crud.service';
 
@@ -14,7 +15,7 @@ export class PostItemComponent implements OnInit {
 
   frases: Frases[] = [];
 
-  constructor(private crudService: CrudService) {}
+  constructor(private crudService: CrudService, private router: Router) {}
 
   ngOnInit(): void {
     this.crudService.getFrases().subscribe((res: Frases[]) => {
@@ -27,7 +28,17 @@ export class PostItemComponent implements OnInit {
       this.crudService.deleteFrase(id).subscribe(() => {
         this.frases.splice(i, 1);
         this.onFraseDeleted.emit();
+        this.router.navigateByUrl('/');
       });
     }
+  }
+
+  shareOnWhatsApp(id: any) {
+    const url = encodeURIComponent(`http://localhost:4200/${id}`);
+    console.log(url);
+    window.open(
+      `https://api.whatsapp.com/send?text=¡Mira%20esta%20frase%20en%20la%20Bitácora!%20${url}`,
+      '_blank'
+    );
   }
 }
