@@ -16,6 +16,7 @@ import { GenericFormComponent } from './components/generic-form/generic-form.com
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuFixedComponent } from './components/menu-fixed/menu-fixed.component';
+import { SearchComponent } from './pages/search/search.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { MenuFixedComponent } from './components/menu-fixed/menu-fixed.component
     CreateComponent,
     GenericFormComponent,
     MenuFixedComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
