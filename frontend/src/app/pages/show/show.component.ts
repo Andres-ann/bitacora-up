@@ -29,7 +29,11 @@ export class ShowComponent implements OnInit {
     });
   }
 
-  updateLikePost() {
-    throw new Error('Method not implemented.');
+  updateLikeList() {
+    this.id = this.activatedRoute.snapshot.paramMap.get('id');
+    this.crudService.getFrase(this.id).subscribe((data) => {
+      this.posts = [data];
+      console.log(this.posts);
+    });
   }
 }

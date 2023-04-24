@@ -12,7 +12,7 @@ export class PostItemComponent implements OnInit {
   @Input() post: any;
   @Input() i: any;
   @Output() onFraseDeleted = new EventEmitter();
-  @Output() onLikeUp = new EventEmitter();
+  @Output() onLikeUpPost = new EventEmitter();
 
   frases: Frases[] = [];
   id!: any;
@@ -40,7 +40,7 @@ export class PostItemComponent implements OnInit {
       data.likes++;
       this.crudService.updateFrase(id, data).subscribe();
       this.post = [data];
-      this.onLikeUp.emit();
+      this.onLikeUpPost.emit();
     });
   }
 
