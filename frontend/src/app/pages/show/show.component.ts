@@ -28,4 +28,8 @@ export class ShowComponent implements OnInit {
       this.posts = [data];
     });
   }
+
+  updateLikePost() {
+    throw new Error('Method not implemented.');
+  }
 }

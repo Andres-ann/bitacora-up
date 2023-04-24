@@ -7,6 +7,7 @@
             *ngFor="let post of posts; let i = index"
             [post]="post"
             [i]="i"
+            (onLikeUp)="updateLikePost()"
           ></app-post-item>
         </div>
       </div>

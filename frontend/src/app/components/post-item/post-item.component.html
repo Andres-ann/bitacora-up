@@ -21,14 +21,10 @@
     </p>
 
     <hr class="mt-5" />
+
     <div class="d-flex justify-content-evenly">
       <div>
-        <button
-          class="btn btn-sm"
-          data-bs-toggle="tooltip"
-          data-bs-placement="top"
-          data-bs-title="Tooltip on top"
-        >
+        <button class="btn btn-sm" (click)="updateLikes(post._id)">
           <span><i class="bi bi-heart"></i> {{ post.likes }} </span>
         </button>
       </div>

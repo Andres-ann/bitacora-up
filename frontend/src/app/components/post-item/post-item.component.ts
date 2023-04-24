@@ -12,8 +12,10 @@ export class PostItemComponent implements OnInit {
   @Input() post: any;
   @Input() i: any;
   @Output() onFraseDeleted = new EventEmitter();
+  @Output() onLikeUp = new EventEmitter();
 
   frases: Frases[] = [];
+  id!: any;
 
   constructor(private crudService: CrudService, private router: Router) {}
 
@@ -31,6 +33,15 @@ export class PostItemComponent implements OnInit {
         this.router.navigateByUrl('/');
       });
     }
+  }
+
+  updateLikes(id: any) {
+    this.crudService.getFrase(id).subscribe((data) => {
+      data.likes++;
+      this.crudService.updateFrase(id, data).subscribe();
+      this.post = [data];
+      this.onLikeUp.emit();
+    });
   }
 
   shareOnWhatsApp(id: any) {

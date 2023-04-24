@@ -22,4 +22,10 @@ export class HomeComponent implements OnInit {
       this.posts = res;
     });
   }
+
+  updateLikeList() {
+    this.crudService.getFrases().subscribe((res) => {
+      this.posts = res;
+    });
+  }
 }
