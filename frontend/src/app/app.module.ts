@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
-import { PostsComponent } from './components/posts/posts.component';
 import { PostItemComponent } from './components/post-item/post-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ButtonFloatComponent } from './components/button-float/button-float.component';
@@ -17,13 +16,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MenuFixedComponent } from './components/menu-fixed/menu-fixed.component';
 import { SearchComponent } from './pages/search/search.component';
+import { PostRandomComponent } from './pages/post-random/post-random.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    PostsComponent,
     PostItemComponent,
     ButtonFloatComponent,
     ShowComponent,
@@ -32,6 +31,7 @@ import { SearchComponent } from './pages/search/search.component';
     GenericFormComponent,
     MenuFixedComponent,
     SearchComponent,
+    PostRandomComponent,
   ],
   imports: [
     BrowserModule,
