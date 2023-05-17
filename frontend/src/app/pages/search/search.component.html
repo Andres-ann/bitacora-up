@@ -2,11 +2,21 @@
   <div class="row h-100">
     <div class="d-flex justify-content-center">
       <div class="col col-sm-8 p-2 card mx-auto shadow">
-        <form class="ms-sm-5 me-sm-5">
+        <div class="mt-sm-5 ms-sm-5 me-sm-5">
           <div class="m-2">
-            <input type="text" class="form-control rounded-pill" placeholder="Buscar..." />
+            <input type="text" [(ngModel)]="searchText" (input)="search()" class="form-control rounded-pill"
+              placeholder="Buscar..." />
           </div>
-        </form>
+
+          <div class="card p-3 mt-5" *ngIf="searchResults.length > 0">
+            <app-post-item *ngFor="let result of searchResults; let i = index" [post]="result" [i]="i"></app-post-item>
+          </div>
+
+          <div class="p-3 mt-5 text-center"
+            *ngIf="searchText.length >= 3 && searchResults.length === 0 && showNoResultsMessage">
+            <p>No se encontraron resultados.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>

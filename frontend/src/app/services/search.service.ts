@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Frases } from '../models/frases.model';
 
 import {
   HttpClient,
@@ -6,36 +7,33 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RandomService {
-  private REST_API: string = 'http://localhost:8000/api/random';
+export class SearchService {
+  private REST_API: string = 'http://localhost:8000/api/search';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private httpClient: HttpClient) {}
 
-  getFraseRandom(): Observable<any> {
+  searchCollection(query: string): Observable<any> {
     return this.httpClient
-      .get(`${this.REST_API}`, { headers: this.httpHeaders })
+      .get(`${this.REST_API}/?query=${query}`, { headers: this.httpHeaders })
       .pipe(
-        map((res: any) => {
-          return res || {};
-        })
+        map((res: any) => res),
+        catchError(this.handleError) // Agrega esta línea para manejar los errores
       );
   }
 
-  handleError(error: HttpErrorResponse) {
-    let errorMsg: string = '';
+  private handleError(error: HttpErrorResponse) {
+    let errorMsg: string;
     if (error.error instanceof ErrorEvent) {
       errorMsg = error.error.message;
     } else {
       errorMsg = `Error code: ${error.status}. Message: ${error.message}`;
     }
-    return throwError(() => {
-      errorMsg;
-    });
+    return throwError(errorMsg);
   }
 }
