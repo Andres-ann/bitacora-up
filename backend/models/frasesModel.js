@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-//schema
 const frasesSchema = new mongoose.Schema(
 	{
 		frase: {
@@ -24,5 +23,6 @@ const frasesSchema = new mongoose.Schema(
 	}
 );
 
-//modelo a partir del esquema
-export const frasesModel = new mongoose.model('Frase', frasesSchema);
+frasesSchema.index({ frase: 'text', autor: 'text' });
+
+export const frasesModel = mongoose.model('Frase', frasesSchema);
