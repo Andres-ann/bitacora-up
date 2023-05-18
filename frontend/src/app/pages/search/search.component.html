@@ -3,18 +3,41 @@
     <div class="d-flex justify-content-center">
       <div class="col col-sm-8 p-2 card mx-auto shadow">
         <div class="mt-sm-5 ms-sm-5 me-sm-5">
-          <div class="m-2">
-            <input type="text" [(ngModel)]="searchText" (input)="search()" class="form-control rounded-pill"
-              placeholder="Buscar..." />
+          <div class="m-2 position-relative">
+            <input
+              type="text"
+              [(ngModel)]="searchText"
+              (input)="search()"
+              class="form-control rounded-pill"
+              placeholder="Buscar..."
+            />
+            <button
+              class="btn position-absolute top-50 end-0 translate-middle-y"
+              type="button"
+              *ngIf="searchText.length > 0"
+              (click)="clearSearch()"
+            >
+              <i class="bi bi-x-lg"></i>
+            </button>
           </div>
 
           <div class="card p-3 mt-5" *ngIf="searchResults.length > 0">
-            <app-post-item *ngFor="let result of searchResults; let i = index" [post]="result" [i]="i"></app-post-item>
+            <app-post-item
+              *ngFor="let result of searchResults; let i = index"
+              [post]="result"
+              [i]="i"
+            ></app-post-item>
           </div>
 
-          <div class="p-3 mt-5 text-center"
-            *ngIf="searchText.length >= 3 && searchResults.length === 0 && showNoResultsMessage">
-            <p>No se encontraron resultados.</p>
+          <div
+            class="p-3 mt-5 text-center"
+            *ngIf="
+              searchText.length >= 3 &&
+              searchResults.length === 0 &&
+              showNoResultsMessage
+            "
+          >
+            <p>No se encontraron resultados para "{{ searchText }}".</p>
           </div>
         </div>
       </div>
