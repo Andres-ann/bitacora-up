@@ -1,18 +1,12 @@
 <div class="d-flex">
   <div class="col-2 col-sm-1">
-    <img
-      src="../assets/images/logo-up.jpg"
-      class="img-thumbnail rounded-circle border"
-      alt="logo-up"
-    />
+    <img src="../assets/images/logo-up.jpg" class="img-thumbnail rounded-circle border" alt="logo-up" />
   </div>
 
   <div class="col-8 col-sm-10 m-2">
     <h6>
       {{ post.autor }}
-      <span class="text-primary me-2"
-        ><i class="bi bi-patch-check-fill"></i
-      ></span>
+      <span class="text-primary me-2"><i class="bi bi-patch-check-fill"></i></span>
       <span class="text-muted">@Bitacora_up</span>
     </h6>
 
@@ -31,21 +25,18 @@
 
       <div>
         <button class="btn btn-sm">
-          <span
-            ><i class="bi bi-bar-chart"></i> {{ post.visualizaciones }}
+          <span><i class="bi bi-bar-chart"></i> {{ post.visualizaciones }}
           </span>
         </button>
       </div>
 
       <div>
-        <a routerLink="/view/{{ post._id }}" class="btn btn-sm"
-          ><span class="me-1"><i class="bi bi-eye"></i></span
-        ></a>
+        <a routerLink="/view/{{ post._id }}" class="btn btn-sm"><span class="me-1"><i class="bi bi-eye"></i></span></a>
       </div>
 
       <div>
         <button (click)="shareOnWhatsApp(post._id)" class="btn btn-sm">
-          <span><i class="bi bi-upload"></i></span>
+          <span><i class="bi bi-share"></i></span>
         </button>
       </div>
     </div>
@@ -53,20 +44,14 @@
 
   <div class="col-1 m-2">
     <div class="dropdown">
-      <button
-        class="btn dropdown-toggle"
-        type="button"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
+      <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-three-dots-vertical text-muted"></i>
       </button>
       <ul class="dropdown-menu">
         <li>
           <a class="dropdown-item" routerLink="/update/{{ post._id }}">
             <span class="me-1"><i class="bi bi-pencil"></i></span>
-            Editar</a
-          >
+            Editar</a>
         </li>
         <li>
           <button class="dropdown-item" (click)="delete(post._id, i)">

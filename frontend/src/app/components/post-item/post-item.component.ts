@@ -38,9 +38,10 @@ export class PostItemComponent implements OnInit {
   updateLikes(id: any) {
     this.crudService.getFrase(id).subscribe((data) => {
       data.likes++;
-      this.crudService.updateFrase(id, data).subscribe();
-      this.post = [data];
-      this.onLikeUpPost.emit();
+      this.crudService.updateFrase(id, data).subscribe(() => {
+        this.post.likes = data.likes;
+        this.onLikeUpPost.emit();
+      });
     });
   }
 
