@@ -46,7 +46,7 @@ export class PostItemComponent implements OnInit {
   }
 
   shareOnWhatsApp(id: any) {
-    const url = encodeURIComponent(`https://bitacora-up.vercel.app/${id}`);
+    const url = encodeURIComponent(`https://bitacora-up.vercel.app/view/${id}`);
     console.log(url);
     window.open(
       `https://api.whatsapp.com/send?text=¡Mira%20esta%20frase%20en%20la%20Bitácora!%20${url}`,
