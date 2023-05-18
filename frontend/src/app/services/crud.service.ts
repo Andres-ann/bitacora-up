@@ -13,7 +13,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class CrudService {
-  private REST_API: string = 'http://localhost:8000/api/frases';
+  private REST_API: string = 'https://bitacora-up-api.onrender.com/api/frases';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private httpClient: HttpClient) {}
