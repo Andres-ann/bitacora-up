@@ -1,10 +1,16 @@
 import { frasesModel } from '../models/frasesModel.js';
 
 // Método de búsqueda en la colección
+// Método de búsqueda en la colección
 export const getQuery = async (req, res) => {
 	try {
 		const { query } = req.query;
-		const results = await frasesModel.find({ $text: { $search: query } });
+		const results = await frasesModel.find({
+			$or: [
+				{ frase: { $regex: query, $options: 'i' } },
+				{ autor: { $regex: query, $options: 'i' } },
+			],
+		});
 
 		res.status(200).json(results);
 	} catch (error) {
