@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Frases } from '../models/frases.model';
 
 import {
   HttpClient,
@@ -13,7 +12,7 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SearchService {
-  private REST_API: string = 'http://localhost:8000/api/search';
+  private REST_API: string = 'https://bitacora-up-api.onrender.com/api/search';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private httpClient: HttpClient) {}
@@ -23,7 +22,7 @@ export class SearchService {
       .get(`${this.REST_API}/?query=${query}`, { headers: this.httpHeaders })
       .pipe(
         map((res: any) => res),
-        catchError(this.handleError) // Agrega esta línea para manejar los errores
+        catchError(this.handleError)
       );
   }
 
