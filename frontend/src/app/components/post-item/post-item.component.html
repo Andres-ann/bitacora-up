@@ -18,24 +18,27 @@
 
     <div class="d-flex justify-content-evenly">
       <div>
-        <button class="btn btn-sm" (click)="updateLikes(post._id)">
+        <button (click)="updateLikes(post._id)" data-toggle="tooltip" data-placement="top" title="Likes"
+          class="btn btn-sm">
           <span><i class="bi bi-heart"></i> {{ post.likes }} </span>
         </button>
       </div>
 
       <div>
-        <button class="btn btn-sm">
+        <button data-toggle="tooltip" data-placement="top" title="Visualizaciones" class="btn btn-sm">
           <span><i class="bi bi-bar-chart"></i> {{ post.visualizaciones }}
           </span>
         </button>
       </div>
 
       <div>
-        <a routerLink="/view/{{ post._id }}" class="btn btn-sm"><span class="me-1"><i class="bi bi-eye"></i></span></a>
+        <a routerLink="/view/{{ post._id }}" data-toggle="tooltip" data-placement="top" title="Ver"
+          class="btn btn-sm"><span class="me-1"><i class="bi bi-eye"></i></span></a>
       </div>
 
       <div>
-        <button (click)="shareOnWhatsApp(post._id)" class="btn btn-sm">
+        <button (click)="shareOnWhatsApp(post._id)" data-toggle="tooltip" data-placement="top" title="Compartir"
+          class="btn btn-sm">
           <span><i class="bi bi-share"></i></span>
         </button>
       </div>
