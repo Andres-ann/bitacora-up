@@ -11,6 +11,7 @@ import { Frases } from 'src/app/models/frases.model';
 export class ShowComponent implements OnInit {
   id!: any;
   posts: Frases[] = [];
+  isLoading: boolean = true;
 
   @Input() visualizaciones!: number;
   @Output() postUpdated = new EventEmitter<Frases>();
@@ -26,6 +27,7 @@ export class ShowComponent implements OnInit {
       data.visualizaciones++;
       this.crudService.updateFrase(this.id, data).subscribe();
       this.posts = [data];
+      this.isLoading = false;
     });
   }
 

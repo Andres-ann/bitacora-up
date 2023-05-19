@@ -8,12 +8,14 @@ import { CrudService } from 'src/app/services/crud.service';
 })
 export class HomeComponent implements OnInit {
   posts: any[];
+  isLoading: boolean = true;
 
   constructor(private crudService: CrudService) {}
 
   ngOnInit() {
     this.crudService.getFrases().subscribe((data) => {
       this.posts = data;
+      this.isLoading = false;
     });
   }
 

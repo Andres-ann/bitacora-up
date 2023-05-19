@@ -12,6 +12,7 @@ import { Frases } from 'src/app/models/frases.model';
 export class PostRandomComponent {
   id!: any;
   posts: Frases[] = [];
+  isLoading: boolean = true;
 
   @Input() visualizaciones!: number;
   @Output() postUpdated = new EventEmitter<Frases>();
@@ -25,6 +26,7 @@ export class PostRandomComponent {
   ngOnInit(): void {
     this.randomService.getFraseRandom().subscribe((res) => {
       this.posts = res;
+      this.isLoading = false;
     });
   }
 }
