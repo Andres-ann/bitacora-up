@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class RandomService {
-  private REST_API: string = 'https://bitacora-up-api.onrender.com/api/random';
+  private REST_API: string = 'https://bitacora-up-api.vercel.app/api/random';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private httpClient: HttpClient) {}

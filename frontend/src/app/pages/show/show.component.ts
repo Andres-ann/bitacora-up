@@ -35,7 +35,6 @@ export class ShowComponent implements OnInit {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.crudService.getFrase(this.id).subscribe((data) => {
       this.posts = [data];
-      console.log(this.posts);
     });
   }
 }

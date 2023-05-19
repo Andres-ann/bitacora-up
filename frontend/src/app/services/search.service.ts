@@ -6,13 +6,13 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
-  private REST_API: string = 'https://bitacora-up-api.onrender.com/api/search';
+  private REST_API: string = 'https://bitacora-up-api.vercel.app/api/search';
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private httpClient: HttpClient) {}
@@ -21,7 +21,7 @@ export class SearchService {
     return this.httpClient
       .get(`${this.REST_API}/?query=${query}`, { headers: this.httpHeaders })
       .pipe(
-        map((res: any) => res),
+        tap((res: any) => res),
         catchError(this.handleError)
       );
   }

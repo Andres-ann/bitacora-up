@@ -26,8 +26,7 @@
 
       <div>
         <button data-toggle="tooltip" data-placement="top" title="Visualizaciones" class="btn btn-sm">
-          <span><i class="bi bi-bar-chart"></i> {{ post.visualizaciones }}
-          </span>
+          <span><i class="bi bi-bar-chart"></i> {{ isNaNValue(post.visualizaciones) }}</span>
         </button>
       </div>
 

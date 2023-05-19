@@ -7,16 +7,21 @@ import {
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CrudService {
-  private REST_API: string = 'https://bitacora-up-api.onrender.com/api/frases';
-  httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
+  private REST_API: string = 'https://bitacora-up-api.vercel.app/api/frases';
+  private httpHeaders: HttpHeaders;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+    this.httpHeaders = new HttpHeaders().set(
+      'Content-Type',
+      'application/json'
+    );
+  }
 
   getFrases(): Observable<any> {
     return this.httpClient.get(this.REST_API, { headers: this.httpHeaders });
@@ -25,11 +30,7 @@ export class CrudService {
   getFrase(id: any): Observable<any> {
     return this.httpClient
       .get(`${this.REST_API}/${id}`, { headers: this.httpHeaders })
-      .pipe(
-        map((res: any) => {
-          return res || {};
-        })
-      );
+      .pipe(tap((res: any) => res || {}));
   }
 
   createFrase(data: Frases): Observable<any> {

@@ -19,11 +19,7 @@ export class PostItemComponent implements OnInit {
 
   constructor(private crudService: CrudService, private router: Router) {}
 
-  ngOnInit(): void {
-    this.crudService.getFrases().subscribe((res: Frases[]) => {
-      this.frases = res;
-    });
-  }
+  ngOnInit(): void {}
 
   delete(id: any, i: any) {
     if (confirm('¿Está seguro que desea eliminar esta frase?')) {
@@ -52,5 +48,9 @@ export class PostItemComponent implements OnInit {
       `https://api.whatsapp.com/send?text=¡Mira%20esta%20frase%20en%20la%20Bitácora!%20${url}`,
       '_blank'
     );
+  }
+
+  isNaNValue(value: any): any {
+    return isNaN(value) ? 0 : value;
   }
 }

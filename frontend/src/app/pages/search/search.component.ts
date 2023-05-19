@@ -25,7 +25,7 @@ export class SearchComponent implements OnInit {
     // Mostrar el mensaje de "No se encontraron resultados"
     this.timer = setTimeout(() => {
       this.showNoResultsMessage = true;
-    }, 500);
+    }, 1500);
 
     this.searchService.searchCollection(this.searchText).subscribe(
       (results: Frases[]) => {
