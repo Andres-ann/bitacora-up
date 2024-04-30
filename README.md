@@ -21,12 +21,16 @@ La aplicación permite a los usuarios:
 
   Para el front-end:
     cd frontend
+    
     npm install
+    
 
   Para el back-end:
     cd backend
+   
     npm install
-
+    
+    
 3. Configura las variables de entorno:
 
 Crea un archivo `.env` en el directorio `backend` con la siguiente estructura:
@@ -37,14 +41,16 @@ Crea un archivo `.env` en el directorio `backend` con la siguiente estructura:
 4. Ejecuta el servidor back-end:
 
     cd backend
+   ```bash
     npm start
-
-5. Ejecuta la aplicación front-end:
+    ```
+6. Ejecuta la aplicación front-end:
 
     cd frontend
+   ```bash
     npm start
-
-6. Abre la aplicación en tu navegador web y comienza a registrar y disfrutar de las frases graciosas.
+   ```
+8. Abre la aplicación en tu navegador web y comienza a registrar y disfrutar de las frases graciosas.
 
 ## Tecnologías Utilizadas
 
