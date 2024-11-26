@@ -15,18 +15,18 @@ app.use('/api/random', randomRouter);
 app.use('/api/search', searchRouter);
 
 const PORT = process.env.PORT;
-const MONGO_URI = process.env.MONGO_URI;
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const start = async () => {
-	try {
-		connectDB(MONGO_URI);
-		console.log('Mongodb database connected');
-		app.listen(PORT, () => {
-			console.log(`Server running on http://localhost:${PORT}`);
-		});
-	} catch (error) {
-		console.log(`Error connection: ${error}`);
-	}
+  try {
+    connectDB(MONGODB_URI);
+    console.log('Mongodb database connected');
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.log(`Error connection: ${error}`);
+  }
 };
 
 start();
