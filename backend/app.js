@@ -1,4 +1,5 @@
 import express from 'express';
+import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connectDB } from './config/db.js';
@@ -8,6 +9,7 @@ import searchRouter from './routes/searchRoutes.js';
 
 const app = express();
 dotenv.config();
+app.use(morgan('short'));
 app.use(cors());
 app.use(express.json());
 app.use('/api/frases', frasesRouter);

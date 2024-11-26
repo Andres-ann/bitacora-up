@@ -1,9 +1,17 @@
 import { frasesModel } from '../models/frasesModel.js';
 
-//Mostrar todas las frases
+// Mostrar todas las frases con paginación
 export const getAllFrases = async (req, res) => {
+  const { page = 1, limit = 25 } = req.query;
   try {
-    const frases = await frasesModel.find().sort({ createdAt: -1 });
+    const options = {
+      page: parseInt(page, 10),
+      limit: parseInt(limit, 10),
+      sort: { createdAt: -1 },
+    };
+
+    const frases = await frasesModel.paginate({}, options);
+
     res.status(200).json(frases);
   } catch (error) {
     res.status(500).json({ message: error.message });
