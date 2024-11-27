@@ -2,10 +2,10 @@ import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connectDB } from './config/db.js';
-import frasesRouter from './routes/frasesRoutes.js';
-import randomRouter from './routes/randomRoutes.js';
-import searchRouter from './routes/searchRoutes.js';
+import { connectDB } from './src/config/db.js';
+import frasesRouter from './src/routes/frasesRoutes.js';
+import randomRouter from './src/routes/randomRoutes.js';
+import searchRouter from './src/routes/searchRoutes.js';
 
 const app = express();
 dotenv.config();
