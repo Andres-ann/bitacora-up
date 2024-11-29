@@ -107,3 +107,32 @@ export const resetPassword = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+export const updateUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { name, username, avatar } = req.body;
+
+    const updatedUser = await userModel.findByIdAndUpdate(
+      userId,
+      { name, username, avatar },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({
+      message: 'User updated successfully',
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        username: updatedUser.username,
+        avatar: updatedUser.avatar,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
