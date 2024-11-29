@@ -10,7 +10,7 @@ import searchRouter from './src/routes/searchRoutes.js';
 
 const app = express();
 dotenv.config();
-app.use(morgan('short'));
+app.use(morgan('combined'));
 app.use(cors());
 app.use(express.json());
 app.use('/api/auth', authRouter);
