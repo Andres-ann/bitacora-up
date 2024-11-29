@@ -110,19 +110,22 @@ export const resetPassword = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { name, username, avatar } = req.body;
+    const userIdFromToken = req.user.id; // El `userId` viene del token decodificado
+    const { name, username, avatar } = req.body; // Datos que el usuario quiere actualizar
 
+    // Realizar la actualización del usuario
     const updatedUser = await userModel.findByIdAndUpdate(
-      userId,
-      { name, username, avatar },
-      { new: true, runValidators: true }
+      userIdFromToken, // Buscar por `userId` (que es el `id` del token)
+      { name, username, avatar }, // Los nuevos datos
+      { new: true, runValidators: true } // Asegurarse de que se apliquen los validadores del modelo
     );
 
+    // Verificar si no se encontró el usuario
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    // Responder con el usuario actualizado
     res.status(200).json({
       message: 'User updated successfully',
       user: {
@@ -133,7 +136,8 @@ export const updateUser = async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error); // Loguear el error en el servidor
+    res.status(500).json({ error: 'Internal server error' }); // Error genérico si algo falla en el servidor
   }
 };
 

@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticate } from '../middlewares/authenticate.js';
+import { isAuthenticated } from '../middlewares/isAuthenticated.js';
 
 const authRouter = express.Router();
 
@@ -19,6 +19,6 @@ authRouter.post('/logout', logout);
 authRouter.post('/forgotPassword', forgotPassword);
 authRouter.post('/resetPassword', resetPassword);
 authRouter.post('/checkUsername', checkUsername);
-authRouter.put('/updateUser', authenticate, updateUser);
+authRouter.put('/updateUser/:id', isAuthenticated, updateUser);
 
 export default authRouter;
