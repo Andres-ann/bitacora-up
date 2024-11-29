@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { userModel } from '../models/userModel.js';
 
-const SECRET_KEY = process.env.SECRET_KEY;
 const RESET_TOKEN_EXPIRES = '15m';
 
 export const register = async (req, res) => {
@@ -47,11 +46,14 @@ export const login = async (req, res) => {
       return res.status(401).json({ error: 'Incorrect username or password' });
 
     const token = jwt.sign(
-      { id: user._id, username: user.username },
+      {
+        id: user._id,
+        username: user.username,
+        loginAt: new Date().toISOString(),
+      },
       process.env.SECRET_KEY,
       { expiresIn: '30d' }
     );
-
     res.status(200).json({ message: 'Login successful', token });
   } catch (error) {
     res.status(500).json({ error: error.message });
