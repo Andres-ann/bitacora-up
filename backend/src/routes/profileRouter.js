@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuthenticated } from '../middlewares/isAuthenticated.js';
+import { isAuthorized } from '../middlewares/isAuthorized.js';
 
 const profileRouter = express.Router();
 
@@ -9,8 +9,8 @@ import {
   checkUsername,
 } from '../controllers/profileController.js';
 
-profileRouter.get('/:id', isAuthenticated, getProfile);
+profileRouter.get('/:id', isAuthorized, getProfile);
 profileRouter.post('/checkUsername', checkUsername);
-profileRouter.put('/updateUser/:id', isAuthenticated, updateProfile);
+profileRouter.put('/updateUser/:id', isAuthorized, updateProfile);
 
 export default profileRouter;
