@@ -35,10 +35,21 @@ export const getFrase = async (req, res) => {
 //Crear una frase
 export const createFrase = async (req, res) => {
   try {
-    const frase = await frasesModel.create(req.body);
-    res.status(201).json(frase);
+    const { frase, autor } = req.body;
+
+    // Crear la frase asociándola al usuario autenticado
+    const nuevaFrase = await frasesModel.create({
+      frase,
+      autor,
+      usuarioId: req.user.id, // Usuario autenticado
+    });
+
+    res.status(201).json({
+      message: 'Frase creada exitosamente',
+      frase: nuevaFrase,
+    });
   } catch (error) {
-    res.status(500).json({ message: 'An error has ocurred.' });
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -66,5 +77,38 @@ export const deleteFrase = async (req, res) => {
     res.status(200).json('Item successfully deleted');
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+// Crear un comentario
+export const addComements = async (req, res) => {
+  const { id } = req.params;
+  const { comentario, gif } = req.body;
+
+  try {
+    const frase = await frasesModel.findById(id);
+
+    if (!frase) {
+      return res.status(404).json({ message: 'Frase not found' });
+    }
+
+    const nuevoComentario = {
+      comentario,
+      usuarioId: req.user.id,
+      gif,
+      createdAt: new Date(),
+    };
+
+    frase.comentarios.push(nuevoComentario);
+    await frase.save();
+
+    res.status(201).json({
+      message: 'Comment added successfully',
+      comentario: nuevoComentario,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'An error occurred while adding the comment.' });
   }
 };
