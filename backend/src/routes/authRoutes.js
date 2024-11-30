@@ -1,4 +1,5 @@
 import express from 'express';
+import { isAuthenticated } from '../middlewares/isAuthenticated.js';
 
 const authRouter = express.Router();
 
@@ -8,7 +9,7 @@ import {
   logout,
   forgotPassword,
   resetPassword,
-} from '../controllers/userController.js';
+} from '../controllers/authController.js';
 
 authRouter.post('/register', register);
 authRouter.post('/login', login);
