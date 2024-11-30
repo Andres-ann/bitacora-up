@@ -14,7 +14,6 @@ const comentariosSchema = new mongoose.Schema(
     gif: {
       type: String,
     },
-    createdAt: { type: Date, default: Date.now },
   },
   {
     timestamps: true,
