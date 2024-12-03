@@ -57,26 +57,57 @@ export const createFrase = async (req, res) => {
 export const updateFrase = async (req, res) => {
   try {
     const { id } = req.params;
-    const frase = await frasesModel.findByIdAndUpdate({ _id: id }, req.body, {
+    const userIdFromToken = req.user.id;
+
+    const frase = await frasesModel.findById(id);
+
+    if (!frase) {
+      return res.status(404).json({ error: 'Frase not found' });
+    }
+
+    if (frase.usuarioId.toString() !== userIdFromToken) {
+      return res.status(403).json({ error: 'Unauthorized: Not your frase' });
+    }
+
+    const updates = req.body;
+    const updatedFrase = await frasesModel.findByIdAndUpdate(id, updates, {
       new: true,
+      runValidators: true,
     });
-    res.status(200).json(frase);
+
+    res.status(200).json(updatedFrase);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({ error: 'An error occurred while updating the frase' });
   }
 };
 
 //Eliminar una frase
 export const deleteFrase = async (req, res) => {
   try {
-    const { id } = req.params;
-    const frase = await frasesModel.findByIdAndDelete(id);
+    const { id } = req.params; // ID de la frase a eliminar
+    const userIdFromToken = req.user.id; // ID del usuario autenticado
+
+    // Buscar la frase
+    const frase = await frasesModel.findById(id);
+
     if (!frase) {
-      return res.status(404).json(`Item with ID: ${id} not found`);
+      return res.status(404).json({ error: 'Object not found' });
     }
-    res.status(200).json('Item successfully deleted');
+
+    if (frase.usuarioId.toString() !== userIdFromToken) {
+      return res.status(403).json({ error: 'Unauthorized: Not your frase' });
+    }
+
+    // Eliminar la frase
+    await frasesModel.findByIdAndDelete(id);
+
+    res.status(200).json({ message: 'Frase deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res
+      .status(500)
+      .json({ error: 'An error occurred while deleting the frase' });
   }
 };
 
