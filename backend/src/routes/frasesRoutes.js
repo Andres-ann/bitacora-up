@@ -9,7 +9,7 @@ import {
   createFrase,
   updateFrase,
   deleteFrase,
-  addComements,
+  addComentario,
   updateComentario,
   deleteComentario,
 } from '../controllers/frasesController.js';
@@ -17,7 +17,7 @@ import {
 frasesRouter.get('/', getAllFrases);
 frasesRouter.get('/:id', getFrase);
 frasesRouter.post('/', isAuthenticated, createFrase);
-frasesRouter.post('/:id/addComment', isAuthenticated, addComements);
+frasesRouter.post('/:id/addComment', isAuthenticated, addComentario);
 frasesRouter.put('/:id', isAuthenticated, updateFrase);
 frasesRouter.delete('/:id', isAuthenticated, deleteFrase);
 frasesRouter.put(

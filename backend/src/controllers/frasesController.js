@@ -104,7 +104,7 @@ export const deleteFrase = async (req, res) => {
   }
 };
 
-export const addComements = async (req, res) => {
+export const addComentario = async (req, res) => {
   const { id } = req.params;
   const { comentario, gif } = req.body;
 
