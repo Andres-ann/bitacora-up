@@ -135,3 +135,46 @@ export const addComements = async (req, res) => {
       .json({ message: 'An error occurred while adding the comment.' });
   }
 };
+
+export const updateComentario = async (req, res) => {
+  try {
+    const { fraseId, comentarioId } = req.params; // Cambiado según la nueva ruta
+    const { comentario, gif } = req.body; // Nuevos datos para el comentario
+    const userIdFromToken = req.user.id; // ID del usuario autenticado
+
+    // Buscar la frase
+    const frase = await frasesModel.findById(fraseId);
+
+    if (!frase) {
+      return res.status(404).json({ error: 'Frase not found' });
+    }
+
+    // Encontrar el comentario específico
+    const comentarioToUpdate = frase.comentarios.id(comentarioId);
+
+    if (!comentarioToUpdate) {
+      return res.status(404).json({ error: 'Comment not found' });
+    }
+
+    // Validar que el usuario sea el creador del comentario
+    if (comentarioToUpdate.usuarioId.toString() !== userIdFromToken) {
+      return res.status(403).json({ error: 'Forbidden: Not your comment' });
+    }
+
+    // Actualizar los campos
+    if (comentario) comentarioToUpdate.comentario = comentario;
+    if (gif) comentarioToUpdate.gif = gif;
+    comentarioToUpdate.updatedAt = new Date();
+
+    await frase.save();
+
+    res.status(200).json({
+      message: 'Comment updated successfully',
+      comentario: comentarioToUpdate,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: 'An error occurred while updating the comment' });
+  }
+};
