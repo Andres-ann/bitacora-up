@@ -1,6 +1,5 @@
 import { frasesModel } from '../models/frasesModel.js';
 
-// Mostrar todas las frases con paginación
 export const getAllFrases = async (req, res) => {
   const { page = 1, limit = 25 } = req.query;
   try {
@@ -18,7 +17,6 @@ export const getAllFrases = async (req, res) => {
   }
 };
 
-//Mostrar una frase por id
 export const getFrase = async (req, res) => {
   try {
     const { id } = req.params;
@@ -32,7 +30,6 @@ export const getFrase = async (req, res) => {
   }
 };
 
-//Crear una frase
 export const createFrase = async (req, res) => {
   try {
     const { frase, autor } = req.body;
@@ -53,7 +50,6 @@ export const createFrase = async (req, res) => {
   }
 };
 
-//Actualizar una frase
 export const updateFrase = async (req, res) => {
   try {
     const { id } = req.params;
@@ -83,13 +79,11 @@ export const updateFrase = async (req, res) => {
   }
 };
 
-//Eliminar una frase
 export const deleteFrase = async (req, res) => {
   try {
-    const { id } = req.params; // ID de la frase a eliminar
-    const userIdFromToken = req.user.id; // ID del usuario autenticado
+    const { id } = req.params;
+    const userIdFromToken = req.user.id;
 
-    // Buscar la frase
     const frase = await frasesModel.findById(id);
 
     if (!frase) {
@@ -100,7 +94,6 @@ export const deleteFrase = async (req, res) => {
       return res.status(403).json({ error: 'Unauthorized: Not your frase' });
     }
 
-    // Eliminar la frase
     await frasesModel.findByIdAndDelete(id);
 
     res.status(200).json({ message: 'Frase deleted successfully' });
@@ -111,7 +104,6 @@ export const deleteFrase = async (req, res) => {
   }
 };
 
-// Crear un comentario
 export const addComements = async (req, res) => {
   const { id } = req.params;
   const { comentario, gif } = req.body;

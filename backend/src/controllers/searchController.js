@@ -1,6 +1,5 @@
 import { frasesModel } from '../models/frasesModel.js';
 
-// Método de búsqueda en la colección
 export const getSearch = async (req, res) => {
   try {
     const { query } = req.query;
