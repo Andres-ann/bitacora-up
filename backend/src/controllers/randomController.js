@@ -1,6 +1,5 @@
 import { frasesModel } from '../models/frasesModel.js';
 
-//Devuelve una frase al azar
 export const getFraseRandom = async (req, res) => {
   try {
     const fraserandom = await frasesModel.aggregate([{ $sample: { size: 1 } }]);

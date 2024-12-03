@@ -1,6 +1,26 @@
 import mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
+const comentariosSchema = new mongoose.Schema(
+  {
+    comentario: {
+      type: String,
+    },
+    usuarioId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: [true, 'please complete this field'],
+    },
+    gif: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  },
+  { _id: false }
+);
+
 const frasesSchema = new mongoose.Schema(
   {
     frase: {
@@ -13,10 +33,18 @@ const frasesSchema = new mongoose.Schema(
     },
     likes: {
       type: Number,
+      default: 0,
     },
     visualizaciones: {
       type: Number,
+      default: 0,
     },
+    usuarioId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    comentarios: [comentariosSchema],
   },
   {
     timestamps: true,
