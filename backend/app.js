@@ -14,11 +14,11 @@ dotenv.config();
 app.use(morgan('combined'));
 app.use(cors());
 app.use(express.json());
-app.use('/api/auth', authRouter);
-app.use('/api/profile', profileRouter);
-app.use('/api/frases', frasesRouter);
-app.use('/api/random', randomRouter);
-app.use('/api/search', searchRouter);
+app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/profile', profileRouter);
+app.use('/api/v1/frases', frasesRouter);
+app.use('/api/v1/random', randomRouter);
+app.use('/api/v1/search', searchRouter);
 
 const PORT = process.env.PORT;
 const MONGODB_URI = process.env.MONGODB_URI;
