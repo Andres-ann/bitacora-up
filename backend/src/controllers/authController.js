@@ -1,12 +1,25 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { userModel } from '../models/userModel.js';
+import { userValidationSchema } from '../validations/userValidation.js';
+import { loginValidationSchema } from '../validations/loginValidation.js';
+import { forgotPasswordValidationSchema } from '../validations/forgotPasswordValidation.js';
+import { resetPasswordValidationSchema } from '../validations/resetPasswordValidation.js';
 
 const RESET_TOKEN_EXPIRES = '15m';
 
 export const register = async (req, res) => {
   try {
-    const { name, username, password, avatar } = req.body;
+    const validatedData = await userValidationSchema.validateAsync(req.body, {
+      abortEarly: false,
+    });
+
+    const { name, username, password, avatar } = validatedData;
+
+    const existingUser = await userModel.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ error: 'Username is already taken' });
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -17,6 +30,7 @@ export const register = async (req, res) => {
       password: hashedPassword,
       avatar,
     });
+
     const savedUser = await newUser.save();
 
     res.status(201).json({
@@ -29,21 +43,35 @@ export const register = async (req, res) => {
       },
     });
   } catch (error) {
+    if (error.isJoi) {
+      return res
+        .status(400)
+        .json({ errors: error.details.map((detail) => detail.message) });
+    }
     res.status(500).json({ error: error.message });
   }
 };
 
 export const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { error, value } = loginValidationSchema.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ errors: error.details.map((detail) => detail.message) });
+    }
+
+    const { username, password } = value;
 
     const user = await userModel.findOne({ username });
-    if (!user)
+    if (!user) {
       return res.status(404).json({ error: 'Incorrect username or password' });
+    }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid)
+    if (!isPasswordValid) {
       return res.status(401).json({ error: 'Incorrect username or password' });
+    }
 
     const token = jwt.sign(
       {
@@ -54,6 +82,7 @@ export const login = async (req, res) => {
       process.env.SECRET_KEY,
       { expiresIn: '30d' }
     );
+
     res.status(200).json({ message: 'Login successful', token });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -66,7 +95,14 @@ export const logout = (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   try {
-    const { username } = req.body;
+    const { error, value } = forgotPasswordValidationSchema.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ errors: error.details.map((detail) => detail.message) });
+    }
+
+    const { username } = value;
 
     const user = await userModel.findOne({ username });
     if (!user) return res.status(404).json({ error: 'Username not found' });
@@ -74,7 +110,7 @@ export const forgotPassword = async (req, res) => {
     const resetToken = jwt.sign(
       { id: user._id, username: user.username },
       process.env.SECRET_KEY,
-      { expiresIn: RESET_TOKEN_EXPIRES }
+      { expiresIn: '1h' }
     );
 
     res.status(200).json({ message: 'Reset token generated', resetToken });
@@ -85,7 +121,14 @@ export const forgotPassword = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    const { resetToken, newPassword } = req.body;
+    const { error, value } = resetPasswordValidationSchema.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ errors: error.details.map((detail) => detail.message) });
+    }
+
+    const { resetToken, newPassword } = value;
 
     const decoded = jwt.verify(resetToken, process.env.SECRET_KEY);
     const userId = decoded.id;

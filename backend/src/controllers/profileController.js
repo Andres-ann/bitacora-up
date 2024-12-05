@@ -1,4 +1,5 @@
 import { userModel } from '../models/userModel.js';
+import { userValidationSchema } from '../validations/userValidation.js';
 
 export const getProfile = async (req, res) => {
   try {
@@ -26,8 +27,15 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
+    const { error, value } = userValidationSchema.validate(req.body);
+    if (error) {
+      return res
+        .status(400)
+        .json({ errors: error.details.map((detail) => detail.message) });
+    }
+
     const userIdFromToken = req.user.id;
-    const { name, username, avatar } = req.body;
+    const { name, username, avatar } = value;
 
     const updatedUser = await userModel.findByIdAndUpdate(
       userIdFromToken,
