@@ -25,11 +25,9 @@ const frasesSchema = new mongoose.Schema(
   {
     frase: {
       type: String,
-      required: [true, 'please complete this field'],
     },
     autor: {
       type: String,
-      required: [true, 'please complete this field'],
     },
     likes: {
       type: Number,
