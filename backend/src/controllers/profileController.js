@@ -1,5 +1,5 @@
 import { userModel } from '../models/userModel.js';
-import { userValidationSchema } from '../validations/userValidation.js';
+import { updateProfileValidationSchema } from '../validations/updateProfileValidation.js';
 
 export const getProfile = async (req, res) => {
   try {
@@ -27,7 +27,7 @@ export const getProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { error, value } = userValidationSchema.validate(req.body);
+    const { error, value } = updateProfileValidationSchema.validate(req.body);
     if (error) {
       return res
         .status(400)
@@ -36,6 +36,11 @@ export const updateProfile = async (req, res) => {
 
     const userIdFromToken = req.user.id;
     const { name, username, avatar } = value;
+
+    const existingUser = await userModel.findOne({ username });
+    if (existingUser && existingUser._id.toString() !== userIdFromToken) {
+      return res.status(400).json({ error: 'Username is already taken' });
+    }
 
     const updatedUser = await userModel.findByIdAndUpdate(
       userIdFromToken,
