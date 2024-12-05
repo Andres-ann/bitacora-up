@@ -6,8 +6,6 @@ import { loginValidationSchema } from '../validations/loginValidation.js';
 import { forgotPasswordValidationSchema } from '../validations/forgotPasswordValidation.js';
 import { resetPasswordValidationSchema } from '../validations/resetPasswordValidation.js';
 
-const RESET_TOKEN_EXPIRES = '15m';
-
 export const register = async (req, res) => {
   try {
     const validatedData = await userValidationSchema.validateAsync(req.body, {
@@ -18,7 +16,7 @@ export const register = async (req, res) => {
 
     const existingUser = await userModel.findOne({ username });
     if (existingUser) {
-      return res.status(400).json({ error: 'Username is already taken' });
+      return res.status(400).json({ error: 'The user is already in use' });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -65,12 +63,16 @@ export const login = async (req, res) => {
 
     const user = await userModel.findOne({ username });
     if (!user) {
-      return res.status(404).json({ error: 'Incorrect username or password' });
+      return res
+        .status(404)
+        .json({ error: 'The username or password is incorrect' });
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Incorrect username or password' });
+      return res
+        .status(401)
+        .json({ error: 'The username or password is incorrect' });
     }
 
     const token = jwt.sign(

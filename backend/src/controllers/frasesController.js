@@ -23,7 +23,7 @@ export const getFrase = async (req, res) => {
     const { id } = req.params;
     const frase = await frasesModel.findById(id);
     if (!frase) {
-      return res.status(404).json(`Item with ID: ${id} not found`);
+      return res.status(404).json(`Frase with ID: ${id} not found`);
     }
     res.status(200).json(frase);
   } catch (error) {
@@ -44,7 +44,7 @@ export const createFrase = async (req, res) => {
     const nuevaFrase = await frasesModel.create(validatedData);
 
     res.status(201).json({
-      message: 'Frase creada exitosamente',
+      message: 'Frase created successfully',
       frase: nuevaFrase,
     });
   } catch (error) {
@@ -106,7 +106,7 @@ export const deleteFrase = async (req, res) => {
     const frase = await frasesModel.findById(id);
 
     if (!frase) {
-      return res.status(404).json({ error: 'Object not found' });
+      return res.status(404).json({ error: 'Frase not found' });
     }
 
     if (frase.usuarioId.toString() !== userIdFromToken) {
@@ -167,7 +167,7 @@ export const addComentario = async (req, res) => {
 
 export const updateComentario = async (req, res) => {
   try {
-    const { fraseId, comentarioId } = req.params;
+    const { fraseId, commentId } = req.params;
     const { comentario, gif } = req.body;
     const userIdFromToken = req.user.id;
 
@@ -177,7 +177,7 @@ export const updateComentario = async (req, res) => {
       return res.status(404).json({ error: 'Frase not found' });
     }
 
-    const comentarioToUpdate = frase.comentarios.id(comentarioId);
+    const comentarioToUpdate = frase.comentarios.id(commentId);
 
     if (!comentarioToUpdate) {
       return res.status(404).json({ error: 'Comment not found' });
@@ -217,7 +217,7 @@ export const updateComentario = async (req, res) => {
 
 export const deleteComentario = async (req, res) => {
   try {
-    const { fraseId, comentarioId } = req.params;
+    const { fraseId, commentId } = req.params;
     const userIdFromToken = req.user.id;
 
     const frase = await frasesModel.findById(fraseId);
@@ -227,7 +227,7 @@ export const deleteComentario = async (req, res) => {
     }
 
     const comentarioToDelete = frase.comentarios.find(
-      (comentario) => comentario._id.toString() === comentarioId
+      (comentario) => comentario._id.toString() === commentId
     );
 
     if (!comentarioToDelete) {
@@ -239,7 +239,7 @@ export const deleteComentario = async (req, res) => {
     }
 
     frase.comentarios = frase.comentarios.filter(
-      (comentario) => comentario._id.toString() !== comentarioId
+      (comentario) => comentario._id.toString() !== commentId
     );
 
     await frase.save();

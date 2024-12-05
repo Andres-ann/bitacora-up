@@ -21,12 +21,12 @@ frasesRouter.post('/:id/addComment', isAuthenticated, addComentario);
 frasesRouter.put('/:id', isAuthenticated, updateFrase);
 frasesRouter.delete('/:id', isAuthenticated, deleteFrase);
 frasesRouter.put(
-  '/:fraseId/comentarios/:comentarioId',
+  '/:fraseId/comments/:commentId',
   isAuthenticated,
   updateComentario
 );
 frasesRouter.delete(
-  '/:fraseId/comentarios/:comentarioId',
+  '/:fraseId/comments/:commentId',
   isAuthenticated,
   deleteComentario
 );
