@@ -1,6 +1,6 @@
-import { Montserrat } from 'next/font/google';
+import { Raleway } from 'next/font/google';
 
-export const montserrat = Montserrat({
+export const raleway = Raleway({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  weight: ['300', '400', '500', '600', '700', '800'],
 });
