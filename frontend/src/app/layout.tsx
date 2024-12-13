@@ -1,5 +1,5 @@
-import { raleway } from '@/styles/fonts';
 import '../styles/globals.css';
+import { raleway } from '@/styles/fonts';
 import Navbar from '@/ui/navbar';
 
 export default function RootLayout({
