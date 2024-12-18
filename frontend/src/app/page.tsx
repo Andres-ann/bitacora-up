@@ -13,12 +13,6 @@ export default function Home() {
       <Divider />
       <TweetCard />
       <Divider />
-      <TweetCard />
-      <Divider />
-      <TweetCard />
-      <Divider />
-      <TweetCard />
-      <Divider />
     </div>
   );
 }

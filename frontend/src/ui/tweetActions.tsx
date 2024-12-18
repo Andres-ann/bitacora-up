@@ -2,12 +2,22 @@
 
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 
-export default function TweetActions() {
+interface TweetActionsProps {
+  likes: number;
+  comments: number;
+  views: number;
+}
+
+export default function TweetActions({
+  likes = 0,
+  comments = 0,
+  views = 0,
+}: TweetActionsProps) {
   return (
-    <div className="text-tiny flex items-center space-x-4 mt-2 text-neutral-500">
+    <div className="text-tiny flex items-center space-x-4 mt-2 mb-4 text-neutral-500">
       <button className="flex items-center space-x-1">
         <Icon icon="iconoir:heart" width="14" />
-        <span>12</span>
+        <span>{likes}</span>
       </button>
       <button className="flex items-center space-x-1">
         <Icon
@@ -15,11 +25,11 @@ export default function TweetActions() {
           width="14"
           style={{ transform: 'scaleX(-1)' }}
         />
-        <span>123</span>
+        <span>{comments}</span>
       </button>
       <button className="flex items-center space-x-1">
         <Icon icon="ant-design:bar-chart-outlined" width="14" />
-        <span>17</span>
+        <span>{views}</span>
       </button>
       <button className="flex items-center">
         <Icon icon="lsicon:send-outline" width="14" />
