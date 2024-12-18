@@ -32,19 +32,20 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    if (!url) {
+    const { id } = await request.json(); // Extrae el ID de la frase
+    if (!id) {
       return NextResponse.json(
-        { error: 'API URL not defined' },
-        { status: 500 }
+        { error: 'Frase ID is required' },
+        { status: 400 }
       );
     }
-    const res = await fetch(url, {
+
+    const likeurl = `${url}/${id}/addlike`; // Endpoint del backend
+    const res = await fetch(likeurl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
     });
 
     if (!res.ok) {

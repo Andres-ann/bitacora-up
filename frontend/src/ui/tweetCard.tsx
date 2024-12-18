@@ -2,7 +2,7 @@
 
 import { Icon } from '@iconify-icon/react';
 import { Avatar, Divider } from '@nextui-org/react';
-import TweetActions from './tweetActions';
+import TweetActions from '@/ui/tweetActions';
 import { useState, useEffect } from 'react';
 
 interface Usuario {
@@ -38,6 +38,31 @@ export default function TweetCard() {
     fetchFrases();
   }, []);
 
+  const handleLike = async (id: string) => {
+    try {
+      const res = await fetch('/api/frases', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to like the frase');
+      }
+
+      // Actualiza la cantidad de likes en el estado
+      setFrases((prevFrases) =>
+        prevFrases.map((frase) =>
+          frase._id === id ? { ...frase, likes: frase.likes + 1 } : frase
+        )
+      );
+    } catch (error) {
+      console.error('Error liking frase:', error);
+    }
+  };
+
   return (
     <>
       {frases.map((frase) => {
@@ -52,7 +77,7 @@ export default function TweetCard() {
         return (
           <div key={frase._id} className="p-4">
             <div className="flex items-start space-x-4">
-              {/* Avatar  */}
+              {/* Avatar */}
               <Avatar size="md" name={usuario.avatar} src={usuario.avatar} />
 
               {/* Información del usuario y tweet */}
@@ -77,6 +102,8 @@ export default function TweetCard() {
                   likes={frase.likes}
                   comments={frase.comentarios.length}
                   views={frase.visualizaciones}
+                  id={frase._id} // Solo pasamos el ID a TweetActions
+                  onLike={handleLike} // Pasamos la función que actualiza el estado
                 />
               </div>
             </div>
