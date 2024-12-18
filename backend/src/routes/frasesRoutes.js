@@ -9,6 +9,7 @@ import {
   createFrase,
   updateFrase,
   deleteFrase,
+  addLike,
   addComentario,
   updateComentario,
   deleteComentario,
@@ -20,6 +21,7 @@ frasesRouter.post('/', isAuthenticated, createFrase);
 frasesRouter.post('/:id/addComment', isAuthenticated, addComentario);
 frasesRouter.put('/:id', isAuthenticated, updateFrase);
 frasesRouter.delete('/:id', isAuthenticated, deleteFrase);
+frasesRouter.post('/:id/addlike', addLike);
 frasesRouter.put(
   '/:fraseId/comments/:commentId',
   isAuthenticated,
