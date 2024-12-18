@@ -7,8 +7,8 @@ interface TweetActionsProps {
   likes: number;
   comments: number;
   views: number;
-  id: string; // Recibe el ID de la frase
-  onLike: (id: string) => void; // Función para manejar el like
+  id: string;
+  onLike: (id: string) => void;
 }
 
 export default function TweetActions({
@@ -18,20 +18,20 @@ export default function TweetActions({
   id,
   onLike,
 }: TweetActionsProps) {
-  const [isLiked, setIsLiked] = useState(false); // Estado para manejar si está "likeado"
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleLike = () => {
-    setIsLiked(true); // Cambiar estado a 'likeado'
-    onLike(id); // Llamar a la función para manejar el like
+    setIsLiked(true);
+    onLike(id);
   };
 
   return (
     <div className="text-tiny flex items-center space-x-4 mt-2 mb-4 text-neutral-500">
       <button onClick={handleLike} className="flex items-center space-x-1">
         <Icon
-          icon={isLiked ? 'mdi:heart' : 'iconoir:heart'} // Cambia el icono según el estado
+          icon={isLiked ? 'mdi:heart' : 'iconoir:heart'}
           width="14"
-          className={`${isLiked ? 'text-red-600' : ''}`} // Aplica el color rojo solo cuando está likeado
+          className={`${isLiked ? 'text-red-600' : ''}`}
         />
         <span>{likes}</span>
       </button>

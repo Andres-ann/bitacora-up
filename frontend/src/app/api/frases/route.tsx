@@ -32,7 +32,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { id } = await request.json(); // Extrae el ID de la frase
+    const { id } = await request.json();
     if (!id) {
       return NextResponse.json(
         { error: 'Frase ID is required' },
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const likeurl = `${url}/${id}/addlike`; // Endpoint del backend
+    const likeurl = `${url}/${id}/addlike`;
     const res = await fetch(likeurl, {
       method: 'POST',
       headers: {

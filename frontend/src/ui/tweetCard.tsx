@@ -52,7 +52,6 @@ export default function TweetCard() {
         throw new Error('Failed to like the frase');
       }
 
-      // Actualiza la cantidad de likes en el estado
       setFrases((prevFrases) =>
         prevFrases.map((frase) =>
           frase._id === id ? { ...frase, likes: frase.likes + 1 } : frase
@@ -102,8 +101,8 @@ export default function TweetCard() {
                   likes={frase.likes}
                   comments={frase.comentarios.length}
                   views={frase.visualizaciones}
-                  id={frase._id} // Solo pasamos el ID a TweetActions
-                  onLike={handleLike} // Pasamos la función que actualiza el estado
+                  id={frase._id}
+                  onLike={handleLike}
                 />
               </div>
             </div>
