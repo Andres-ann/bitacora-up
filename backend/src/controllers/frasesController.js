@@ -8,6 +8,10 @@ export const getAllFrases = async (req, res) => {
       page: parseInt(page, 10),
       limit: parseInt(limit, 10),
       sort: { createdAt: -1 },
+      populate: {
+        path: 'usuarioId',
+        select: 'name username avatar',
+      },
     };
 
     const frases = await frasesModel.paginate({}, options);
@@ -21,7 +25,10 @@ export const getAllFrases = async (req, res) => {
 export const getFrase = async (req, res) => {
   try {
     const { id } = req.params;
-    const frase = await frasesModel.findById(id);
+    const frase = await frasesModel
+      .findById(id)
+      .populate('usuarioId', 'nombre username avatar');
+
     if (!frase) {
       return res.status(404).json(`Frase with ID: ${id} not found`);
     }
