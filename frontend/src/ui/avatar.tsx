@@ -6,7 +6,12 @@ export default function AvatarImg() {
   return (
     <>
       <div className="w-full h-12 flex items-center justify-center">
-        <Avatar size="md" name="App" />
+        <Avatar
+          size="lg"
+          name="App"
+          src="https://i.ibb.co/ZNyjQ2g/favicon.jpg"
+          className="shadow-lg"
+        />
       </div>
     </>
   );
