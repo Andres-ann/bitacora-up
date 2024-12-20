@@ -27,7 +27,7 @@ export default function TweetCard() {
   useEffect(() => {
     const fetchFrases = async () => {
       try {
-        const response = await fetch('/api/frases');
+        const response = await fetch('/api/addlike');
         const data = await response.json();
         setFrases(data.docs);
       } catch (error) {
