@@ -1,6 +1,6 @@
 import Avatar from '@/ui/avatar';
 import DarkModeBtn from '@/ui/darkmodeBtn';
-import TweetCard from '@/ui/tweetCard';
+import PostCard from '@/ui/postCard';
 import UserAdd from '@/ui/userAdd';
 import { Divider } from '@nextui-org/react';
 
@@ -11,7 +11,7 @@ export default function Home() {
       <Avatar />
       <UserAdd />
       <Divider />
-      <TweetCard />
+      <PostCard />
       <Divider />
     </div>
   );

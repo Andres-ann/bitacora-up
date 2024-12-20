@@ -2,7 +2,7 @@
 
 import { Icon } from '@iconify-icon/react';
 import { Avatar, Divider } from '@nextui-org/react';
-import TweetActions from '@/ui/tweetActions';
+import PostActions from '@/ui/postActions';
 import { useState, useEffect } from 'react';
 
 interface Usuario {
@@ -21,7 +21,7 @@ interface Frase {
   usuarioId?: Usuario;
 }
 
-export default function TweetCard() {
+export default function PostCard() {
   const [frases, setFrases] = useState<Frase[]>([]);
 
   useEffect(() => {
@@ -79,7 +79,7 @@ export default function TweetCard() {
               {/* Avatar */}
               <Avatar size="md" name={usuario.avatar} src={usuario.avatar} />
 
-              {/* Información del usuario y tweet */}
+              {/* Información del usuario y post */}
               <div className="flex-1">
                 <div className="flex items-center">
                   <p className="text-sm font-semibold text-gray-900">
@@ -97,7 +97,7 @@ export default function TweetCard() {
                   <p className="text-sm mt-6 text-gray-500">- {frase.autor}</p>
                 </div>
                 {/* Botones de like, comentar y compartir */}
-                <TweetActions
+                <PostActions
                   likes={frase.likes}
                   comments={frase.comentarios.length}
                   views={frase.visualizaciones}

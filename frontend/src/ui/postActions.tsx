@@ -11,7 +11,7 @@ interface TweetActionsProps {
   onLike: (id: string) => void;
 }
 
-export default function TweetActions({
+export default function PostActions({
   likes = 0,
   comments = 0,
   views = 0,
