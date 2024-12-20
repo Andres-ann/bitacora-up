@@ -1,6 +1,7 @@
 'use client';
 
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
+import Link from 'next/link';
 import { useState } from 'react';
 
 interface TweetActionsProps {
@@ -35,14 +36,14 @@ export default function PostActions({
         />
         <span>{likes}</span>
       </button>
-      <button className="flex items-center space-x-1">
+      <Link href="/post" className="flex items-center space-x-1">
         <Icon
           icon="lineicons:comment-1"
           width="14"
           style={{ transform: 'scaleX(-1)' }}
         />
         <span>{comments}</span>
-      </button>
+      </Link>
       <button className="flex items-center space-x-1">
         <Icon icon="ant-design:bar-chart-outlined" width="14" />
         <span>{views}</span>

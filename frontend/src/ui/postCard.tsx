@@ -4,6 +4,7 @@ import { Icon } from '@iconify-icon/react';
 import { Avatar, Divider } from '@nextui-org/react';
 import PostActions from '@/ui/postActions';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface Usuario {
   name: string;
@@ -93,8 +94,12 @@ export default function PostCard() {
                 </div>
                 <p className="text-xs text-gray-500">@{usuario.username}</p>
                 <div className="p-4 mt-4 rounded-md border">
-                  <p className="text-sm text-gray-900">{frase.frase}</p>
-                  <p className="text-sm mt-6 text-gray-500">- {frase.autor}</p>
+                  <Link href="/post">
+                    <p className="text-sm text-gray-900">{frase.frase}</p>
+                    <p className="text-sm mt-6 text-gray-500">
+                      - {frase.autor}
+                    </p>
+                  </Link>
                 </div>
                 {/* Botones de like, comentar y compartir */}
                 <PostActions
