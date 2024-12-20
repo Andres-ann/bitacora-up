@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
 
-const url = `${process.env.API_URL}/addlike`;
-
 export async function POST(request: Request) {
   try {
     const { id } = await request.json();
+
     if (!id) {
       return NextResponse.json(
         { error: 'Frase ID is required' },
@@ -12,8 +11,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const likeurl = `${url}/${id}/addlike`;
-    const res = await fetch(likeurl, {
+    const apiUrl = `${process.env.API_URL}/frases/${id}/addlike`;
+
+    const res = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     });
 
     if (!res.ok) {
-      throw new Error(`Failed to fetch: ${res.statusText}`);
+      throw new Error(`Failed to add like: ${res.statusText}`);
     }
 
     const data = await res.json();

@@ -40,6 +40,7 @@ export default function TweetCard() {
 
   const handleLike = async (id: string) => {
     try {
+      // Cambiado para usar `/api/addlike`
       const res = await fetch('/api/addlike', {
         method: 'POST',
         headers: {
@@ -52,6 +53,7 @@ export default function TweetCard() {
         throw new Error('Failed to like the frase');
       }
 
+      // Actualizar el estado local
       setFrases((prevFrases) =>
         prevFrases.map((frase) =>
           frase._id === id ? { ...frase, likes: frase.likes + 1 } : frase
