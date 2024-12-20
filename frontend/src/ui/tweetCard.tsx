@@ -27,7 +27,7 @@ export default function TweetCard() {
   useEffect(() => {
     const fetchFrases = async () => {
       try {
-        const response = await fetch('/api/addlike');
+        const response = await fetch('/api/frases');
         const data = await response.json();
         setFrases(data.docs);
       } catch (error) {
@@ -40,7 +40,7 @@ export default function TweetCard() {
 
   const handleLike = async (id: string) => {
     try {
-      const res = await fetch('/api/frases', {
+      const res = await fetch('/api/addlike', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

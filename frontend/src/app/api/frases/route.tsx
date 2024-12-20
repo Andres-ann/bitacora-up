@@ -32,24 +32,37 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const { id } = await request.json();
-    if (!id) {
+    if (!url) {
       return NextResponse.json(
-        { error: 'Frase ID is required' },
-        { status: 400 }
+        { error: 'API URL not defined' },
+        { status: 500 }
       );
     }
 
-    const likeurl = `${url}/${id}/addlike`;
-    const res = await fetch(likeurl, {
+    const body = await request.json();
+    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+
+    if (!token) {
+      return NextResponse.json(
+        { error: 'Authorization token missing' },
+        { status: 401 }
+      );
+    }
+
+    const res = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify(body),
     });
 
     if (!res.ok) {
-      throw new Error(`Failed to fetch: ${res.statusText}`);
+      return NextResponse.json(
+        { error: `Failed to fetch: ${res.statusText}` },
+        { status: res.status }
+      );
     }
 
     const data = await res.json();
