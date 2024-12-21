@@ -1,28 +1,56 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-const url = `${process.env.API_URL}/frases`;
+const baseUrl = `${process.env.API_URL}/frases`;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    if (!url) {
+    if (!baseUrl) {
       return NextResponse.json(
         { error: 'API URL not defined' },
         { status: 500 }
       );
     }
 
-    const res = await fetch(url, { cache: 'no-store' });
+    // Obtener los parámetros de búsqueda de la URL
+    const searchParams = request.nextUrl.searchParams;
+    const page = searchParams.get('page') || '1';
+    const limit = searchParams.get('limit') || '25';
+
+    // Construir la URL con los parámetros de paginación
+    const url = new URL(baseUrl);
+    url.searchParams.append('page', page);
+    url.searchParams.append('limit', limit);
+
+    // Realizar la petición a la API
+    const res = await fetch(url.toString(), {
+      cache: 'no-store',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
     if (!res.ok) {
       throw new Error(`Failed to fetch: ${res.statusText}`);
     }
 
-    const frases = await res.json();
+    const data = await res.json();
 
-    return NextResponse.json(frases, { status: 200 });
+    // Asegurarse de que la respuesta incluya la información de paginación
+    return NextResponse.json(
+      {
+        docs: data.docs || data, // Por si la API devuelve directamente el array
+        page: parseInt(page),
+        hasNextPage: data.hasNextPage ?? data.docs?.length === parseInt(limit),
+      },
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+        },
+      }
+    );
   } catch (error) {
     console.error('Request failed:', error);
-
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
@@ -32,7 +60,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    if (!url) {
+    if (!baseUrl) {
       return NextResponse.json(
         { error: 'API URL not defined' },
         { status: 500 }
@@ -49,7 +77,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const res = await fetch(url, {
+    const res = await fetch(baseUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
