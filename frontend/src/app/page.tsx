@@ -1,7 +1,7 @@
 import Avatar from '@/ui/avatar';
 import DarkModeBtn from '@/ui/darkmodeBtn';
 import LoadMorePostBtn from '@/ui/loadMorePostBtn';
-import FrasesList from '@/ui/frasesList';
+import PostList from '@/ui/postList';
 import UserAdd from '@/ui/userAdd';
 import { Divider } from '@nextui-org/react';
 
@@ -13,7 +13,7 @@ export default function Home() {
       <UserAdd />
       <Divider />
       <div className="pb-16">
-        <FrasesList />
+        <PostList />
         <LoadMorePostBtn />
       </div>
     </div>
