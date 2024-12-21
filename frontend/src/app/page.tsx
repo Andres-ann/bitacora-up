@@ -1,12 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import DarkModeBtn from '@/ui/darkmodeBtn';
 import Avatar from '@/ui/avatar';
 import UserAdd from '@/ui/userAdd';
 import PostCard from '@/ui/postCard';
 import Navbar from '@/ui/navbar';
-import LoadMorePostBtn from '@/ui/loadMorePostBtn';
 import { Divider } from '@nextui-org/react';
 
 interface Usuario {
@@ -37,6 +36,9 @@ export default function Home() {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Referencia al elemento observador
+  const observerRef = useRef<HTMLDivElement>(null);
+
   const fetchFrases = async (pageNum: number) => {
     try {
       setIsLoading(true);
@@ -44,11 +46,18 @@ export default function Home() {
       if (!response.ok) throw new Error('Failed to fetch frases');
       const data: PaginatedResponse = await response.json();
 
-      if (pageNum === 1) {
-        setFrases(data.docs);
-      } else {
-        setFrases((prev) => [...prev, ...data.docs]);
+      if (data.docs.length === 0) {
+        setHasMore(false);
+        return;
       }
+
+      setFrases((prevFrases) => {
+        const existingIds = new Set(prevFrases.map((f) => f._id));
+        const newFrases = data.docs.filter(
+          (frase) => !existingIds.has(frase._id)
+        );
+        return [...prevFrases, ...newFrases];
+      });
 
       setHasMore(data.hasNextPage);
     } catch (error) {
@@ -58,17 +67,45 @@ export default function Home() {
     }
   };
 
+  // Callback para el IntersectionObserver
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [target] = entries;
+      if (target.isIntersecting && hasMore && !isLoading) {
+        setPage((prev) => prev + 1);
+      }
+    },
+    [hasMore, isLoading]
+  );
+
+  // Efecto para la carga inicial
   useEffect(() => {
     fetchFrases(1);
   }, []);
 
-  const handleLoadMore = () => {
-    if (!isLoading && hasMore) {
-      const nextPage = page + 1;
-      setPage(nextPage);
-      fetchFrases(nextPage);
+  // Efecto para cargar más frases cuando cambia la página
+  useEffect(() => {
+    if (page > 1) {
+      fetchFrases(page);
     }
-  };
+  }, [page]);
+
+  // Efecto para configurar el IntersectionObserver
+  useEffect(() => {
+    const element = observerRef.current;
+    if (!element) return;
+
+    const option = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver(handleObserver, option);
+    observer.observe(element);
+
+    return () => observer.disconnect();
+  }, [handleObserver]);
 
   const handleLike = async (id: string) => {
     try {
@@ -100,9 +137,15 @@ export default function Home() {
         {frases.map((frase) => (
           <PostCard key={frase._id} frase={frase} onLike={handleLike} />
         ))}
-        {hasMore && (
-          <LoadMorePostBtn onClick={handleLoadMore} isLoading={isLoading} />
-        )}
+
+        {/* Elemento observador */}
+        <div
+          ref={observerRef}
+          className="w-full h-10 flex items-center justify-center">
+          {isLoading && (
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-400" />
+          )}
+        </div>
       </div>
       <Navbar />
     </div>
