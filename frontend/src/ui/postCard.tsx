@@ -87,7 +87,7 @@ export default function PostCard() {
               {/* Información del usuario y post */}
               <div className="flex-1">
                 <div className="flex items-center">
-                  <p className="text-sm font-semibold text-gray-900">
+                  <p className="text-sm font-medium text-gray-900">
                     {usuario.name}
                   </p>
                   <Icon
@@ -97,12 +97,10 @@ export default function PostCard() {
                   />
                 </div>
                 <p className="text-xs text-gray-500">@{usuario.username}</p>
-                <div className="p-4 mt-4 rounded-md border">
+                <div className="p-4 mt-4 text-sm font-light rounded-md border">
                   <Link href="/post">
-                    <p className="text-sm text-gray-900">{frase.frase}</p>
-                    <p className="text-sm mt-6 text-gray-500">
-                      - {frase.autor}
-                    </p>
+                    <p className="text-gray-900">{frase.frase}</p>
+                    <p className=" mt-6 text-gray-500">- {frase.autor}</p>
                   </Link>
                 </div>
                 {/* Botones de like, comentar y compartir */}
