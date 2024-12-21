@@ -36,7 +36,6 @@ export default function Home() {
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Referencia al elemento observador
   const observerRef = useRef<HTMLDivElement>(null);
 
   const fetchFrases = async (pageNum: number) => {
@@ -67,7 +66,6 @@ export default function Home() {
     }
   };
 
-  // Callback para el IntersectionObserver
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries;
@@ -78,19 +76,16 @@ export default function Home() {
     [hasMore, isLoading]
   );
 
-  // Efecto para la carga inicial
   useEffect(() => {
     fetchFrases(1);
   }, []);
 
-  // Efecto para cargar más frases cuando cambia la página
   useEffect(() => {
     if (page > 1) {
       fetchFrases(page);
     }
   }, [page]);
 
-  // Efecto para configurar el IntersectionObserver
   useEffect(() => {
     const element = observerRef.current;
     if (!element) return;
