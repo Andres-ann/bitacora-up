@@ -11,7 +11,7 @@ export default function Navbar() {
     pathname === path ? 'text-black' : 'text-neutral-400';
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white shadow-lg flex justify-around items-center h-16">
+    <nav className="fixed bottom-0 left-0 right-0 lg:w-1/3 bg-white shadow-lg flex mx-auto justify-around items-center border-l border-r border-gray-300 h-16">
       {/* Home */}
       <Link href="/">
         <button className={`${isActive('/')} hover:text-black`}>
