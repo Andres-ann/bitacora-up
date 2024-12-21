@@ -26,6 +26,30 @@ export default function PostActions({
     onLike(id);
   };
 
+  const handleShare = async () => {
+    const postUrl = `${window.location.origin}/post/${id}`;
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Compartir post',
+          text: '¡Mira este nuevo post!',
+          url: postUrl,
+        });
+      } catch (error) {
+        if (error instanceof Error && error.name !== 'AbortError') {
+          console.error('Error al compartir:', error);
+        }
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(postUrl);
+      } catch (error) {
+        console.error('Error al copiar al portapapeles:', error);
+      }
+    }
+  };
+
   return (
     <div className="text-tiny flex items-center space-x-5 mt-2 mb-4 text-neutral-500">
       <button onClick={handleLike} className="flex items-center space-x-1">
@@ -48,7 +72,7 @@ export default function PostActions({
         <Icon icon="ant-design:bar-chart-outlined" width="16" />
         <span>{views}</span>
       </button>
-      <button className="flex items-center">
+      <button onClick={handleShare} className="flex items-center">
         <Icon icon="lsicon:send-outline" width="16" />
       </button>
     </div>
