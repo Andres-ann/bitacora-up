@@ -41,7 +41,7 @@ export default function Home() {
   const fetchFrases = async (pageNum: number) => {
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/frases?page=${pageNum}`);
+      const response = await fetch(`/api/posts?page=${pageNum}`);
       if (!response.ok) throw new Error('Failed to fetch frases');
       const data: PaginatedResponse = await response.json();
 
