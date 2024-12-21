@@ -34,8 +34,8 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex items-start space-x-4">
+    <>
+      <div className="flex items-start space-x-4 p-4">
         {/* Avatar del usuario */}
         <Avatar
           size="md"
@@ -72,6 +72,6 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
         </div>
       </div>
       <Divider />
-    </div>
+    </>
   );
 }
