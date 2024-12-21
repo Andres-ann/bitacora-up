@@ -70,15 +70,19 @@ export default function PostCard() {
           name: frase.usuarioId?.name || 'Bitacora UP',
           username: frase.usuarioId?.username || 'bitacoraup',
           avatar:
-            frase.usuarioId?.avatar ||
-            'https://cdn.icon-icons.com/icons2/1465/PNG/512/090ghost_100491.png',
+            frase.usuarioId?.avatar || 'https://i.ibb.co/ZNyjQ2g/favicon.jpg',
         };
 
         return (
           <div key={frase._id} className="p-4">
             <div className="flex items-start space-x-4">
               {/* Avatar */}
-              <Avatar size="md" name={usuario.avatar} src={usuario.avatar} />
+              <Avatar
+                size="md"
+                className="shadow-lg"
+                name={usuario.avatar}
+                src={usuario.avatar}
+              />
 
               {/* Información del usuario y post */}
               <div className="flex-1">
