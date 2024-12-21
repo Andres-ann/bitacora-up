@@ -44,7 +44,7 @@ export default function PostActions({
         />
         <span>{comments}</span>
       </Link>
-      <button className="flex items-center space-x-1">
+      <button className="flex items-center space-x-1 pointer-events-none">
         <Icon icon="ant-design:bar-chart-outlined" width="14" />
         <span>{views}</span>
       </button>
