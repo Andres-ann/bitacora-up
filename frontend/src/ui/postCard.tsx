@@ -64,7 +64,7 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
           {/* Botones de interacción */}
           <PostActions
             likes={frase.likes}
-            comments={frase.comentarios.length}
+            comments={frase.comentarios?.length || 0}
             views={frase.visualizaciones}
             id={frase._id}
             onLike={onLike}
