@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
 import { Divider } from '@nextui-org/react';
 
@@ -65,6 +66,7 @@ export default function Random() {
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide">
+      <Header title="Random Post" />
       <Divider />
       <div className="pb-16">
         {isLoading ? (
