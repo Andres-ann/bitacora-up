@@ -19,8 +19,8 @@
   "devDependencies": {
     "@iconify-icon/react": "^2.2.0",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
     "eslint": "^8",
     "eslint-config-next": "15.0.4",
     "postcss": "^8",
