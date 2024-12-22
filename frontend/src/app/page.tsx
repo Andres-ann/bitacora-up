@@ -76,10 +76,12 @@ export default function Home() {
     [hasMore, isLoading]
   );
 
+  // Llamada inicial al cargar el componente
   useEffect(() => {
-    fetchFrases(1);
-  }, []);
+    fetchFrases(page);
+  }, []); // Este `useEffect` solo se ejecuta una vez al inicio.
 
+  // Llamadas subsecuentes cuando `page` cambia
   useEffect(() => {
     if (page > 1) {
       fetchFrases(page);
