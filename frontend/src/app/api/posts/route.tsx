@@ -11,17 +11,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Obtener los parámetros de búsqueda de la URL
     const searchParams = request.nextUrl.searchParams;
     const page = searchParams.get('page') || '1';
     const limit = searchParams.get('limit') || '25';
 
-    // Construir la URL con los parámetros de paginación
     const url = new URL(baseUrl);
     url.searchParams.append('page', page);
     url.searchParams.append('limit', limit);
 
-    // Realizar la petición a la API
     const res = await fetch(url.toString(), {
       cache: 'no-store',
       headers: {
@@ -35,10 +32,9 @@ export async function GET(request: NextRequest) {
 
     const data = await res.json();
 
-    // Asegurarse de que la respuesta incluya la información de paginación
     return NextResponse.json(
       {
-        docs: data.docs || data, // Por si la API devuelve directamente el array
+        docs: data.docs || data,
         page: parseInt(page),
         hasNextPage: data.hasNextPage ?? data.docs?.length === parseInt(limit),
       },
