@@ -22,7 +22,7 @@ export async function GET() {
       throw new Error(`Failed to fetch: ${res.statusText}`);
     }
 
-    const frase = await res.json(); // La API devuelve un solo objeto
+    const frase = await res.json();
 
     return NextResponse.json(frase, {
       status: 200,

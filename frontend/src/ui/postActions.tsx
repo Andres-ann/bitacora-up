@@ -60,7 +60,7 @@ export default function PostActions({
         />
         <span>{likes}</span>
       </button>
-      <Link href="/post" className="flex items-center space-x-1">
+      <Link href={`/post/${id}`} className="flex items-center space-x-1">
         <Icon
           icon="lineicons:comment-1"
           width="16"

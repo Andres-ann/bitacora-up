@@ -56,7 +56,7 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
           </div>
           <p className="text-xs text-gray-500">@{usuario.username}</p>
           <div className="p-4 mt-4 text-sm font-light rounded-md border">
-            <Link href="/post">
+            <Link href={`/post/${frase._id}`}>
               <p className="text-gray-900">{frase.frase}</p>
               <p className="mt-6 text-gray-500">- {frase.autor}</p>
             </Link>
