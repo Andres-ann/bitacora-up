@@ -28,11 +28,11 @@ export default function Comments({ comentarios }: CommentsProps) {
   if (!comentarios?.length) {
     return (
       <>
-        <div className="w-full p-4 text-sm font-medium text-gray-900">
+        <div className="w-full p-4 font-medium text-gray-900">
           <p>Respuestas</p>
         </div>
         <Divider />
-        <div className="p-4 font-light text-sm text-center text-gray-500">
+        <div className="p-4 font-light text-center text-gray-500">
           No hay respuestas aún
         </div>
       </>
@@ -41,7 +41,7 @@ export default function Comments({ comentarios }: CommentsProps) {
 
   return (
     <>
-      <div className="w-full p-4 text-sm font-medium text-gray-900">
+      <div className="w-full p-4 font-medium text-gray-900">
         <p>Respuestas</p>
       </div>
       <Divider />
@@ -60,17 +60,15 @@ export default function Comments({ comentarios }: CommentsProps) {
 
               <div className="flex-1">
                 <div className="flex items-center">
-                  <p className="text-sm font-medium text-gray-900">
-                    {usuario.name}
-                  </p>
+                  <p className="font-medium text-gray-900">{usuario.name}</p>
                   <Icon
                     icon="bitcoin-icons:verify-filled"
                     width="16"
                     className="text-blue-400 align-middle"
                   />
                 </div>
-                <p className="text-xs text-gray-500">@{usuario.username}</p>
-                <div className="mt-2 text-sm font-light">
+                <p className="text-sm text-gray-500">@{usuario.username}</p>
+                <div className="mt-2">
                   <p className="text-gray-900">{comentario.comentario}</p>
                   {comentario.gif && (
                     <img

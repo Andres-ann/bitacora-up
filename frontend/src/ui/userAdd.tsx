@@ -11,8 +11,8 @@ export default function UserAdd() {
 
         {/* Información del usuario */}
         <div>
-          <p className="text-sm font-medium text-gray-900">Nombre Apellido</p>
-          <p className="text-xs text-gray-500">¿Qué novedades hay?</p>
+          <p className="font-medium text-gray-900">Nombre Apellido</p>
+          <p className="text-sm text-gray-500">¿Qué novedades hay?</p>
         </div>
       </div>
     </Link>
