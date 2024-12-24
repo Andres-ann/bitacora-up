@@ -27,7 +27,14 @@ export const getFrase = async (req, res) => {
     const { id } = req.params;
     const frase = await frasesModel
       .findById(id)
-      .populate('usuarioId', 'nombre username avatar');
+      .populate('usuarioId', 'name username avatar')
+      .populate({
+        path: 'comentarios',
+        populate: {
+          path: 'usuarioId',
+          select: 'name username avatar',
+        },
+      });
 
     if (!frase) {
       return res.status(404).json(`Frase with ID: ${id} not found`);

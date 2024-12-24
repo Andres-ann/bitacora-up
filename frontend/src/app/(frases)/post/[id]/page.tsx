@@ -4,26 +4,39 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
-import Respuestas from '@/ui/comments';
+import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
-import Navbar from '@/ui/navbar';
 
+// Importamos la interfaz Usuario del PostCard o la definimos igual
 interface Usuario {
-  _id: string;
   name: string;
   username: string;
   avatar?: string;
 }
 
-interface Frase {
+// Esta interfaz es para uso interno del componente Post
+interface ComentarioExtendido {
+  _id: string;
+  comentario: string;
+  usuarioId: Usuario;
+  createdAt: string;
+}
+
+// Esta interfaz debe coincidir exactamente con la de PostCard
+interface FraseParaCard {
   _id: string;
   frase: string;
   autor: string;
   likes: number;
   visualizaciones: number;
-  comentarios: [];
+  comentarios: []; // Mantenemos esto como array vacío para coincidir con PostCard
   usuarioId?: Usuario;
+}
+
+// Esta interfaz es para uso interno y extiende la información
+interface FraseCompleta extends Omit<FraseParaCard, 'comentarios'> {
+  comentarios: ComentarioExtendido[];
   createdAt: string;
   updatedAt: string;
 }
@@ -31,7 +44,7 @@ interface Frase {
 export default function Post() {
   const params = useParams();
   const postId = params.id as string;
-  const [frase, setFrase] = useState<Frase | null>(null);
+  const [frase, setFrase] = useState<FraseCompleta | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -94,27 +107,31 @@ export default function Post() {
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide">
-      <Header title="Frase random" />
+      <Header title="Post" />
       <Divider />
       <div className="pb-16">
         {isLoading ? (
           <div className="flex items-center justify-center h-48">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400" />
           </div>
-        ) : (
-          frase && (
-            <>
-              <PostCard key={frase._id} frase={frase} onLike={handleLike} />
-              <Respuestas />
-              <AddComment
-                onSubmit={(value) => console.log('Reply:', value)}
-                placeholder="Responder..."
-              />
-            </>
-          )
-        )}
+        ) : frase ? (
+          <>
+            <PostCard
+              key={frase._id}
+              frase={{
+                ...frase,
+                comentarios: [],
+              }}
+              onLike={handleLike}
+            />
+            <Comments comentarios={frase.comentarios} />
+            <AddComment
+              onSubmit={(value) => console.log('Reply:', value)}
+              placeholder="Responder..."
+            />
+          </>
+        ) : null}
       </div>
-      <Navbar />
     </div>
   );
 }
