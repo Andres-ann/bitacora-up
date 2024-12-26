@@ -159,6 +159,28 @@ export const addLike = async (req, res) => {
   }
 };
 
+export const addView = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedFrase = await frasesModel.findByIdAndUpdate(
+      id,
+      { $inc: { visualizaciones: 1 } },
+      { new: true }
+    );
+
+    if (!updatedFrase) {
+      return res.status(404).json({ error: 'Frase not found' });
+    }
+
+    res
+      .status(200)
+      .json({ message: 'View added successfully', frase: updatedFrase });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while adding the view' });
+  }
+};
+
 export const addComentario = async (req, res) => {
   const { id } = req.params;
   const { comentario, gif } = req.body;
