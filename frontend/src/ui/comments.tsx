@@ -46,8 +46,7 @@ export default function Comments({ comentarios }: CommentsProps) {
       </div>
       <Divider />
       {comentarios.map((comentario) => {
-        const usuario = { ...usuarioDefault, ...comentario.usuarioId }; // Combinar usuario con valores predeterminados
-
+        const usuario = { ...usuarioDefault, ...comentario.usuarioId };
         return (
           <div key={comentario._id}>
             <div className="flex items-start space-x-4 p-4">

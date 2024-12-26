@@ -8,14 +8,12 @@ import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
 
-// Importamos la interfaz Usuario del PostCard o la definimos igual
 interface Usuario {
   name: string;
   username: string;
   avatar?: string;
 }
 
-// Esta interfaz es para uso interno del componente Post
 interface ComentarioExtendido {
   _id: string;
   comentario: string;
@@ -23,18 +21,16 @@ interface ComentarioExtendido {
   createdAt: string;
 }
 
-// Esta interfaz debe coincidir exactamente con la de PostCard
 interface FraseParaCard {
   _id: string;
   frase: string;
   autor: string;
   likes: number;
   visualizaciones: number;
-  comentarios: []; // Mantenemos esto como array vacío para coincidir con PostCard
+  comentarios: [];
   usuarioId?: Usuario;
 }
 
-// Esta interfaz es para uso interno y extiende la información
 interface FraseCompleta extends Omit<FraseParaCard, 'comentarios'> {
   comentarios: ComentarioExtendido[];
   createdAt: string;
