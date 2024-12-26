@@ -4,27 +4,7 @@ import { Icon } from '@iconify-icon/react';
 import { Avatar, Divider } from '@nextui-org/react';
 import PostActions from '@/ui/postActions';
 import Link from 'next/link';
-
-interface Usuario {
-  name: string;
-  username: string;
-  avatar?: string;
-}
-
-interface Frase {
-  _id: string;
-  frase: string;
-  autor: string;
-  likes: number;
-  visualizaciones: number;
-  comentarios: [];
-  usuarioId?: Usuario;
-}
-
-interface PostCardProps {
-  frase: Frase;
-  onLike: (id: string) => void;
-}
+import { PostCardProps } from '@/types';
 
 export default function PostCard({ frase, onLike }: PostCardProps) {
   const usuario = {

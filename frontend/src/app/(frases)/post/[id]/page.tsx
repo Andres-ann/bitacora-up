@@ -7,40 +7,12 @@ import PostCard from '@/ui/postCard';
 import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
-
-interface Usuario {
-  name: string;
-  username: string;
-  avatar?: string;
-}
-
-interface ComentarioExtendido {
-  _id: string;
-  comentario: string;
-  usuarioId: Usuario;
-  createdAt: string;
-}
-
-interface FraseParaCard {
-  _id: string;
-  frase: string;
-  autor: string;
-  likes: number;
-  visualizaciones: number;
-  comentarios: [];
-  usuarioId?: Usuario;
-}
-
-interface FraseCompleta extends Omit<FraseParaCard, 'comentarios'> {
-  comentarios: ComentarioExtendido[];
-  createdAt: string;
-  updatedAt: string;
-}
+import { Frase } from '@/types';
 
 export default function Post() {
   const params = useParams();
   const postId = params.id as string;
-  const [frase, setFrase] = useState<FraseCompleta | null>(null);
+  const [frase, setFrase] = useState<Frase | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -112,14 +84,7 @@ export default function Post() {
           </div>
         ) : frase ? (
           <>
-            <PostCard
-              key={frase._id}
-              frase={{
-                ...frase,
-                comentarios: [],
-              }}
-              onLike={handleLike}
-            />
+            <PostCard key={frase._id} frase={frase} onLike={handleLike} />
             <Comments comentarios={frase.comentarios} />
             <AddComment
               onSubmit={(value) => console.log('Reply:', value)}

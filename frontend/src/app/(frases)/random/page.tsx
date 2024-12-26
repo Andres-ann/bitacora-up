@@ -7,25 +7,7 @@ import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
 import Navbar from '@/ui/navbar';
-
-interface Usuario {
-  _id: string;
-  name: string;
-  username: string;
-  avatar?: string;
-}
-
-interface Frase {
-  _id: string;
-  frase: string;
-  autor: string;
-  likes: number;
-  visualizaciones: number;
-  comentarios: [];
-  usuarioId?: Usuario;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Frase } from '@/types';
 
 export default function Random() {
   const [frase, setFrase] = useState<Frase | null>(null);
