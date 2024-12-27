@@ -1,15 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
 import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
+import Navbar from '@/ui/navbar';
+import { useParams } from 'next/navigation';
 import { Frase } from '@/types';
 
-export default function Post() {
+export default function Random() {
   const params = useParams();
   const postId = params.id as string;
   const [frase, setFrase] = useState<Frase | null>(null);
@@ -30,11 +31,35 @@ export default function Post() {
 
       const json = await response.json();
       setFrase(json.data);
+
+      await addView(postId);
     } catch (error) {
       console.error('Error fetching post:', error);
       setError('Error al cargar el post');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const addView = async (id: string) => {
+    try {
+      const response = await fetch(`/api/${id}/addview`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Error adding view:', errorText);
+        throw new Error('Failed to add view');
+      }
+
+      const data = await response.json();
+      setFrase((prevFrase) =>
+        prevFrase ? { ...prevFrase, views: data.views } : null
+      );
+    } catch (error) {
+      console.error('Error adding view:', error);
     }
   };
 
@@ -93,6 +118,7 @@ export default function Post() {
           </>
         ) : null}
       </div>
+      <Navbar />
     </div>
   );
 }
