@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+type Props = {
+  params: {
+    id: string;
+  };
+};
+
+export async function POST(request: Request, { params }: Props) {
   try {
-    const id = params.id;
+    const routeParams = await params;
+    const id = routeParams.id;
 
     if (!id) {
       return NextResponse.json(
@@ -24,8 +28,6 @@ export async function POST(
     });
 
     if (!res.ok) {
-      const errorData = await res.text();
-      console.error('API Response Error:', errorData);
       throw new Error(`Failed to add view: ${res.statusText}`);
     }
 
