@@ -3,29 +3,11 @@
 import { useState, useEffect } from 'react';
 import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
-import Respuestas from '@/ui/comments';
+import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
 import Navbar from '@/ui/navbar';
-
-interface Usuario {
-  _id: string;
-  name: string;
-  username: string;
-  avatar?: string;
-}
-
-interface Frase {
-  _id: string;
-  frase: string;
-  autor: string;
-  likes: number;
-  visualizaciones: number;
-  comentarios: [];
-  usuarioId?: Usuario;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Frase } from '@/types';
 
 export default function Random() {
   const [frase, setFrase] = useState<Frase | null>(null);
@@ -69,7 +51,7 @@ export default function Random() {
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide">
-      <Header title="Frase random" />
+      <Header title="Post random" />
       <Divider />
       <div className="pb-16">
         {isLoading ? (
@@ -81,7 +63,7 @@ export default function Random() {
             <PostCard key={frase._id} frase={frase} onLike={handleLike} />
           )
         )}
-        <Respuestas />
+        <Comments comentarios={frase?.comentarios || []} />
         <AddComment
           onSubmit={(value) => console.log('Reply:', value)}
           placeholder="Responder..."

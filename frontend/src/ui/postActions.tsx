@@ -55,25 +55,25 @@ export default function PostActions({
       <button onClick={handleLike} className="flex items-center space-x-1">
         <Icon
           icon={isLiked ? 'mdi:heart' : 'iconoir:heart'}
-          width="16"
+          width="20"
           className={`${isLiked ? 'text-red-600' : ''}`}
         />
         <span>{likes}</span>
       </button>
-      <Link href="/post" className="flex items-center space-x-1">
+      <Link href={`/post/${id}`} className="flex items-center space-x-1">
         <Icon
           icon="lineicons:comment-1"
-          width="16"
+          width="20"
           style={{ transform: 'scaleX(-1)' }}
         />
         <span>{comments}</span>
       </Link>
       <button className="flex items-center space-x-1 pointer-events-none">
-        <Icon icon="ant-design:bar-chart-outlined" width="16" />
+        <Icon icon="ant-design:bar-chart-outlined" width="20" />
         <span>{views}</span>
       </button>
       <button onClick={handleShare} className="flex items-center">
-        <Icon icon="lsicon:send-outline" width="16" />
+        <Icon icon="lsicon:send-outline" width="20" />
       </button>
     </div>
   );

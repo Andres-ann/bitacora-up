@@ -27,7 +27,14 @@ export const getFrase = async (req, res) => {
     const { id } = req.params;
     const frase = await frasesModel
       .findById(id)
-      .populate('usuarioId', 'nombre username avatar');
+      .populate('usuarioId', 'name username avatar')
+      .populate({
+        path: 'comentarios',
+        populate: {
+          path: 'usuarioId',
+          select: 'name username avatar',
+        },
+      });
 
     if (!frase) {
       return res.status(404).json(`Frase with ID: ${id} not found`);
@@ -149,6 +156,28 @@ export const addLike = async (req, res) => {
       .json({ message: 'Like added successfully', frase: updatedFrase });
   } catch (error) {
     res.status(500).json({ error: 'An error occurred while adding the like' });
+  }
+};
+
+export const addView = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedFrase = await frasesModel.findByIdAndUpdate(
+      id,
+      { $inc: { visualizaciones: 1 } },
+      { new: true }
+    );
+
+    if (!updatedFrase) {
+      return res.status(404).json({ error: 'Frase not found' });
+    }
+
+    res
+      .status(200)
+      .json({ message: 'View added successfully', frase: updatedFrase });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while adding the view' });
   }
 };
 

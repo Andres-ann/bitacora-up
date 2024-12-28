@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import DarkModeBtn from '@/ui/darkmodeBtn';
 import Avatar from '@/ui/avatar';
 import UserAdd from '@/ui/userAdd';
 import PostCard from '@/ui/postCard';
@@ -76,12 +75,10 @@ export default function Home() {
     [hasMore, isLoading]
   );
 
-  // Llamada inicial al cargar el componente
   useEffect(() => {
     fetchFrases(page);
-  }, []); // Este `useEffect` solo se ejecuta una vez al inicio.
+  }, []);
 
-  // Llamadas subsecuentes cuando `page` cambia
   useEffect(() => {
     if (page > 1) {
       fetchFrases(page);
@@ -126,7 +123,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide">
-      <DarkModeBtn />
       <Avatar />
       <UserAdd />
       <Divider />

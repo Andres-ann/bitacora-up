@@ -4,27 +4,7 @@ import { Icon } from '@iconify-icon/react';
 import { Avatar, Divider } from '@nextui-org/react';
 import PostActions from '@/ui/postActions';
 import Link from 'next/link';
-
-interface Usuario {
-  name: string;
-  username: string;
-  avatar?: string;
-}
-
-interface Frase {
-  _id: string;
-  frase: string;
-  autor: string;
-  likes: number;
-  visualizaciones: number;
-  comentarios: [];
-  usuarioId?: Usuario;
-}
-
-interface PostCardProps {
-  frase: Frase;
-  onLike: (id: string) => void;
-}
+import { PostCardProps } from '@/types';
 
 export default function PostCard({ frase, onLike }: PostCardProps) {
   const usuario = {
@@ -47,16 +27,16 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
         {/* Contenido del post */}
         <div className="flex-1">
           <div className="flex items-center">
-            <p className="text-sm font-medium text-gray-900">{usuario.name}</p>
+            <p className="font-medium text-gray-900">{usuario.name}</p>
             <Icon
               icon="bitcoin-icons:verify-filled"
               width="16"
               className="text-blue-400 align-middle"
             />
           </div>
-          <p className="text-xs text-gray-500">@{usuario.username}</p>
-          <div className="p-4 mt-4 text-sm font-light rounded-md border">
-            <Link href="/post">
+          <p className="text-sm text-gray-500">@{usuario.username}</p>
+          <div className="p-4 mt-4 rounded-md border">
+            <Link href={`/post/${frase._id}`}>
               <p className="text-gray-900">{frase.frase}</p>
               <p className="mt-6 text-gray-500">- {frase.autor}</p>
             </Link>
