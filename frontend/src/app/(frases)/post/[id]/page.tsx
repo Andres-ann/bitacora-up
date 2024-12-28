@@ -10,14 +10,14 @@ import Navbar from '@/ui/navbar';
 import { useParams } from 'next/navigation';
 import { Frase } from '@/types';
 
-export default function Random() {
+export default function Post() {
   const params = useParams();
-  const postId = params.id as string;
   const [frase, setFrase] = useState<Frase | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchFrase = async () => {
+    const postId = Array.isArray(params?.id) ? params.id[0] : params.id; // Asegura que sea string
     if (!postId) return;
 
     try {
@@ -55,9 +55,9 @@ export default function Random() {
       }
 
       const data = await response.json();
-      setFrase((prevFrase) =>
-        prevFrase ? { ...prevFrase, views: data.views } : null
-      );
+      if (data.frase) {
+        setFrase(data.frase); // Actualiza el estado con los datos actualizados
+      }
     } catch (error) {
       console.error('Error adding view:', error);
     }
@@ -84,8 +84,10 @@ export default function Random() {
   };
 
   useEffect(() => {
-    fetchFrase();
-  }, [postId]);
+    if (params?.id) {
+      fetchFrase();
+    }
+  }, [params?.id]);
 
   if (error) {
     return (
