@@ -4,6 +4,7 @@ import Avatar from '@/ui/avatar';
 import { Input, Button } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { Icon } from '@iconify-icon/react';
+import { useRouter } from 'next/navigation'; // Uso del hook useRouter
 
 type PasswordInputProps = {
   label: string;
@@ -13,7 +14,13 @@ type PasswordInputProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-function PasswordInput({ label, placeholder, isRequired }: PasswordInputProps) {
+function PasswordInput({
+  label,
+  placeholder,
+  isRequired,
+  name,
+  onChange,
+}: PasswordInputProps) {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -21,10 +28,12 @@ function PasswordInput({ label, placeholder, isRequired }: PasswordInputProps) {
     <Input
       type={isVisible ? 'text' : 'password'}
       label={label}
+      name={name} // Añadir esta prop
       placeholder={placeholder}
       className="w-full"
       variant="bordered"
       isRequired={isRequired}
+      onChange={onChange} // Añadir esta prop
       endContent={
         <button
           aria-label="toggle password visibility"
@@ -50,19 +59,55 @@ export default function Register() {
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
+  const router = useRouter(); // Redirección con el hook useRouter
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const newFormData = { ...formData, [name]: value };
+    setFormData(newFormData);
 
-    // Validar si todos los campos están completos y las contraseñas coinciden
+    // Usar newFormData para la validación
     const isValid =
-      formData.username.length >= 3 &&
-      formData.name.length >= 1 &&
-      formData.password.length >= 6 &&
-      formData.password === formData.confirmPassword;
+      newFormData.username.length >= 3 &&
+      newFormData.name.length >= 1 &&
+      newFormData.password.length >= 6 &&
+      newFormData.password === newFormData.confirmPassword;
 
     setIsFormValid(isValid);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Verificar que el formulario es válido antes de hacer el POST
+    if (!isFormValid) return;
+
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          username: formData.username,
+          password: formData.password,
+        }),
+      });
+
+      if (res.ok) {
+        // Si la respuesta es exitosa, redirigir al usuario a la página de login
+        router.push('/login');
+      } else {
+        const errorData = await res.json();
+        alert(
+          `Error: ${errorData.error || 'Hubo un problema con el registro'}`
+        );
+      }
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+      alert('Hubo un problema al intentar crear la cuenta');
+    }
   };
 
   return (
@@ -70,7 +115,7 @@ export default function Register() {
       <Avatar />
       <h1 className="text-xl font-semibold mb-10">Crear Cuenta</h1>
 
-      <form className="space-y-6">
+      <form className="space-y-6" onSubmit={handleSubmit}>
         {/* Usuario */}
         <Input
           type="text"
