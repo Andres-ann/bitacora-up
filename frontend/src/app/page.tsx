@@ -6,22 +6,7 @@ import UserAdd from '@/ui/userAdd';
 import PostCard from '@/ui/postCard';
 import Navbar from '@/ui/navbar';
 import { Divider } from '@nextui-org/react';
-
-interface Usuario {
-  name: string;
-  username: string;
-  avatar?: string;
-}
-
-interface Frase {
-  _id: string;
-  frase: string;
-  autor: string;
-  likes: number;
-  visualizaciones: number;
-  comentarios: [];
-  usuarioId?: Usuario;
-}
+import { Frase } from '@/types';
 
 interface PaginatedResponse {
   docs: Frase[];
