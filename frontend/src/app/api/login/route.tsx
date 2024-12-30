@@ -18,7 +18,7 @@ export async function POST(request: Request) {
 
     if (!response.ok) {
       return NextResponse.json(
-        { error: data.message || 'Error en la autenticación' },
+        { error: data.message || 'Nombre de usuario o contraseña incorrectos' },
         { status: response.status }
       );
     }
