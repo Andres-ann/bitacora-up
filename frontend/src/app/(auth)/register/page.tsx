@@ -4,7 +4,7 @@ import Avatar from '@/ui/avatar';
 import { Input, Button } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { Icon } from '@iconify-icon/react';
-import { useRouter } from 'next/navigation'; // Uso del hook useRouter
+import { useRouter } from 'next/navigation';
 
 type PasswordInputProps = {
   label: string;
@@ -28,12 +28,12 @@ function PasswordInput({
     <Input
       type={isVisible ? 'text' : 'password'}
       label={label}
-      name={name} // Añadir esta prop
+      name={name}
       placeholder={placeholder}
       className="w-full"
       variant="bordered"
       isRequired={isRequired}
-      onChange={onChange} // Añadir esta prop
+      onChange={onChange}
       endContent={
         <button
           aria-label="toggle password visibility"
@@ -59,14 +59,13 @@ export default function Register() {
   });
 
   const [isFormValid, setIsFormValid] = useState(false);
-  const router = useRouter(); // Redirección con el hook useRouter
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const newFormData = { ...formData, [name]: value };
     setFormData(newFormData);
 
-    // Usar newFormData para la validación
     const isValid =
       newFormData.username.length >= 3 &&
       newFormData.name.length >= 1 &&
@@ -79,7 +78,6 @@ export default function Register() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Verificar que el formulario es válido antes de hacer el POST
     if (!isFormValid) return;
 
     try {
@@ -96,7 +94,6 @@ export default function Register() {
       });
 
       if (res.ok) {
-        // Si la respuesta es exitosa, redirigir al usuario a la página de login
         router.push('/login');
       } else {
         const errorData = await res.json();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 
@@ -21,7 +21,7 @@ export default function Search({
 
     const newTimeoutId = setTimeout(() => {
       onSearch(e.target.value);
-    }, 500); // 500ms de retraso para mejorar UX
+    }, 500);
     setTimeoutId(newTimeoutId);
   };
 
