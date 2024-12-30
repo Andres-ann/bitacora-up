@@ -10,14 +10,13 @@ import { Frase } from '@/types';
 
 export default function SearchPage() {
   const [searchResults, setSearchResults] = useState<Frase[]>([]);
-  const [query, setQuery] = useState(''); // Estado para la query
+  const [query, setQuery] = useState('');
 
   const handleSearch = async (query: string) => {
-    setQuery(query); // Actualizamos el estado con el valor de la búsqueda
+    setQuery(query);
 
-    // Validación para no hacer la solicitud si la búsqueda está vacía o solo tiene espacios
     if (query.trim() === '') {
-      setSearchResults([]); // Si la búsqueda está vacía o tiene solo espacios, reseteamos los resultados
+      setSearchResults([]);
       return;
     }
 
@@ -26,8 +25,8 @@ export default function SearchPage() {
 
       if (!response.ok) {
         if (response.status === 404) {
-          setSearchResults([]); // Si no hay resultados, aseguramos que el array esté vacío
-          return; // No procesamos la respuesta si no hay resultados
+          setSearchResults([]);
+          return;
         }
         throw new Error('Failed to fetch search results');
       }

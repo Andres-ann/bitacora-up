@@ -17,7 +17,7 @@ export default function Post() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchFrase = async () => {
-    const postId = Array.isArray(params?.id) ? params.id[0] : params.id; // Asegura que sea string
+    const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
     if (!postId) return;
 
     try {
@@ -56,7 +56,7 @@ export default function Post() {
 
       const data = await response.json();
       if (data.frase) {
-        setFrase(data.frase); // Actualiza el estado con los datos actualizados
+        setFrase(data.frase);
       }
     } catch (error) {
       console.error('Error adding view:', error);
