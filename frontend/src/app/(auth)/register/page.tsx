@@ -142,17 +142,14 @@ export default function Register() {
     const { name, value } = e.target;
     const newValue = name === 'username' ? value.toLowerCase() : value;
 
-    // Actualizar el formData con los nuevos valores
     const newFormData = {
       ...formData,
       [name]: newValue,
     };
     setFormData(newFormData);
 
-    // Validar el campo actual
     const fieldError = validateField(name, newValue, newFormData);
 
-    // Si se está modificando la contraseña, revalidar confirmPassword
     const confirmPasswordError =
       name === 'password'
         ? validateField(
@@ -167,6 +164,13 @@ export default function Register() {
       [name]: fieldError,
       ...(name === 'password' && { confirmPassword: confirmPasswordError }),
     }));
+
+    if (name === 'username') {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        checkUsername(newValue);
+      }, 500);
+    }
   };
 
   useEffect(() => {
