@@ -1,6 +1,6 @@
 'use client';
 
-import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
+import { Icon } from '@iconify-icon/react';
 import Link from 'next/link';
 import { useState } from 'react';
 
