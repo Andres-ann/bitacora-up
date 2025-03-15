@@ -114,7 +114,7 @@ export default function Login() {
       });
 
       if (res.ok) {
-        router.push('/profile');
+        router.push('/');
       } else {
         setLoginError('Nombre de usuario o contraseña incorrectos');
       }
@@ -162,7 +162,7 @@ export default function Login() {
             </a>
           </div>
           <Button
-            className="w-full bg-black text-white rounded-lg"
+            className="w-full bg-white text-black dark:bg-white dark:text-black rounded-lg"
             size="lg"
             color="primary"
             type="submit"
