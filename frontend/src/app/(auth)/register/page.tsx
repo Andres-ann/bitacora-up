@@ -272,7 +272,7 @@ export default function Register() {
             </a>
           </div>
           <Button
-            className="w-full bg-black text-white rounded-lg"
+            className="w-full bg-white text-black dark:bg-white dark:text-black rounded-lg"
             size="lg"
             color="primary"
             type="submit"

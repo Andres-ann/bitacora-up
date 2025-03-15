@@ -6,8 +6,11 @@ import Navbar from '@/ui/navbar';
 import Link from 'next/link';
 import { Divider, Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
+import { useTheme } from '@/components/ThemeProvider';
 
 export default function Profile() {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <>
       <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide pb-16">
@@ -56,28 +59,39 @@ export default function Profile() {
         </div>
         <Divider />
 
+        {/* Opción de cambio de tema */}
         <div className="flex items-center justify-center space-x-10">
           {/* Light Theme */}
           <label className="flex flex-col items-center space-y-2 cursor-pointer">
             <Icon icon="iconoir:web-window" width="120" />
-            <input type="radio" name="theme" value="light" checked />
+            <input
+              type="radio"
+              name="theme"
+              value="light"
+              checked={theme === 'light'}
+              onChange={() => toggleTheme('light')}
+            />
           </label>
 
           {/* Dark Theme */}
           <label className="flex flex-col items-center space-y-2 cursor-pointer">
-            <div>
-              <Icon icon="iconoir:web-window-solid" width="120" />
-            </div>
-            <input type="radio" name="theme" value="dark" />
+            <Icon icon="iconoir:web-window-solid" width="120" />
+            <input
+              type="radio"
+              name="theme"
+              value="dark"
+              checked={theme === 'dark'}
+              onChange={() => toggleTheme('dark')}
+            />
           </label>
         </div>
 
         <div className="p-4">
-          <span className="text-xs text-gray-600 ">Seguridad</span>
+          <span className="text-xs text-gray-600">Seguridad</span>
         </div>
         <Divider />
 
-        <div className="text-sm font-semibold flex items-center p-4 space-x-4 ">
+        <div className="text-sm font-semibold flex items-center p-4 space-x-4">
           <Icon icon="mdi:secure-outline" width="20" />
           <a className="hover:underline">Cambiar contraseña</a>
         </div>
