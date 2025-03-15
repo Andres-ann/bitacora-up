@@ -28,7 +28,7 @@ export default function Comments({ comentarios }: CommentsProps) {
   if (!comentarios?.length) {
     return (
       <>
-        <div className="w-full p-4 font-medium text-gray-900">
+        <div className="w-full p-4 font-medium text-gray-500">
           <p>Respuestas</p>
         </div>
         <Divider />
@@ -41,7 +41,7 @@ export default function Comments({ comentarios }: CommentsProps) {
 
   return (
     <>
-      <div className="w-full p-4 font-medium text-gray-900">
+      <div className="w-full p-4 font-medium text-gray-500">
         <p>Respuestas</p>
       </div>
       <Divider />
@@ -59,7 +59,7 @@ export default function Comments({ comentarios }: CommentsProps) {
 
               <div className="flex-1">
                 <div className="flex items-center">
-                  <p className="font-medium text-gray-900">{usuario.name}</p>
+                  <p className="font-medium">{usuario.name}</p>
                   <Icon
                     icon="bitcoin-icons:verify-filled"
                     width="16"
