@@ -37,7 +37,6 @@ export default function Profile() {
               value="usuario"
               className="w-full"
               variant="bordered"
-              isRequired
               disabled
             />
 
@@ -48,7 +47,6 @@ export default function Profile() {
               value="nombre y apeliido"
               className="w-full"
               variant="bordered"
-              isRequired
               disabled
             />
           </Link>
