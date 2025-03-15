@@ -7,9 +7,18 @@ import Link from 'next/link';
 import { Divider, Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 import { useTheme } from '@/components/ThemeProvider';
+import { useRouter } from 'next/navigation';
 
 export default function Profile() {
   const { theme, toggleTheme } = useTheme();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch('/api/logout', {
+      method: 'POST',
+    });
+    router.push('/login');
+  };
 
   return (
     <>
@@ -18,9 +27,9 @@ export default function Profile() {
 
         <div className="flex items-center justify-between">
           <Header title="Editar perfil" />
-          <Link href="/">
+          <button onClick={handleLogout}>
             <Icon icon="mingcute:power-fill" width="20" className="p-4" />
-          </Link>
+          </button>
         </div>
         <Divider />
         <Avatar />
@@ -44,7 +53,7 @@ export default function Profile() {
               type="text"
               label="Nombre y Apellido"
               name="name"
-              value="nombre y apeliido"
+              value="nombre y apellido"
               className="w-full"
               variant="bordered"
               disabled
