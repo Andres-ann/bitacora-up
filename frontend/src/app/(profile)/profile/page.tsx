@@ -8,23 +8,37 @@ import { Divider, Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 import { useTheme } from '@/components/ThemeProvider';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import { useEffect } from 'react';
 
 export default function Profile() {
+  const { user, isLoading, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
   const handleLogout = async () => {
-    await fetch('/api/logout', {
-      method: 'POST',
-    });
+    await logout();
     router.push('/login');
   };
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading) {
+    return <p>Cargando...</p>;
+  }
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <>
       <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide pb-16">
         <span className="text-xs text-end text-gray-600 p-2">v2.0.0</span>
-
         <div className="flex items-center justify-between">
           <Header title="Editar perfil" />
           <button onClick={handleLogout}>
@@ -32,40 +46,40 @@ export default function Profile() {
           </button>
         </div>
         <Divider />
-        <Avatar />
+        {/* Avatar del usuario */}
+        <Avatar src={user.avatar} />
         <div className="text-center text-sm text-sky-500 font-semibold ">
           <a className="hover:underline">Editar avatar</a>
         </div>
-
         <div className="p-4">
           <Link href="/" className="space-y-6">
+            {/* Nombre de usuario */}
             <Input
               type="text"
               label="Nombre de usuario"
               name="username"
-              value="usuario"
+              value={user.username}
               className="w-full"
               variant="bordered"
               disabled
             />
 
+            {/* Nombre y apellido */}
             <Input
               type="text"
               label="Nombre y Apellido"
               name="name"
-              value="nombre y apellido"
+              value={user.name}
               className="w-full"
               variant="bordered"
               disabled
             />
           </Link>
         </div>
-
         <div className="p-4 pt-0">
           <span className="text-xs text-gray-600">Modo oscuro</span>
         </div>
         <Divider />
-
         {/* Opción de cambio de tema */}
         <div className="flex items-center justify-center space-x-10">
           {/* Light Theme */}
@@ -92,12 +106,10 @@ export default function Profile() {
             />
           </label>
         </div>
-
         <div className="p-4">
           <span className="text-xs text-gray-600">Seguridad</span>
         </div>
         <Divider />
-
         <div className="text-sm font-semibold flex items-center p-4 space-x-4">
           <Icon icon="mdi:secure-outline" width="20" />
           <a className="hover:underline">Cambiar contraseña</a>

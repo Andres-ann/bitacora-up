@@ -1,6 +1,6 @@
 'use client';
 
-import Avatar from '@/ui/avatar';
+import Logo from '@/ui/logo';
 import { Input, Button } from '@nextui-org/react';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Icon } from '@iconify-icon/react';
@@ -219,7 +219,7 @@ export default function Register() {
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto p-4 scrollbar-hide">
-      <Avatar />
+      <Logo />
       <h1 className="text-xl font-semibold mb-10">Crear Cuenta</h1>
 
       <form className="space-y-6" onSubmit={handleSubmit}>

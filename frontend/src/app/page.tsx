@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-import Avatar from '@/ui/avatar';
+import Logo from '@/ui/logo';
 import UserAdd from '@/ui/userAdd';
 import PostCard from '@/ui/postCard';
 import Navbar from '@/ui/navbar';
@@ -108,7 +108,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide">
-      <Avatar />
+      <Logo />
       <UserAdd />
       <Divider />
       <div className="pb-16">

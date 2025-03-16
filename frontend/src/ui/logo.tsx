@@ -2,18 +2,14 @@
 
 import { Avatar } from '@nextui-org/avatar';
 
-type AvatarImgProps = {
-  src: string; // Aceptar la prop src
-};
-
-export default function AvatarImg({ src }: AvatarImgProps) {
+export default function LogoImg() {
   return (
     <>
       <div className="w-full h-12 mt-6 mb-6 flex items-center justify-center">
         <Avatar
           size="lg"
           name="App"
-          src={src} // Usar la prop src
+          src="https://i.ibb.co/ZNyjQ2g/favicon.jpg"
           className="shadow-lg"
         />
       </div>
