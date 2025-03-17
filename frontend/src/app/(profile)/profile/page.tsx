@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/ui/header';
-import Avatar from '@/ui/avatar';
+import AvatarImg from '@/ui/avatar';
 import Navbar from '@/ui/navbar';
 import Link from 'next/link';
 import { Divider, Input } from '@nextui-org/react';
@@ -9,30 +9,31 @@ import { Icon } from '@iconify-icon/react';
 import { useTheme } from '@/components/ThemeProvider';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect } from 'react'; // Importar useEffect
 
 export default function Profile() {
-  const { user, isLoading, logout } = useAuth();
+  const { user, isLoading, logout } = useAuth(); // Obtener user, isLoading y logout del contexto
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
   const handleLogout = async () => {
-    await logout();
+    await logout(); // Usar la función logout del contexto
     router.push('/login');
   };
 
+  // Redirigir al login si el usuario no está autenticado
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push('/login');
+      router.push('/login'); // Redirigir al login
     }
   }, [user, isLoading, router]);
 
   if (isLoading) {
-    return <p>Cargando...</p>;
+    return <p>Cargando...</p>; // Mostrar un indicador de carga mientras se obtienen los datos
   }
 
   if (!user) {
-    return null;
+    return null; // No renderizar nada mientras se redirige
   }
 
   return (
@@ -47,7 +48,8 @@ export default function Profile() {
         </div>
         <Divider />
         {/* Avatar del usuario */}
-        <Avatar src={user.avatar} />
+        <AvatarImg src={user.avatar} />
+        {/* Pasar la URL del avatar del usuario */}
         <div className="text-center text-sm text-sky-500 font-semibold ">
           <a className="hover:underline">Editar avatar</a>
         </div>
@@ -58,7 +60,7 @@ export default function Profile() {
               type="text"
               label="Nombre de usuario"
               name="username"
-              value={user.username}
+              value={user.username} // Usar el nombre de usuario del contexto
               className="w-full"
               variant="bordered"
               disabled
@@ -69,7 +71,7 @@ export default function Profile() {
               type="text"
               label="Nombre y Apellido"
               name="name"
-              value={user.name}
+              value={user.name} // Usar el nombre del contexto
               className="w-full"
               variant="bordered"
               disabled

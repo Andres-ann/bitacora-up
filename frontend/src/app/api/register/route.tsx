@@ -2,11 +2,11 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { name, username, password } = await request.json();
+    const { name, username, password, avatar } = await request.json();
 
-    if (!name || !username || !password) {
+    if (!name || !username || !password || !avatar) {
       return NextResponse.json(
-        { error: 'Name, username, and password are required' },
+        { error: 'Name, username, password, and avatar are required' },
         { status: 400 }
       );
     }
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, username, password }),
+      body: JSON.stringify({ name, username, password, avatar }),
     });
 
     if (!res.ok) {
