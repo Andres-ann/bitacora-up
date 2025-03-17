@@ -12,34 +12,33 @@ import { useAuth } from '@/context/AuthContext';
 import { useEffect } from 'react'; // Importar useEffect
 
 export default function Profile() {
-  const { user, isLoading, logout } = useAuth(); // Obtener user, isLoading y logout del contexto
+  const { user, isLoading, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
   const handleLogout = async () => {
-    await logout(); // Usar la función logout del contexto
+    await logout();
     router.push('/login');
   };
 
-  // Redirigir al login si el usuario no está autenticado
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push('/login'); // Redirigir al login
+      router.push('/login');
     }
   }, [user, isLoading, router]);
 
   if (isLoading) {
-    return <p>Cargando...</p>; // Mostrar un indicador de carga mientras se obtienen los datos
+    return <p>Cargando...</p>;
   }
 
   if (!user) {
-    return null; // No renderizar nada mientras se redirige
+    return null;
   }
 
   return (
     <>
       <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide pb-16">
-        <span className="text-xs text-end text-gray-600 p-2">v2.0.0</span>
+        <span className="text-xs text-end text-gray-600 p-2">v3.0.0</span>
         <div className="flex items-center justify-between">
           <Header title="Editar perfil" />
           <button onClick={handleLogout}>
@@ -60,7 +59,7 @@ export default function Profile() {
               type="text"
               label="Nombre de usuario"
               name="username"
-              value={user.username} // Usar el nombre de usuario del contexto
+              value={user.username}
               className="w-full"
               variant="bordered"
               disabled
@@ -71,7 +70,7 @@ export default function Profile() {
               type="text"
               label="Nombre y Apellido"
               name="name"
-              value={user.name} // Usar el nombre del contexto
+              value={user.name}
               className="w-full"
               variant="bordered"
               disabled
