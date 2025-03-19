@@ -93,7 +93,7 @@ export default function Profile() {
               height={120}
               className="rounded-xl"
             />
-            <p>Light</p>
+            <p>Claro</p>
             <input
               type="radio"
               name="theme"
@@ -112,7 +112,7 @@ export default function Profile() {
               height={120}
               className="rounded-xl"
             />
-            <p>Dark</p>
+            <p>Oscuro</p>
             <input
               type="radio"
               name="theme"
