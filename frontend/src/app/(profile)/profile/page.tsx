@@ -4,12 +4,13 @@ import Header from '@/ui/header';
 import AvatarImg from '@/ui/avatar';
 import Navbar from '@/ui/navbar';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Divider, Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 import { useTheme } from '@/components/ThemeProvider';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
-import { useEffect } from 'react'; // Importar useEffect
+import { useEffect } from 'react';
 
 export default function Profile() {
   const { user, isLoading, logout } = useAuth();
@@ -82,10 +83,17 @@ export default function Profile() {
         </div>
         <Divider />
         {/* Opción de cambio de tema */}
-        <div className="flex items-center justify-center space-x-10">
+        <div className="flex items-center justify-center space-x-10 text-xs m-3">
           {/* Light Theme */}
           <label className="flex flex-col items-center space-y-2 cursor-pointer">
-            <Icon icon="iconoir:web-window" width="120" />
+            <Image
+              src="/light-mode.png"
+              alt="Light Theme"
+              width={120}
+              height={120}
+              className="rounded-xl"
+            />
+            <p>Light</p>
             <input
               type="radio"
               name="theme"
@@ -97,7 +105,14 @@ export default function Profile() {
 
           {/* Dark Theme */}
           <label className="flex flex-col items-center space-y-2 cursor-pointer">
-            <Icon icon="iconoir:web-window-solid" width="120" />
+            <Image
+              src="/dark-mode.png"
+              alt="Dark Theme"
+              width={120}
+              height={120}
+              className="rounded-xl"
+            />
+            <p>Dark</p>
             <input
               type="radio"
               name="theme"
