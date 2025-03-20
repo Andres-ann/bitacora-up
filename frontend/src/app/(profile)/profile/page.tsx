@@ -39,7 +39,6 @@ export default function Profile() {
   return (
     <>
       <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto scrollbar-hide pb-16">
-        <span className="text-xs text-end text-gray-600 p-2">v3.0.0</span>
         <div className="flex items-center justify-between">
           <Header title="Editar perfil" />
           <button onClick={handleLogout}>
@@ -49,10 +48,16 @@ export default function Profile() {
         <Divider />
         {/* Avatar del usuario */}
         <AvatarImg src={user.avatar} />
-        {/* Pasar la URL del avatar del usuario */}
-        <div className="text-center text-sm text-sky-500 font-semibold ">
-          <a className="hover:underline">Editar avatar</a>
+
+        <Divider />
+
+        <div className="p-4">
+          <span className="text-xs text-gray-600">Mis datos</span>
         </div>
+        <Divider />
+        {/* <div className="text-center text-sm text-sky-500 font-semibold ">
+          <a className="hover:underline">Editar avatar</a>
+        </div> */}
         <div className="p-4">
           <Link href="/" className="space-y-6">
             {/* Nombre de usuario */}
@@ -78,7 +83,10 @@ export default function Profile() {
             />
           </Link>
         </div>
-        <div className="p-4 pt-0">
+
+        <Divider />
+
+        <div className="p-4">
           <span className="text-xs text-gray-600">Modo oscuro</span>
         </div>
         <Divider />
@@ -122,14 +130,14 @@ export default function Profile() {
             />
           </label>
         </div>
-        <div className="p-4">
+        {/* <div className="p-4">
           <span className="text-xs text-gray-600">Seguridad</span>
         </div>
         <Divider />
         <div className="text-sm font-semibold flex items-center p-4 space-x-4">
           <Icon icon="mdi:secure-outline" width="20" />
           <a className="hover:underline">Cambiar contraseña</a>
-        </div>
+        </div> */}
       </div>
       <Navbar />
     </>
