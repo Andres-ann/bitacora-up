@@ -1,10 +1,11 @@
 'use client';
 
-import Avatar from '@/ui/avatar';
+import Logo from '@/ui/logo';
 import { Input, Button } from '@nextui-org/react';
 import React, { useState, useEffect } from 'react';
 import { Icon } from '@iconify-icon/react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 type PasswordInputProps = {
   label: string;
@@ -57,6 +58,7 @@ function PasswordInput({
 }
 
 export default function Login() {
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -69,6 +71,7 @@ export default function Login() {
 
   const [loginError, setLoginError] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const validateField = (name: string, value: string): string => {
@@ -104,6 +107,9 @@ export default function Login() {
     e.preventDefault();
     if (!isFormValid) return;
 
+    setIsLoading(true);
+    setLoginError('');
+
     try {
       const res = await fetch('/api/login', {
         method: 'POST',
@@ -114,19 +120,23 @@ export default function Login() {
       });
 
       if (res.ok) {
-        router.push('/profile');
+        const data = await res.json();
+        await login(data.token);
+        router.push('/');
       } else {
         setLoginError('Nombre de usuario o contraseña incorrectos');
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);
       setLoginError('Hubo un problema al intentar iniciar sesión');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto p-4 scrollbar-hide">
-      <Avatar />
+      <Logo />
       <h1 className="text-xl font-semibold mb-10">Iniciar sesión</h1>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
@@ -162,12 +172,13 @@ export default function Login() {
             </a>
           </div>
           <Button
-            className="w-full bg-black text-white rounded-lg"
+            className="w-full bg-black text-white dark:bg-white dark:text-black rounded-lg"
             size="lg"
             color="primary"
             type="submit"
-            disabled={!isFormValid}>
-            Iniciar sesión
+            disabled={!isFormValid || isLoading}
+            isLoading={isLoading}>
+            {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
           </Button>
         </div>
       </form>

@@ -27,7 +27,7 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
         {/* Contenido del post */}
         <div className="flex-1">
           <div className="flex items-center">
-            <p className="font-medium text-gray-900">{usuario.name}</p>
+            <p className="font-medium ">{usuario.name}</p>
             <Icon
               icon="bitcoin-icons:verify-filled"
               width="16"
@@ -35,9 +35,9 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
             />
           </div>
           <p className="text-sm text-gray-500">@{usuario.username}</p>
-          <div className="p-4 mt-4 rounded-md border">
+          <div className="p-4 mt-4 rounded-md border border-gray-300/70">
             <Link href={`/post/${frase._id}`}>
-              <p className="text-gray-900">{frase.frase}</p>
+              <p>{frase.frase}</p>
               <p className="mt-6 text-gray-500">- {frase.autor}</p>
             </Link>
           </div>

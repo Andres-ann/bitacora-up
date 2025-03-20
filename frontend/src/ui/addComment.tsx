@@ -24,7 +24,7 @@ export default function AddComment({
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 p-4 flex items-center w-full ${className}`}>
+      className={`fixed bottom-0 left-0 right-0 mb-16 p-4 flex items-center w-full ${className}`}>
       <Input
         classNames={{
           base: 'max-w-full h-10',

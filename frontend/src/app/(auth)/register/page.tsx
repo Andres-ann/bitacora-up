@@ -1,6 +1,6 @@
 'use client';
 
-import Avatar from '@/ui/avatar';
+import Logo from '@/ui/logo';
 import { Input, Button } from '@nextui-org/react';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Icon } from '@iconify-icon/react';
@@ -60,6 +60,7 @@ export default function Register() {
     name: '',
     password: '',
     confirmPassword: '',
+    avatar: '',
   });
 
   const [errors, setErrors] = useState({
@@ -73,6 +74,14 @@ export default function Register() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
+
+  const generateAvatarUrl = (username: string) => {
+    const style = 'avataaars-neutral';
+
+    return `https://api.dicebear.com/7.x/${style}/svg?seed=${encodeURIComponent(
+      username
+    )}`;
+  };
 
   const validateField = (
     name: string,
@@ -195,12 +204,19 @@ export default function Register() {
     if (!isFormValid || isCheckingUsername) return;
 
     try {
+      const avatarUrl = generateAvatarUrl(formData.username);
+
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          name: formData.name,
+          username: formData.username,
+          password: formData.password,
+          avatar: avatarUrl,
+        }),
       });
 
       if (res.ok) {
@@ -219,7 +235,7 @@ export default function Register() {
 
   return (
     <div className="flex flex-col w-full h-screen overflow-hidden flex-1 overflow-y-auto p-4 scrollbar-hide">
-      <Avatar />
+      <Logo />
       <h1 className="text-xl font-semibold mb-10">Crear Cuenta</h1>
 
       <form className="space-y-6" onSubmit={handleSubmit}>
@@ -272,7 +288,7 @@ export default function Register() {
             </a>
           </div>
           <Button
-            className="w-full bg-black text-white rounded-lg"
+            className="w-full bg-black text-white dark:bg-white dark:text-black rounded-lg"
             size="lg"
             color="primary"
             type="submit"
