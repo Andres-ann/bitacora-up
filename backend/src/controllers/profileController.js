@@ -1,7 +1,6 @@
 import { userModel } from '../models/userModel.js';
 import { updateProfileValidationSchema } from '../validations/updateProfileValidation.js';
 import cloudinary from '../config/cloudinaryConfig.js';
-import upload from '../middlewares/uploadMiddleware.js';
 
 export const getProfile = async (req, res) => {
   try {
@@ -88,7 +87,6 @@ export const checkUsername = async (req, res) => {
   }
 };
 
-// 🔥 CORRECCIÓN EN updateAvatar 🔥
 export const updateAvatar = async (req, res) => {
   try {
     const userIdFromToken = req.user.id;
@@ -102,7 +100,6 @@ export const updateAvatar = async (req, res) => {
       return res.status(400).json({ error: 'File must be an image' });
     }
 
-    // Subir imagen a Cloudinary usando un Stream
     const streamUpload = (file) => {
       return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
