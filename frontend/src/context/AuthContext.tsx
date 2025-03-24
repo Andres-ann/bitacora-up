@@ -1,39 +1,39 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-
-type UserProfile = {
-  id: string;
-  name: string;
-  username: string;
-  avatar: string;
-} | null;
-
-type AuthContextType = {
-  user: UserProfile;
-  token: string | null;
-  login: (token: string) => Promise<void>;
-  logout: () => void;
-  isLoading: boolean;
-};
+import { UserProfile, AuthContextType } from '@/types';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<UserProfile>(null);
+  const [user, setUser] = useState<UserProfile | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchProfile = async (authToken: string) => {
+  const fetchToken = async () => {
+    try {
+      const res = await fetch('/api/token', {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setToken(data.token);
+      }
+    } catch (error) {
+      console.error('Error al obtener el token:', error);
+      setToken(null);
+    }
+  };
+
+  const fetchProfile = async () => {
     try {
       setIsLoading(true);
 
       const res = await fetch('/api/profile', {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
+        credentials: 'include',
       });
 
       if (res.ok) {
@@ -53,28 +53,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (newToken: string) => {
     setToken(newToken);
-    await fetchProfile(newToken);
+    await fetchProfile();
   };
-
-  useEffect(() => {
-    const checkToken = () => {
-      const cookies = document.cookie.split(';');
-      const tokenCookie = cookies.find((cookie) =>
-        cookie.trim().startsWith('token=')
-      );
-
-      if (tokenCookie) {
-        const savedToken = tokenCookie.split('=')[1];
-        setToken(savedToken);
-        fetchProfile(savedToken);
-      } else {
-        setIsLoading(false);
-        console.warn('No se encontró un token válido en las cookies.');
-      }
-    };
-
-    checkToken();
-  }, []);
 
   const logout = async () => {
     try {
@@ -90,8 +70,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const updateUser = (updatedUser: UserProfile | null) => {
+    setUser(updatedUser);
+  };
+
+  useEffect(() => {
+    fetchToken().then(() => {
+      if (token) {
+        fetchProfile();
+      }
+    });
+  }, [token]);
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout, isLoading }}>
+    <AuthContext.Provider
+      value={{ user, token, isLoading, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
