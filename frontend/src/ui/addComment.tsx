@@ -2,6 +2,8 @@
 
 import { Avatar, Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 interface AddCommentProps {
   onSubmit: (value: string) => void;
@@ -14,11 +16,25 @@ export default function AddComment({
   placeholder = 'Responder...',
   className = '',
 }: AddCommentProps) {
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (!user && !isLoading) {
+      router.push('/login');
+      return;
+    }
+
     if (e.key === 'Enter') {
       const target = e.target as HTMLInputElement;
       onSubmit(target.value);
       target.value = '';
+    }
+  };
+
+  const handleInputClick = () => {
+    if (!user && !isLoading) {
+      router.push('/login');
     }
   };
 
@@ -38,7 +54,12 @@ export default function AddComment({
         startContent={
           <div className="pointer-events-none flex items-center">
             <span className="text-default-400 text-small">
-              <Avatar size="sm" name="App" />
+              <Avatar
+                size="sm"
+                className="shadow-lg"
+                name={user?.avatar}
+                src={user?.avatar || 'https://i.ibb.co/ZNyjQ2g/favicon.jpg'}
+              />
             </span>
           </div>
         }
@@ -53,6 +74,8 @@ export default function AddComment({
         }
         type="text"
         onKeyPress={handleKeyPress}
+        onClick={handleInputClick}
+        isDisabled={isLoading}
       />
     </div>
   );

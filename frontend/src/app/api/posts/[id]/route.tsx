@@ -9,18 +9,20 @@ export async function GET(
   const { id } = await params;
 
   try {
-    const result = await fetch(`${baseUrl}/${id}`, {
+    const res = await fetch(`${baseUrl}/${id}`, {
+      cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    if (!result.ok) {
+    if (!res.ok) {
       return NextResponse.json({ message: 'Post not found' }, { status: 404 });
     }
 
-    const post = await result.json();
-    return NextResponse.json({ data: post });
+    const data = await res.json();
+    console.log(data);
+    return NextResponse.json({ docs: data });
   } catch (error) {
     console.error('Fetch Error:', error);
     return NextResponse.json(

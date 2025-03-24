@@ -16,7 +16,7 @@ export default function AvatarImg({ src, isLoading = false }: AvatarImgProps) {
           <Spinner size="sm" color="primary" />
         </div>
       ) : (
-        <Avatar size="lg" src={src} className="shadow-lg" />
+        <Avatar size="lg" src={src} className="shadow-lg" isBordered />
       )}
     </div>
   );

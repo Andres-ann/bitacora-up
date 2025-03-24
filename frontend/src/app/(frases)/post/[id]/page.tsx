@@ -17,24 +17,24 @@ export default function Post() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchFrase = async () => {
-    const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
-    if (!postId) return;
-
     try {
       setIsLoading(true);
       setError(null);
-      const response = await fetch(`/api/posts/${postId}`);
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch frase');
-      }
+      const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
+      console.log(postId);
+      if (!postId) return;
 
-      const json = await response.json();
-      setFrase(json.data);
+      const response = await fetch(`http://localhost:3000/api/posts/${postId}`);
+      if (!response.ok) throw new Error('Error al obtener la frase');
+
+      const data = await response.json();
+
+      setFrase(data.docs);
 
       await addView(postId);
     } catch (error) {
-      console.error('Error fetching post:', error);
+      console.error('Error en fetchFrase:', error);
       setError('Error al cargar el post');
     } finally {
       setIsLoading(false);
@@ -84,6 +84,7 @@ export default function Post() {
   };
 
   useEffect(() => {
+    console.log('Post ID:', params?.id);
     if (params?.id) {
       fetchFrase();
     }
@@ -109,16 +110,19 @@ export default function Post() {
           <div className="flex items-center justify-center h-48">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400" />
           </div>
-        ) : frase ? (
-          <>
-            <PostCard key={frase._id} frase={frase} onLike={handleLike} />
-            <Comments comentarios={frase.comentarios} />
-            <AddComment
-              onSubmit={(value) => console.log('Reply:', value)}
-              placeholder="Responder..."
-            />
-          </>
-        ) : null}
+        ) : (
+          frase && (
+            <>
+              {console.log('Contenido de frase antes de renderizar:', frase)}
+              <PostCard key={frase._id} frase={frase} onLike={handleLike} />
+              <Comments comentarios={frase.comentarios} />
+              <AddComment
+                onSubmit={(value) => console.log('Reply:', value)}
+                placeholder="Responder..."
+              />
+            </>
+          )
+        )}
       </div>
       <Navbar />
     </div>

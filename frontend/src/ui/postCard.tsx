@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { PostCardProps } from '@/types';
 
 export default function PostCard({ frase, onLike }: PostCardProps) {
+  console.log(frase);
   const usuario = {
     name: frase.usuarioId?.name || 'Bitacora UP',
     username: frase.usuarioId?.username || 'bitacoraup',
@@ -20,7 +21,7 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
         <Avatar
           size="md"
           className="shadow-lg"
-          name={usuario.avatar}
+          name={frase.usuarioId?.avatar}
           src={usuario.avatar}
         />
 
