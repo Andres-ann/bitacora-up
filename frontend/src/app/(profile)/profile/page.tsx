@@ -1,7 +1,6 @@
 'use client';
 
 import Header from '@/ui/header';
-import AvatarImg from '@/ui/avatar';
 import Navbar from '@/ui/navbar';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,6 +9,7 @@ import { Icon } from '@iconify-icon/react';
 import { useTheme } from '@/components/ThemeProvider';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import EditarAvatar from '@/components/EditarAvatar';
 import { useEffect } from 'react';
 
 export default function Profile() {
@@ -47,17 +47,15 @@ export default function Profile() {
         </div>
         <Divider />
         {/* Avatar del usuario */}
-        <AvatarImg src={user.avatar} />
-
+        <div className="flex flex-col items-center">
+          <EditarAvatar />
+        </div>
         <Divider />
 
         <div className="p-4">
           <span className="text-xs text-gray-600">Mis datos</span>
         </div>
         <Divider />
-        {/* <div className="text-center text-sm text-sky-500 font-semibold ">
-          <a className="hover:underline">Editar avatar</a>
-        </div> */}
         <div className="p-4">
           <Link href="/" className="space-y-6">
             {/* Nombre de usuario */}
@@ -130,14 +128,6 @@ export default function Profile() {
             />
           </label>
         </div>
-        {/* <div className="p-4">
-          <span className="text-xs text-gray-600">Seguridad</span>
-        </div>
-        <Divider />
-        <div className="text-sm font-semibold flex items-center p-4 space-x-4">
-          <Icon icon="mdi:secure-outline" width="20" />
-          <a className="hover:underline">Cambiar contraseña</a>
-        </div> */}
       </div>
       <Navbar />
     </>

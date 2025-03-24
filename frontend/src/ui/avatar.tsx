@@ -1,15 +1,23 @@
 'use client';
 
 import { Avatar } from '@nextui-org/avatar';
+import { Spinner } from '@nextui-org/spinner';
 
 type AvatarImgProps = {
   src: string;
+  isLoading?: boolean;
 };
 
-export default function AvatarImg({ src }: AvatarImgProps) {
+export default function AvatarImg({ src, isLoading = false }: AvatarImgProps) {
   return (
-    <div className="w-full h-12 mt-6 mb-6 flex items-center justify-center">
-      <Avatar size="lg" src={src} className="shadow-lg" />
+    <div className="relative w-12 h-12">
+      {isLoading ? (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Spinner size="sm" color="primary" />
+        </div>
+      ) : (
+        <Avatar size="lg" src={src} className="shadow-lg" />
+      )}
     </div>
   );
 }
