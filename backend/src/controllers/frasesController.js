@@ -163,11 +163,18 @@ export const addView = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const updatedFrase = await frasesModel.findByIdAndUpdate(
-      id,
-      { $inc: { visualizaciones: 1 } },
-      { new: true }
-    );
+    await frasesModel.findByIdAndUpdate(id, { $inc: { visualizaciones: 1 } });
+
+    const updatedFrase = await frasesModel
+      .findById(id)
+      .populate('usuarioId', 'name username avatar')
+      .populate({
+        path: 'comentarios',
+        populate: {
+          path: 'usuarioId',
+          select: 'name username avatar',
+        },
+      });
 
     if (!updatedFrase) {
       return res.status(404).json({ error: 'Frase not found' });
