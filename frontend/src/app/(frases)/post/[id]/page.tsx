@@ -22,7 +22,6 @@ export default function Post() {
       setError(null);
 
       const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
-      console.log(postId);
       if (!postId) return;
 
       const response = await fetch(`http://localhost:3000/api/posts/${postId}`);
@@ -31,7 +30,6 @@ export default function Post() {
       const data = await response.json();
 
       setFrase(data.docs);
-
       await addView(postId);
     } catch (error) {
       console.error('Error en fetchFrase:', error);
@@ -84,7 +82,6 @@ export default function Post() {
   };
 
   useEffect(() => {
-    console.log('Post ID:', params?.id);
     if (params?.id) {
       fetchFrase();
     }
@@ -113,7 +110,6 @@ export default function Post() {
         ) : (
           frase && (
             <>
-              {console.log('Contenido de frase antes de renderizar:', frase)}
               <PostCard key={frase._id} frase={frase} onLike={handleLike} />
               <Comments comentarios={frase.comentarios} />
               <AddComment

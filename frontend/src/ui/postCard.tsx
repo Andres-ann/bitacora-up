@@ -7,7 +7,6 @@ import Link from 'next/link';
 import { PostCardProps } from '@/types';
 
 export default function PostCard({ frase, onLike }: PostCardProps) {
-  console.log(frase);
   const usuario = {
     name: frase.usuarioId?.name || 'Bitacora UP',
     username: frase.usuarioId?.username || 'bitacoraup',
