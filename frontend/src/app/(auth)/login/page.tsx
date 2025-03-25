@@ -165,21 +165,23 @@ export default function Login() {
           <p className="text-xs text-danger text-center mt-1">{loginError}</p>
         )}
 
-        <div className="fixed bottom-0 left-0 right-0 p-4 pb-24">
+        <div className="fixed bottom-0 left-0 right-0 pb-24">
           <div className="text-center text-sm font-semibold pb-4">
             <a href="/register" className="hover:underline">
               No tengo cuenta
             </a>
           </div>
-          <Button
-            className="w-full bg-black text-white dark:bg-white dark:text-black rounded-lg"
-            size="lg"
-            color="primary"
-            type="submit"
-            disabled={!isFormValid || isLoading}
-            isLoading={isLoading}>
-            {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              className="w-full max-w-lg m-4 bg-black text-white dark:bg-white dark:text-black rounded-lg"
+              size="lg"
+              color="primary"
+              type="submit"
+              disabled={!isFormValid || isLoading}
+              isLoading={isLoading}>
+              {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+            </Button>
+          </div>
         </div>
       </form>
     </div>
