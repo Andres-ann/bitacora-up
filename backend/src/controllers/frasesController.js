@@ -192,41 +192,39 @@ export const addComentario = async (req, res) => {
   const { id } = req.params;
   const { comentario, gif } = req.body;
 
+  const userId = req.user?.id;
+
   try {
-    const validatedData = await comentarioValidationSchema.validateAsync(
-      { comentario, gif },
-      { abortEarly: false }
-    );
+    if (!comentario) {
+      return res.status(400).json({
+        error: 'TThe comment cannot be empty',
+      });
+    }
 
     const frase = await frasesModel.findById(id);
-
     if (!frase) {
-      return res.status(404).json({ message: 'Frase not found' });
+      return res.status(404).json({ error: 'Frase not found' });
     }
 
     const nuevoComentario = {
-      comentario: validatedData.comentario,
-      usuarioId: req.user.id,
-      gif: validatedData.gif,
-      createdAt: new Date(),
+      comentario,
+      usuarioId: userId,
+      gif: gif || null,
     };
 
     frase.comentarios.push(nuevoComentario);
     await frase.save();
 
     res.status(201).json({
-      message: 'Comment added successfully',
-      comentario: nuevoComentario,
+      mensaje: 'Comment added successfully',
     });
   } catch (error) {
-    if (error.isJoi) {
-      return res
-        .status(400)
-        .json({ errors: error.details.map((detail) => detail.message) });
-    }
-    res
-      .status(500)
-      .json({ message: 'An error occurred while adding the comment.' });
+    console.error('Error adding comment:', error);
+
+    res.status(500).json({
+      error: 'Server error adding comment',
+      mensaje: 'Comment not found',
+    });
   }
 };
 
