@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
 import Comments from '@/ui/comments';
@@ -11,11 +12,12 @@ import { Frase } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Post() {
+  const router = useRouter(); // Obtén el router
   const params = useParams();
   const [frase, setFrase] = useState<Frase | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { token } = useAuth();
+  const { token, user } = useAuth();
 
   const fetchFrase = async () => {
     try {
@@ -82,7 +84,19 @@ export default function Post() {
     }
   };
 
+  const handleAddCommentFocus = () => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+  };
+
   const addComment = async (content: string, gifUrl?: string) => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
     try {
       const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
       if (!postId) return;
@@ -147,7 +161,11 @@ export default function Post() {
           )
         )}
       </div>
-      <AddComment onSubmit={addComment} placeholder="Responder..." />
+      <AddComment
+        onSubmit={addComment}
+        onFocus={handleAddCommentFocus} // Pasa el manejador de clic
+        placeholder="Responder..."
+      />
     </div>
   );
 }

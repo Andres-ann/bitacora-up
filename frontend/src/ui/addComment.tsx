@@ -2,22 +2,20 @@
 
 import { Avatar, Input, Image, Button } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
-import { useAuth } from '@/context/AuthContext';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import GifPicker from '@/components/GifPicker';
 
 interface AddCommentProps {
   onSubmit: (content: string, gifUrl?: string) => Promise<void>;
   placeholder?: string;
+  onFocus?: () => void;
 }
 
 export default function AddComment({
   onSubmit,
   placeholder = 'Responder...',
+  onFocus,
 }: AddCommentProps) {
-  const { user, isLoading } = useAuth();
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [content, setContent] = useState('');
   const [gifUrl, setGifUrl] = useState<string | null>(null);
@@ -25,10 +23,6 @@ export default function AddComment({
 
   const handleSubmit = async () => {
     if (!content.trim() && !gifUrl) return;
-    if (!user && !isLoading) {
-      router.push('/login');
-      return;
-    }
 
     try {
       setIsSubmitting(true);
@@ -60,14 +54,14 @@ export default function AddComment({
           <Avatar
             size="sm"
             className="shadow-lg mr-2"
-            name={user?.name}
-            src={user?.avatar || 'https://i.ibb.co/ZNyjQ2g/favicon.jpg'}
+            src="https://i.ibb.co/ZNyjQ2g/favicon.jpg"
           />
 
           <div className="flex-1">
             <Input
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              onFocus={onFocus}
               classNames={{
                 base: 'w-full',
                 input: 'text-small',
@@ -76,7 +70,7 @@ export default function AddComment({
               }}
               placeholder={placeholder}
               size="sm"
-              isDisabled={isLoading || isSubmitting}
+              isDisabled={isSubmitting}
               onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
             />
           </div>
@@ -121,7 +115,7 @@ export default function AddComment({
               isIconOnly
               size="sm"
               className="absolute -top-2 -right-10 bg-black/70 rounded-full p-1"
-              onClick={removeGif}>
+              onPress={removeGif}>
               <Icon icon="mdi:close" width={16} className="text-white" />
             </Button>
           </div>
