@@ -194,9 +194,9 @@ export const addComentario = async (req, res) => {
   const userId = req.user?.id;
 
   try {
-    if (!comentario) {
+    if (!comentario && !gif) {
       return res.status(400).json({
-        error: 'The comment cannot be empty',
+        error: 'Either comment or gif must be provided',
       });
     }
 
@@ -210,7 +210,7 @@ export const addComentario = async (req, res) => {
     }
 
     const nuevoComentario = {
-      comentario,
+      comentario: comentario || null,
       usuarioId: userId,
       gif: gif || null,
       createdAt: new Date(),

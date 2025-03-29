@@ -15,10 +15,11 @@ export async function POST(request: NextRequest) {
 
     const authHeader = request.headers.get('authorization');
     const body = await request.json();
+    const { comentario, gif } = body;
 
-    if (!body.comentario) {
+    if (!comentario && !gif) {
       return NextResponse.json(
-        { error: 'Comment content is required' },
+        { error: 'Either comment or gif must be provided' },
         { status: 400 }
       );
     }
