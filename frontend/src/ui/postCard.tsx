@@ -20,7 +20,7 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
         <Avatar
           size="md"
           className="shadow-lg"
-          name={usuario.avatar}
+          name={frase.usuarioId?.avatar}
           src={usuario.avatar}
         />
 

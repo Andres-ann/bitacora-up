@@ -17,8 +17,8 @@ const comentariosSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
-  { _id: false }
+    _id: true,
+  }
 );
 
 const frasesSchema = new mongoose.Schema(

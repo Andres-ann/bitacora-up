@@ -1,40 +1,41 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
 import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
-import Navbar from '@/ui/navbar';
 import { useParams } from 'next/navigation';
 import { Frase } from '@/types';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Post() {
+  const router = useRouter(); // Obtén el router
   const params = useParams();
   const [frase, setFrase] = useState<Frase | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { token, user } = useAuth();
 
   const fetchFrase = async () => {
-    const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
-    if (!postId) return;
-
     try {
       setIsLoading(true);
       setError(null);
-      const response = await fetch(`/api/posts/${postId}`);
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch frase');
-      }
+      const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
+      if (!postId) return;
 
-      const json = await response.json();
-      setFrase(json.data);
+      const response = await fetch(`http://localhost:3000/api/posts/${postId}`);
+      if (!response.ok) throw new Error('Error al obtener la frase');
 
+      const data = await response.json();
+
+      setFrase(data.docs);
       await addView(postId);
     } catch (error) {
-      console.error('Error fetching post:', error);
+      console.error('Error en fetchFrase:', error);
       setError('Error al cargar el post');
     } finally {
       setIsLoading(false);
@@ -83,6 +84,48 @@ export default function Post() {
     }
   };
 
+  const handleAddCommentFocus = () => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+  };
+
+  const addComment = async (content: string, gifUrl?: string) => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
+      if (!postId) return;
+
+      const response = await fetch(`/api/${postId}/addcomment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ comentario: content, gif: gifUrl }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to add comment');
+      }
+
+      const data = await response.json();
+      setFrase((prevFrase) =>
+        prevFrase ? { ...prevFrase, comentarios: data.comentarios } : null
+      );
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      setError(error instanceof Error ? error.message : 'Error adding comment');
+      throw error;
+    }
+  };
+
   useEffect(() => {
     if (params?.id) {
       fetchFrase();
@@ -109,18 +152,20 @@ export default function Post() {
           <div className="flex items-center justify-center h-48">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-400" />
           </div>
-        ) : frase ? (
-          <>
-            <PostCard key={frase._id} frase={frase} onLike={handleLike} />
-            <Comments comentarios={frase.comentarios} />
-            <AddComment
-              onSubmit={(value) => console.log('Reply:', value)}
-              placeholder="Responder..."
-            />
-          </>
-        ) : null}
+        ) : (
+          frase && (
+            <>
+              <PostCard key={frase._id} frase={frase} onLike={handleLike} />
+              <Comments comentarios={frase.comentarios} />
+            </>
+          )
+        )}
       </div>
-      <Navbar />
+      <AddComment
+        onSubmit={addComment}
+        onFocus={handleAddCommentFocus} // Pasa el manejador de clic
+        placeholder="Responder..."
+      />
     </div>
   );
 }

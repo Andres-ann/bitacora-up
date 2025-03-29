@@ -64,10 +64,6 @@ export default function Random() {
           )
         )}
         <Comments comentarios={frase?.comentarios || []} />
-        <AddComment
-          onSubmit={(value) => console.log('Reply:', value)}
-          placeholder="Responder..."
-        />
       </div>
       <Navbar />
     </div>

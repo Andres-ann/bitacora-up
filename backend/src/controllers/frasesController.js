@@ -163,11 +163,18 @@ export const addView = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const updatedFrase = await frasesModel.findByIdAndUpdate(
-      id,
-      { $inc: { visualizaciones: 1 } },
-      { new: true }
-    );
+    await frasesModel.findByIdAndUpdate(id, { $inc: { visualizaciones: 1 } });
+
+    const updatedFrase = await frasesModel
+      .findById(id)
+      .populate('usuarioId', 'name username avatar')
+      .populate({
+        path: 'comentarios',
+        populate: {
+          path: 'usuarioId',
+          select: 'name username avatar',
+        },
+      });
 
     if (!updatedFrase) {
       return res.status(404).json({ error: 'Frase not found' });
@@ -184,42 +191,49 @@ export const addView = async (req, res) => {
 export const addComentario = async (req, res) => {
   const { id } = req.params;
   const { comentario, gif } = req.body;
+  const userId = req.user?.id;
 
   try {
-    const validatedData = await comentarioValidationSchema.validateAsync(
-      { comentario, gif },
-      { abortEarly: false }
-    );
+    if (!comentario && !gif) {
+      return res.status(400).json({
+        error: 'Either comment or gif must be provided',
+      });
+    }
 
-    const frase = await frasesModel.findById(id);
+    const frase = await frasesModel.findById(id).populate({
+      path: 'comentarios.usuarioId',
+      select: 'name username avatar',
+    });
 
     if (!frase) {
-      return res.status(404).json({ message: 'Frase not found' });
+      return res.status(404).json({ error: 'Frase not found' });
     }
 
     const nuevoComentario = {
-      comentario: validatedData.comentario,
-      usuarioId: req.user.id,
-      gif: validatedData.gif,
+      comentario: comentario || null,
+      usuarioId: userId,
+      gif: gif || null,
       createdAt: new Date(),
     };
 
     frase.comentarios.push(nuevoComentario);
     await frase.save();
 
+    const fraseActualizada = await frasesModel.findById(id).populate({
+      path: 'comentarios.usuarioId',
+      select: 'name username avatar',
+    });
+
     res.status(201).json({
-      message: 'Comment added successfully',
-      comentario: nuevoComentario,
+      mensaje: 'Comment added successfully',
+      comentarios: fraseActualizada.comentarios,
     });
   } catch (error) {
-    if (error.isJoi) {
-      return res
-        .status(400)
-        .json({ errors: error.details.map((detail) => detail.message) });
-    }
-    res
-      .status(500)
-      .json({ message: 'An error occurred while adding the comment.' });
+    console.error('Error adding comment:', error);
+    res.status(500).json({
+      error: 'Server error adding comment',
+      detalles: error.message,
+    });
   }
 };
 
