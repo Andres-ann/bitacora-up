@@ -42,7 +42,7 @@ export default function Profile() {
         <div className="flex items-center justify-between">
           <Header title="Editar perfil" />
           <button onClick={handleLogout}>
-            <Icon icon="mingcute:power-fill" width="20" className="p-4" />
+            <Icon icon="mingcute:power-fill" width="20" className="me-6" />
           </button>
         </div>
         <Divider />
@@ -57,29 +57,27 @@ export default function Profile() {
         </div>
         <Divider />
         <div className="p-4">
-          <Link href="/" className="space-y-6">
-            {/* Nombre de usuario */}
-            <Input
-              type="text"
-              label="Nombre de usuario"
-              name="username"
-              value={user.username}
-              className="w-full"
-              variant="bordered"
-              disabled
-            />
+          {/* Nombre de usuario */}
+          <Input
+            type="text"
+            label="Nombre de usuario"
+            name="username"
+            value={user.username}
+            className="w-full mb-4"
+            variant="bordered"
+            disabled
+          />
 
-            {/* Nombre y apellido */}
-            <Input
-              type="text"
-              label="Nombre y Apellido"
-              name="name"
-              value={user.name}
-              className="w-full"
-              variant="bordered"
-              disabled
-            />
-          </Link>
+          {/* Nombre y apellido */}
+          <Input
+            type="text"
+            label="Nombre y Apellido"
+            name="name"
+            value={user.name}
+            className="w-full"
+            variant="bordered"
+            disabled
+          />
         </div>
 
         <Divider />

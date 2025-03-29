@@ -6,15 +6,16 @@ import PostCard from '@/ui/postCard';
 import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
-import Navbar from '@/ui/navbar';
 import { useParams } from 'next/navigation';
 import { Frase } from '@/types';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Post() {
   const params = useParams();
   const [frase, setFrase] = useState<Frase | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { token } = useAuth();
 
   const fetchFrase = async () => {
     try {
@@ -81,6 +82,36 @@ export default function Post() {
     }
   };
 
+  const addComment = async (content: string) => {
+    try {
+      const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
+      if (!postId) return;
+
+      const response = await fetch(`/api/${postId}/addcomment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ comentario: content }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to add comment');
+      }
+
+      const data = await response.json();
+      setFrase((prevFrase) =>
+        prevFrase ? { ...prevFrase, comentarios: data.comentarios } : null
+      );
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      setError(error instanceof Error ? error.message : 'Error adding comment');
+      throw error;
+    }
+  };
+
   useEffect(() => {
     if (params?.id) {
       fetchFrase();
@@ -116,10 +147,7 @@ export default function Post() {
           )
         )}
       </div>
-      <AddComment
-        onSubmit={(value) => console.log('Reply:', value)}
-        placeholder="Responder..."
-      />
+      <AddComment onSubmit={addComment} placeholder="Responder..." />
     </div>
   );
 }

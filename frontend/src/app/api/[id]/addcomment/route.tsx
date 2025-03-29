@@ -1,17 +1,10 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export async function POST(request: NextRequest, { params }: Props) {
+export async function POST(request: NextRequest) {
   try {
-    const { id } = params;
-    const authHeader = request.headers.get('authorization');
-    const body = await request.json();
+    const url = new URL(request.nextUrl);
+    const id = url.pathname.split('/').slice(-2, -1)[0];
 
     if (!id) {
       return NextResponse.json(
@@ -19,6 +12,9 @@ export async function POST(request: NextRequest, { params }: Props) {
         { status: 400 }
       );
     }
+
+    const authHeader = request.headers.get('authorization');
+    const body = await request.json();
 
     if (!body.comentario) {
       return NextResponse.json(

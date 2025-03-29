@@ -21,7 +21,6 @@ export async function GET(
     }
 
     const data = await res.json();
-    console.log(data);
     return NextResponse.json({ docs: data });
   } catch (error) {
     console.error('Fetch Error:', error);

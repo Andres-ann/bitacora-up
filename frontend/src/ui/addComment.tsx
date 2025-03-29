@@ -4,76 +4,59 @@ import { Avatar, Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface AddCommentProps {
-  onSubmit: (value: string) => void;
+  onSubmit: (value: string) => Promise<void>;
   placeholder?: string;
-  className?: string;
 }
 
 export default function AddComment({
   onSubmit,
   placeholder = 'Responder...',
-  className = '',
 }: AddCommentProps) {
   const { user, isLoading } = useAuth();
   const router = useRouter();
-  const [visible, setVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      if (currentScrollY > lastScrollY) {
-        // Scroll hacia abajo
-        setVisible(false);
-      } else {
-        // Scroll hacia arriba
-        setVisible(true);
-      }
-
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleSubmit = async () => {
+    if (!inputValue.trim()) return;
     if (!user && !isLoading) {
       router.push('/login');
       return;
     }
 
-    if (e.key === 'Enter') {
-      const target = e.target as HTMLInputElement;
-      onSubmit(target.value);
-      target.value = '';
+    try {
+      setIsSubmitting(true);
+      await onSubmit(inputValue);
+      setInputValue('');
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleInputClick = () => {
-    if (!user && !isLoading) {
-      router.push('/login');
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
     }
   };
 
   return (
-    <div
-      className={`fixed left-0 right-0 lg:w-1/3 mx-auto bottom-0 p-4 bg-white dark:bg-[#171717] md:border-r md:border-l transition-transform duration-300 ${
-        visible ? 'translate-y-0' : 'translate-y-full'
-      } ${className}`}>
+    <div className="fixed left-0 right-0 lg:w-1/3 mx-auto bottom-0 ps-3 pe-3 bg-white dark:bg-[#171717] md:border-r md:border-l transition-transform duration-300">
       <div className="flex items-center rounded-lg shadow-md px-2 py-3">
         <Avatar
           size="sm"
           className="shadow-lg mr-2"
-          name={user?.avatar}
+          name={user?.name}
           src={user?.avatar || 'https://i.ibb.co/ZNyjQ2g/favicon.jpg'}
         />
 
         <Input
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
           classNames={{
             base: 'flex-1 w-full',
             mainWrapper: 'h-full',
@@ -84,16 +67,18 @@ export default function AddComment({
           placeholder={placeholder}
           size="sm"
           onKeyPress={handleKeyPress}
-          onClick={handleInputClick}
-          isDisabled={isLoading}
+          isDisabled={isLoading || isSubmitting}
         />
 
         <div className="flex space-x-1">
-          <button className="focus:outline-none ms-2">
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitting || !inputValue.trim()}
+            className="focus:outline-none ms-2">
             <Icon
               icon="carbon:send"
               width={24}
-              className="text-default-400 hover:text-default-500 cursor-pointer"
+              className={`${isSubmitting ? 'text-default-300' : 'text-default-400 hover:text-default-500'} cursor-pointer`}
             />
           </button>
           <button className="focus:outline-none">

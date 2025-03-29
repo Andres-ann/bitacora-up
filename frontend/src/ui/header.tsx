@@ -9,7 +9,7 @@ interface NavbarProps {
 
 export default function Navbar({ title }: NavbarProps) {
   return (
-    <div className="w-full h-16 flex items-center space-x-4 px-4">
+    <div className="w-full mt-4 ms-2 mb-4 flex items-center space-x-4 px-4">
       <button className="flex-shrink-0">
         <Link href="/">
           <Icon icon="solar:arrow-left-linear" width="26" />
