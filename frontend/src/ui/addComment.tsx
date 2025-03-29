@@ -1,13 +1,14 @@
 'use client';
 
-import { Avatar, Input } from '@nextui-org/react';
+import { Avatar, Input, Image, Button } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import GifPicker from '@/components/GifPicker';
 
 interface AddCommentProps {
-  onSubmit: (value: string) => Promise<void>;
+  onSubmit: (content: string, gifUrl?: string) => Promise<void>;
   placeholder?: string;
 }
 
@@ -18,10 +19,12 @@ export default function AddComment({
   const { user, isLoading } = useAuth();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [content, setContent] = useState('');
+  const [gifUrl, setGifUrl] = useState<string | null>(null);
+  const [isGifPickerOpen, setIsGifPickerOpen] = useState(false);
 
   const handleSubmit = async () => {
-    if (!inputValue.trim()) return;
+    if (!content.trim() && !gifUrl) return;
     if (!user && !isLoading) {
       router.push('/login');
       return;
@@ -29,67 +32,107 @@ export default function AddComment({
 
     try {
       setIsSubmitting(true);
-      await onSubmit(inputValue);
-      setInputValue('');
+      await onSubmit(content, gifUrl || undefined);
+      resetForm();
     } catch (error) {
-      console.error('Error submitting comment:', error);
+      console.error('Error al enviar el comentario:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSubmit();
-    }
+  const handleGifSelect = (url: string) => {
+    setGifUrl(url);
+    setIsGifPickerOpen(false);
+  };
+
+  const removeGif = () => setGifUrl(null);
+
+  const resetForm = () => {
+    setContent('');
+    setGifUrl(null);
   };
 
   return (
-    <div className="fixed left-0 right-0 lg:w-1/3 mx-auto bottom-0 ps-3 pe-3 bg-white dark:bg-[#171717] md:border-r md:border-l transition-transform duration-300">
-      <div className="flex items-center rounded-lg shadow-md px-2 py-3">
-        <Avatar
-          size="sm"
-          className="shadow-lg mr-2"
-          name={user?.name}
-          src={user?.avatar || 'https://i.ibb.co/ZNyjQ2g/favicon.jpg'}
-        />
+    <div className="fixed left-0 right-0 lg:w-1/3 mx-auto ps-3 pe-3 bottom-0 bg-white dark:bg-[#171717] sm:border-s-1 sm:border-e-1">
+      <div className="flex flex-col rounded-lg shadow-md px-2 py-3">
+        <div className="flex items-center w-full">
+          <Avatar
+            size="sm"
+            className="shadow-lg mr-2"
+            name={user?.name}
+            src={user?.avatar || 'https://i.ibb.co/ZNyjQ2g/favicon.jpg'}
+          />
 
-        <Input
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          classNames={{
-            base: 'flex-1 w-full',
-            mainWrapper: 'h-full',
-            input: 'text-small',
-            inputWrapper:
-              'h-full font-normal bg-default-100 hover:bg-default-200',
-          }}
-          placeholder={placeholder}
-          size="sm"
-          onKeyPress={handleKeyPress}
-          isDisabled={isLoading || isSubmitting}
-        />
+          <div className="flex-1">
+            <Input
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              classNames={{
+                base: 'w-full',
+                input: 'text-small',
+                inputWrapper:
+                  'h-full font-normal bg-default-100 hover:bg-default-200',
+              }}
+              placeholder={placeholder}
+              size="sm"
+              isDisabled={isLoading || isSubmitting}
+              onKeyDown={(e) => e.key === 'Enter' && handleSubmit()}
+            />
+          </div>
 
-        <div className="flex space-x-1">
-          <button
-            onClick={handleSubmit}
-            disabled={isSubmitting || !inputValue.trim()}
-            className="focus:outline-none ms-2">
-            <Icon
-              icon="carbon:send"
-              width={24}
-              className={`${isSubmitting ? 'text-default-300' : 'text-default-400 hover:text-default-500'} cursor-pointer`}
-            />
-          </button>
-          <button className="focus:outline-none">
-            <Icon
-              icon="material-symbols:gif-box"
-              width={24}
-              className="text-default-400 hover:text-default-500 cursor-pointer"
-            />
-          </button>
+          <div className="flex space-x-1 ml-2 mt-1">
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting || (!content.trim() && !gifUrl)}
+              className="focus:outline-none">
+              <Icon
+                icon="fluent:send-20-regular"
+                width={24}
+                className={`${isSubmitting ? 'text-default-300' : 'text-default-400 hover:text-default-500'} cursor-pointer`}
+              />
+            </button>
+
+            <button
+              className="focus:outline-none"
+              onClick={() => setIsGifPickerOpen(true)}>
+              <Icon
+                icon={
+                  gifUrl
+                    ? 'solar:sticker-smile-square-bold'
+                    : 'solar:sticker-smile-square-linear'
+                }
+                width={20}
+                className={`${gifUrl ? 'text-gray-500' : 'text-default-400 hover:text-default-500'} cursor-pointer`}
+              />
+            </button>
+          </div>
         </div>
+
+        {gifUrl && (
+          <div className="relative mt-2 ml-10 w-[96px] h-[96px]">
+            <Image
+              src={gifUrl}
+              alt="GIF seleccionado"
+              className="w-full h-full object-cover rounded-md"
+              removeWrapper
+            />
+            <Button
+              isIconOnly
+              size="sm"
+              className="absolute -top-2 -right-10 bg-black/70 rounded-full p-1"
+              onClick={removeGif}>
+              <Icon icon="mdi:close" width={16} className="text-white" />
+            </Button>
+          </div>
+        )}
       </div>
+
+      <GifPicker
+        isOpen={isGifPickerOpen}
+        onClose={() => setIsGifPickerOpen(false)}
+        onSelect={handleGifSelect}
+      />
     </div>
   );
 }

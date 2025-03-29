@@ -82,7 +82,7 @@ export default function Post() {
     }
   };
 
-  const addComment = async (content: string) => {
+  const addComment = async (content: string, gifUrl?: string) => {
     try {
       const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
       if (!postId) return;
@@ -93,7 +93,7 @@ export default function Post() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ comentario: content }),
+        body: JSON.stringify({ comentario: content, gif: gifUrl }),
       });
 
       if (!response.ok) {

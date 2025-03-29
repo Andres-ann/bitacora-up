@@ -67,17 +67,17 @@ export default function Comments({ comentarios }: CommentsProps) {
                   />
                 </div>
                 <p className="text-sm text-gray-500">@{usuario.username}</p>
-                <div className="mt-2">
-                  <p>{comentario.comentario}</p>
-                  {comentario.gif && (
-                    <img
-                      src={comentario.gif}
-                      alt="GIF"
-                      className="mt-2 rounded-lg shadow-md"
-                    />
-                  )}
-                </div>
               </div>
+            </div>
+            <div className="ms-9 mb-4 ps-8 pe-8 border-s-1 border-gray-300/25">
+              <p>{comentario.comentario}</p>
+              {comentario.gif && (
+                <img
+                  src={comentario.gif}
+                  alt="GIF"
+                  className="mt-2 rounded-lg shadow-md"
+                />
+              )}
             </div>
             <Divider />
           </div>
