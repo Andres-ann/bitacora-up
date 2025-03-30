@@ -4,6 +4,7 @@ import { Avatar, Input, Image, Button } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 import { useState } from 'react';
 import GifPicker from '@/components/GifPicker';
+import { useAuth } from '@/context/AuthContext';
 
 interface AddCommentProps {
   onSubmit: (content: string, gifUrl?: string) => Promise<void>;
@@ -16,6 +17,7 @@ export default function AddComment({
   placeholder = 'Responder...',
   onFocus,
 }: AddCommentProps) {
+  const { user } = useAuth(); // Assuming you have a hook to get the authenticated user
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [content, setContent] = useState('');
   const [gifUrl, setGifUrl] = useState<string | null>(null);
@@ -54,7 +56,7 @@ export default function AddComment({
           <Avatar
             size="sm"
             className="shadow-lg mr-2"
-            src="https://i.ibb.co/ZNyjQ2g/favicon.jpg"
+            src={user?.avatar || 'https://i.ibb.co/ZNyjQ2g/favicon.jpg'}
           />
 
           <div className="flex-1">

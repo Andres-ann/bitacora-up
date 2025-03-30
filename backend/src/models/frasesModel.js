@@ -29,6 +29,9 @@ const frasesSchema = new mongoose.Schema(
     autor: {
       type: String,
     },
+    gif: {
+      type: String,
+    },
     likes: {
       type: Number,
       default: 0,

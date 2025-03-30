@@ -15,6 +15,7 @@ export const fraseValidationSchema = Joi.object({
     'string.max': 'Author name cannot exceed 100 characters',
     'any.required': 'The author field is required',
   }),
+  gif: Joi.string().allow(null, ''),
   likes: Joi.number().integer().min(0).default(0),
   visualizaciones: Joi.number().integer().min(0).default(0),
   usuarioId: Joi.string().required().messages({

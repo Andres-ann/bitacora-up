@@ -69,7 +69,7 @@ export default function Comments({ comentarios }: CommentsProps) {
                 <p className="text-sm text-gray-500">@{usuario.username}</p>
               </div>
             </div>
-            <div className="ms-9 mb-4 ps-8 pe-8 border-s-1 border-gray-300/25">
+            <div className="ms-9 mb-4 ps-8 pe-8 border-s-1 border-gray-300/50">
               <p>{comentario.comentario}</p>
               {comentario.gif && (
                 <img

@@ -9,7 +9,6 @@ import { Button } from '@nextui-org/react';
 export default function UserAdd() {
   const { user } = useAuth();
 
-  // Estado local para manejar la carga del botón
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   return (
