@@ -16,6 +16,7 @@ export interface Frase {
   _id: string;
   frase: string;
   autor: string;
+  gif: string;
   likes: number;
   visualizaciones: number;
   comentarios: Comentario[];

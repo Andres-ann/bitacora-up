@@ -35,10 +35,17 @@ export default function PostCard({ frase, onLike }: PostCardProps) {
             />
           </div>
           <p className="text-sm text-gray-500">@{usuario.username}</p>
-          <div className="p-4 mt-4 rounded-md border border-gray-300/70">
+          <div className="p-4 pt-2 mt-2 rounded-md border border-gray-300/70">
             <Link href={`/post/${frase._id}`}>
               <p>{frase.frase}</p>
-              <p className="mt-6 text-gray-500">- {frase.autor}</p>
+              {frase.gif && (
+                <img
+                  src={frase.gif}
+                  alt="GIF"
+                  className="mt-2 rounded-lg shadow-md"
+                />
+              )}
+              <p className="mt-4 text-sm text-gray-500">- {frase.autor}</p>
             </Link>
           </div>
           {/* Botones de interacción */}
