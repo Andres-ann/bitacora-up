@@ -7,12 +7,16 @@ import { Avatar } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
 import { useState } from 'react';
 import GifPicker from '@/components/GifPicker';
+import { useRouter } from 'next/navigation';
 
 export default function Add() {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
+  const router = useRouter();
   const [content, setContent] = useState('');
+  const [autor, setAutor] = useState('');
   const [gifUrl, setGifUrl] = useState<string | null>(null);
   const [isGifPickerOpen, setIsGifPickerOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleGifSelect = (url: string) => {
     setGifUrl(url);
@@ -22,9 +26,35 @@ export default function Add() {
   const removeGif = () => setGifUrl(null);
 
   const handleSubmit = async () => {
-    console.log('Publicando:', { content, gifUrl });
-    setContent('');
-    setGifUrl(null);
+    if ((!content.trim() && !gifUrl) || !autor.trim()) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          frase: content,
+          autor: autor,
+          gif: gifUrl,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Error al publicar');
+      }
+      router.push('/');
+    } catch (error) {
+      console.error('Error al publicar:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -49,7 +79,7 @@ export default function Add() {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             classNames={{
-              input: 'text-xs pb-8',
+              input: 'pb-8',
               base: 'relative',
             }}
             fullWidth
@@ -58,7 +88,8 @@ export default function Add() {
           <div className="absolute bottom-3 right-12 z-10">
             <button
               className="focus:outline-none"
-              onClick={() => setIsGifPickerOpen(true)}>
+              onClick={() => setIsGifPickerOpen(true)}
+              disabled={isSubmitting}>
               <Icon
                 icon={
                   gifUrl
@@ -83,7 +114,8 @@ export default function Add() {
               isIconOnly
               size="sm"
               className="absolute -top-2 -right-10 bg-black/70 rounded-full p-1"
-              onPress={removeGif}>
+              onPress={removeGif}
+              isDisabled={isSubmitting}>
               <Icon icon="mdi:close" width={16} className="text-white" />
             </Button>
           </div>
@@ -92,10 +124,10 @@ export default function Add() {
         <div className="ms-14 mb-4 ps-4 pe-8 mt-4">
           <Input
             placeholder="¿Quién lo dijo?"
-            classNames={{
-              input: 'text-xs',
-            }}
+            value={autor}
+            onChange={(e) => setAutor(e.target.value)}
             fullWidth
+            isDisabled={isSubmitting}
           />
         </div>
       </div>
@@ -105,9 +137,12 @@ export default function Add() {
           <Button
             radius="full"
             onPress={handleSubmit}
-            isDisabled={!content.trim() && !gifUrl}
+            isDisabled={
+              (!content.trim() && !gifUrl) || !autor.trim() || isSubmitting
+            }
+            isLoading={isSubmitting}
             className="text-sm bg-black text-white dark:bg-white dark:text-black ps-8 pe-8 mb-4 me-4">
-            Publicar
+            {isSubmitting ? 'Publicando...' : 'Publicar'}
           </Button>
         </div>
       </div>
