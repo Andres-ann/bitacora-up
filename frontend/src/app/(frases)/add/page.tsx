@@ -106,7 +106,7 @@ export default function Add() {
             radius="full"
             onPress={handleSubmit}
             isDisabled={!content.trim() && !gifUrl}
-            className="text-sm bg-black text-white dark:bg-white dark:text-black mb-4 me-4">
+            className="text-sm bg-black text-white dark:bg-white dark:text-black ps-8 pe-8 mb-4 me-4">
             Publicar
           </Button>
         </div>
