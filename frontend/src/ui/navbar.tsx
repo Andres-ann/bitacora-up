@@ -19,10 +19,10 @@ export default function Navbar() {
         </button>
       </Link>
 
-      {/* Random */}
-      <Link href="/random">
-        <button className={`${isActive('/random')} hover:text-foreground`}>
-          <Icon icon="gg:pill" width="24" />
+      {/* Search */}
+      <Link href="/search">
+        <button className={`${isActive('/search')} hover:text-foreground`}>
+          <Icon icon="iconamoon:search-bold" width="24" />
         </button>
       </Link>
 
@@ -33,10 +33,10 @@ export default function Navbar() {
         </button>
       </Link>
 
-      {/* Search */}
-      <Link href="/search">
-        <button className={`${isActive('/search')} hover:text-foreground`}>
-          <Icon icon="iconamoon:search-bold" width="24" />
+      {/* Random */}
+      <Link href="/random">
+        <button className={`${isActive('/random')} hover:text-foreground`}>
+          <Icon icon="gg:pill" width="24" />
         </button>
       </Link>
 
