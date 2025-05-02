@@ -7,7 +7,7 @@ const secret = process.env.JWT_SECRET || 'your-secret-key';
 export async function GET(request: Request) {
   try {
     const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
+    const token = cookieStore.get('authToken')?.value;
 
     if (!token) {
       return NextResponse.json(

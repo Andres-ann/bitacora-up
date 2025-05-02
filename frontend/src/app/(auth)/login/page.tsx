@@ -111,20 +111,14 @@ export default function Login() {
     setLoginError('');
 
     try {
-      const res = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const result = await login(formData);
 
-      if (res.ok) {
-        const data = await res.json();
-        await login(data.token);
+      if (result.success) {
         router.push('/');
       } else {
-        setLoginError('Nombre de usuario o contraseña incorrectos');
+        setLoginError(
+          result.error || 'Nombre de usuario o contraseña incorrectos'
+        );
       }
     } catch (error) {
       console.error('Error al iniciar sesión:', error);

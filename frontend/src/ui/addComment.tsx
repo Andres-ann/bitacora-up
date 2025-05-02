@@ -17,7 +17,7 @@ export default function AddComment({
   placeholder = 'Responder...',
   onFocus,
 }: AddCommentProps) {
-  const { user } = useAuth(); // Assuming you have a hook to get the authenticated user
+  const { user } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [content, setContent] = useState('');
   const [gifUrl, setGifUrl] = useState<string | null>(null);

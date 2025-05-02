@@ -5,7 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import AvatarImg from '@/ui/avatar';
 
 const EditarAvatar = () => {
-  const { user, token, updateUser } = useAuth();
+  const { user, updateUser } = useAuth();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -22,7 +22,7 @@ const EditarAvatar = () => {
 
   // Maneja el guardado de la imagen
   const handleSave = async (file: File) => {
-    if (!file || !user?.id || !token) {
+    if (!file || !user?.id) {
       console.error('Faltan datos: archivo, usuario o token.');
       return;
     }
@@ -36,9 +36,6 @@ const EditarAvatar = () => {
         method: 'PUT',
         body: formData,
         credentials: 'include',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       if (!response.ok) {

@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
@@ -5,6 +6,8 @@ export async function POST(request: NextRequest) {
   try {
     const url = new URL(request.nextUrl);
     const id = url.pathname.split('/').slice(-2, -1)[0];
+    const cookieStore = await cookies();
+    const token = cookieStore.get('authToken')?.value;
 
     if (!id) {
       return NextResponse.json(
@@ -13,7 +16,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const authHeader = request.headers.get('authorization');
     const body = await request.json();
     const { comentario, gif } = body;
 
@@ -30,8 +32,9 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: authHeader || '',
+        Authorization: `Bearer ${token}`,
       },
+      credentials: 'include',
       body: JSON.stringify(body),
     });
 

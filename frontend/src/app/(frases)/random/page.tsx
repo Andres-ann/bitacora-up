@@ -5,7 +5,7 @@ import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
 import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
-import AddComment from '@/ui/addComment';
+
 import Navbar from '@/ui/navbar';
 import { Frase } from '@/types';
 

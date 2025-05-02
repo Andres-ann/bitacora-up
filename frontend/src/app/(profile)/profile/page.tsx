@@ -2,7 +2,6 @@
 
 import Header from '@/ui/header';
 import Navbar from '@/ui/navbar';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Divider, Input } from '@nextui-org/react';
 import { Icon } from '@iconify-icon/react';
@@ -13,12 +12,12 @@ import EditarAvatar from '@/components/EditarAvatar';
 import { useEffect } from 'react';
 
 export default function Profile() {
-  const { user, isLoading, logout } = useAuth();
+  const { user, logout, isLoading } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const router = useRouter();
 
   const handleLogout = async () => {
-    await logout();
+    const res = await logout();
     router.push('/login');
   };
 

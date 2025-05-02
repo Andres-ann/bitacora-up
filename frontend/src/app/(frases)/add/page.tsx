@@ -10,7 +10,7 @@ import GifPicker from '@/components/GifPicker';
 import { useRouter } from 'next/navigation';
 
 export default function Add() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const [content, setContent] = useState('');
   const [autor, setAutor] = useState('');
@@ -33,10 +33,7 @@ export default function Add() {
     try {
       const response = await fetch('/api/posts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
         body: JSON.stringify({
           frase: content,
           autor: autor,

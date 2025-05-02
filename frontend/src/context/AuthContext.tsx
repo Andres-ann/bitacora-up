@@ -7,30 +7,11 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const fetchToken = async () => {
-    try {
-      const res = await fetch('/api/token', {
-        method: 'GET',
-        credentials: 'include',
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        setToken(data.token);
-      }
-    } catch (error) {
-      console.error('Error al obtener el token:', error);
-      setToken(null);
-    }
-  };
 
   const fetchProfile = async () => {
     try {
       setIsLoading(true);
-
       const res = await fetch('/api/profile', {
         method: 'GET',
         credentials: 'include',
@@ -40,33 +21,60 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const data = await res.json();
         setUser(data.user);
       } else {
-        console.error('Error al obtener el perfil:', res.statusText);
         setUser(null);
       }
     } catch (error) {
-      console.error('Error al obtener el perfil:', error);
+      console.error('Error fetching profile:', error);
       setUser(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const login = async (newToken: string) => {
-    setToken(newToken);
-    await fetchProfile();
+  const login = async (body: { username: string; password: string }) => {
+    try {
+      setIsLoading(true);
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+        await fetchProfile();
+        return { success: true };
+      } else {
+        const errorData = await res.json();
+        return {
+          success: false,
+          error: 'Nombre de usuario o contraseña incorrectos',
+        };
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      return {
+        success: false,
+        error: 'Hubo un problema al intentar iniciar sesión',
+      };
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const logout = async () => {
     try {
       await fetch('/api/logout', {
         method: 'POST',
+        credentials: 'include',
       });
-
       setUser(null);
-      setToken(null);
       window.location.href = '/login';
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error('Error logging out:', error);
     }
   };
 
@@ -75,16 +83,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    fetchToken().then(() => {
-      if (token) {
-        fetchProfile();
+    const initializeAuth = async () => {
+      try {
+        await fetchProfile();
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+      } finally {
+        setIsLoading(false);
       }
-    });
-  }, [token]);
+    };
+
+    initializeAuth();
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ user, token, isLoading, login, logout, updateUser }}>
+      value={{
+        user,
+        isLoading,
+        login,
+        logout,
+        updateUser,
+      }}>
       {children}
     </AuthContext.Provider>
   );
@@ -93,7 +113,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth debe usarse dentro de un AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

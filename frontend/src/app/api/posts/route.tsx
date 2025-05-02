@@ -1,3 +1,4 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 const baseUrl = `${process.env.API_URL}/frases`;
@@ -64,7 +65,8 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const token = request.headers.get('Authorization')?.replace('Bearer ', '');
+    const cookieStore = await cookies();
+    const token = cookieStore.get('authToken')?.value;
 
     if (!token) {
       return NextResponse.json(

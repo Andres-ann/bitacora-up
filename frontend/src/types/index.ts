@@ -39,9 +39,11 @@ export interface UserProfile {
 
 export interface AuthContextType {
   user: UserProfile | null;
-  token: string | null;
-  login: (token: string) => Promise<void>;
-  logout: () => void;
   isLoading: boolean;
+  login: (credentials: { username: string; password: string }) => Promise<{
+    success: boolean;
+    error?: string;
+  }>;
+  logout: () => Promise<void>;
   updateUser: (updatedUser: UserProfile | null) => void;
 }

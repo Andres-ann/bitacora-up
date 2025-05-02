@@ -12,12 +12,12 @@ import { Frase } from '@/types';
 import { useAuth } from '@/context/AuthContext';
 
 export default function Post() {
-  const router = useRouter(); // Obtén el router
+  const router = useRouter();
   const params = useParams();
   const [frase, setFrase] = useState<Frase | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { token, user } = useAuth();
+  const { user } = useAuth();
 
   const fetchFrase = async () => {
     try {
@@ -31,7 +31,6 @@ export default function Post() {
       if (!response.ok) throw new Error('Error al obtener la frase');
 
       const data = await response.json();
-
       setFrase(data.docs);
       await addView(postId);
     } catch (error) {
@@ -46,7 +45,7 @@ export default function Post() {
     try {
       const response = await fetch(`/api/${id}/addview`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Envía cookies
       });
 
       if (!response.ok) {
@@ -68,7 +67,7 @@ export default function Post() {
     try {
       const response = await fetch('/api/addlike', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Envía cookies
         body: JSON.stringify({ id }),
       });
 
@@ -103,9 +102,9 @@ export default function Post() {
 
       const response = await fetch(`/api/${postId}/addcomment`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ comentario: content, gif: gifUrl }),
       });
@@ -163,7 +162,7 @@ export default function Post() {
       </div>
       <AddComment
         onSubmit={addComment}
-        onFocus={handleAddCommentFocus} // Pasa el manejador de clic
+        onFocus={handleAddCommentFocus}
         placeholder="Responder..."
       />
     </div>
