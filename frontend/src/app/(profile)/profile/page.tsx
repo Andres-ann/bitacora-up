@@ -1,15 +1,18 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+import Image from 'next/image';
+import { useAuth } from '@/context/AuthContext';
+import { useTheme } from '@/components/ThemeProvider';
+import EditarAvatar from '@/components/EditarAvatar';
+
 import Header from '@/ui/header';
 import Navbar from '@/ui/navbar';
-import Image from 'next/image';
-import { Divider, Input } from '@nextui-org/react';
+
 import { Icon } from '@iconify-icon/react';
-import { useTheme } from '@/components/ThemeProvider';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
-import EditarAvatar from '@/components/EditarAvatar';
-import { useEffect } from 'react';
+import { Divider, Input } from '@nextui-org/react';
 
 export default function Profile() {
   const { user, logout, isLoading } = useAuth();

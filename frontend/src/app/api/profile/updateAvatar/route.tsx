@@ -51,8 +51,8 @@ export async function PUT(request: Request) {
     const backendFormData = new FormData();
     backendFormData.append('avatar', file, 'avatar');
 
-    const backendUrl = `${process.env.API_URL}/profile/updateAvatar/${userId}`;
-    const response = await fetch(backendUrl, {
+    const apiUrl = `${process.env.API_URL}/profile/updateAvatar/${userId}`;
+    const response = await fetch(apiUrl, {
       method: 'POST',
       body: backendFormData,
       headers: {

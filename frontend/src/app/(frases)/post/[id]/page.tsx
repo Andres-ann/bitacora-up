@@ -1,15 +1,17 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+
+import { useAuth } from '@/context/AuthContext';
+import { Frase } from '@/types/posts';
+
+import { Divider } from '@nextui-org/react';
+
 import Header from '@/ui/header';
 import PostCard from '@/ui/postCard';
 import Comments from '@/ui/comments';
-import { Divider } from '@nextui-org/react';
 import AddComment from '@/ui/addComment';
-import { useParams } from 'next/navigation';
-import { Frase } from '@/types';
-import { useAuth } from '@/context/AuthContext';
 
 export default function Post() {
   const router = useRouter();
@@ -45,7 +47,7 @@ export default function Post() {
     try {
       const response = await fetch(`/api/${id}/addview`, {
         method: 'POST',
-        credentials: 'include', // Envía cookies
+        credentials: 'include',
       });
 
       if (!response.ok) {
@@ -67,7 +69,7 @@ export default function Post() {
     try {
       const response = await fetch('/api/addlike', {
         method: 'POST',
-        credentials: 'include', // Envía cookies
+        credentials: 'include',
         body: JSON.stringify({ id }),
       });
 

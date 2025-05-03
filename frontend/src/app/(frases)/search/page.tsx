@@ -4,9 +4,10 @@ import { useState } from 'react';
 import Header from '@/ui/header';
 import Search from '@/ui/search';
 import Navbar from '@/ui/navbar';
-import { Divider } from '@nextui-org/react';
 import PostCard from '@/ui/postCard';
-import { Frase } from '@/types';
+
+import { Frase } from '@/types/posts';
+import { Divider } from '@nextui-org/react';
 
 export default function SearchPage() {
   const [searchResults, setSearchResults] = useState<Frase[]>([]);

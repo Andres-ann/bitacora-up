@@ -1,11 +1,11 @@
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-const baseUrl = `${process.env.API_URL}/frases`;
+const apiUrl = `${process.env.API_URL}/frases`;
 
 export async function GET(request: NextRequest) {
   try {
-    if (!baseUrl) {
+    if (!apiUrl) {
       return NextResponse.json(
         { error: 'API URL not defined' },
         { status: 500 }
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const page = searchParams.get('page') || '1';
     const limit = searchParams.get('limit') || '25';
 
-    const url = new URL(baseUrl);
+    const url = new URL(apiUrl);
     url.searchParams.append('page', page);
     url.searchParams.append('limit', limit);
 
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: Request) {
   try {
-    if (!baseUrl) {
+    if (!apiUrl) {
       return NextResponse.json(
         { error: 'API URL not defined' },
         { status: 500 }
@@ -75,7 +75,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const res = await fetch(baseUrl, {
+    const res = await fetch(apiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

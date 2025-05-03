@@ -1,13 +1,14 @@
 'use client';
 
-import Header from '@/ui/header';
-import { useAuth } from '@/context/AuthContext';
-import { Divider, Input, Button, Textarea } from '@nextui-org/react';
-import { Avatar } from '@nextui-org/react';
-import { Icon } from '@iconify-icon/react';
 import { useState } from 'react';
-import GifPicker from '@/components/GifPicker';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+
+import { Icon } from '@iconify-icon/react';
+import { Avatar, Divider, Input, Button, Textarea } from '@nextui-org/react';
+
+import Header from '@/ui/header';
+import GifPicker from '@/components/GifPicker';
 
 export default function Add() {
   const { user } = useAuth();

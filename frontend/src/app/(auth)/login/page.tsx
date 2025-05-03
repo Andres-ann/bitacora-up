@@ -1,20 +1,13 @@
 'use client';
 
 import Logo from '@/ui/logo';
-import { Input, Button } from '@nextui-org/react';
 import React, { useState, useEffect } from 'react';
-import { Icon } from '@iconify-icon/react';
-import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
+import { PasswordInputProps } from '@/types/auth';
 
-type PasswordInputProps = {
-  label: string;
-  placeholder?: string;
-  isRequired?: boolean;
-  name: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  error?: string;
-};
+import { Icon } from '@iconify-icon/react';
+import { Input, Button } from '@nextui-org/react';
 
 function PasswordInput({
   label,

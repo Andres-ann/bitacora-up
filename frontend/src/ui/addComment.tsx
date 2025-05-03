@@ -1,16 +1,14 @@
 'use client';
 
-import { Avatar, Input, Image, Button } from '@nextui-org/react';
-import { Icon } from '@iconify-icon/react';
 import { useState } from 'react';
-import GifPicker from '@/components/GifPicker';
+
 import { useAuth } from '@/context/AuthContext';
 
-interface AddCommentProps {
-  onSubmit: (content: string, gifUrl?: string) => Promise<void>;
-  placeholder?: string;
-  onFocus?: () => void;
-}
+import { Icon } from '@iconify-icon/react';
+import { AddCommentProps } from '@/types/posts';
+import { Avatar, Input, Image, Button } from '@nextui-org/react';
+
+import GifPicker from '@/components/GifPicker';
 
 export default function AddComment({
   onSubmit,

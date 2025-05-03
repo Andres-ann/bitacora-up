@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Header from '@/ui/header';
-import PostCard from '@/ui/postCard';
-import Comments from '@/ui/comments';
 import { Divider } from '@nextui-org/react';
 
+import { Frase } from '@/types/posts';
+
+import Header from '@/ui/header';
 import Navbar from '@/ui/navbar';
-import { Frase } from '@/types';
+import PostCard from '@/ui/postCard';
+import Comments from '@/ui/comments';
 
 export default function Random() {
   const [frase, setFrase] = useState<Frase | null>(null);

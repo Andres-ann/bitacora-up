@@ -1,17 +1,17 @@
 import { NextResponse } from 'next/server';
 
-const baseUrl = `${process.env.API_URL}/random`;
+const apiUrl = `${process.env.API_URL}/random`;
 
 export async function GET() {
   try {
-    if (!baseUrl) {
+    if (!apiUrl) {
       return NextResponse.json(
         { error: 'API URL not defined' },
         { status: 500 }
       );
     }
 
-    const res = await fetch(baseUrl, {
+    const res = await fetch(apiUrl, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',

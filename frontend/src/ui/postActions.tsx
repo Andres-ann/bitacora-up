@@ -1,16 +1,9 @@
 'use client';
 
-import { Icon } from '@iconify-icon/react';
 import Link from 'next/link';
 import { useState } from 'react';
-
-interface TweetActionsProps {
-  likes: number;
-  comments: number;
-  views: number;
-  id: string;
-  onLike: (id: string) => void;
-}
+import { PostActionsProps } from '@/types/posts';
+import { Icon } from '@iconify-icon/react';
 
 export default function PostActions({
   likes = 0,
@@ -18,7 +11,7 @@ export default function PostActions({
   views = 0,
   id,
   onLike,
-}: TweetActionsProps) {
+}: PostActionsProps) {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleLike = () => {

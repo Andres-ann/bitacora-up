@@ -9,7 +9,6 @@ const EditarAvatar = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Maneja la selección de archivo
   const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -20,7 +19,6 @@ const EditarAvatar = () => {
     }
   };
 
-  // Maneja el guardado de la imagen
   const handleSave = async (file: File) => {
     if (!file || !user?.id) {
       console.error('Faltan datos: archivo, usuario o token.');

@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+
 import Logo from '@/ui/logo';
+import Navbar from '@/ui/navbar';
 import UserAdd from '@/ui/userAdd';
 import PostCard from '@/ui/postCard';
-import Navbar from '@/ui/navbar';
-import { Divider } from '@nextui-org/react';
-import { Frase } from '@/types';
 
+import { Frase } from '@/types/posts';
+import { Divider } from '@nextui-org/react';
 interface PaginatedResponse {
   docs: Frase[];
   hasNextPage: boolean;

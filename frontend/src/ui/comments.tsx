@@ -1,25 +1,12 @@
 'use client';
 
 import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
-import { Divider } from '@nextui-org/divider';
 import { Avatar } from '@nextui-org/react';
-
-interface CommentsProps {
-  comentarios: Array<{
-    _id: string;
-    comentario: string;
-    gif?: string;
-    usuarioId: {
-      name?: string;
-      username?: string;
-      avatar?: string;
-    };
-    createdAt: string;
-  }>;
-}
+import { Divider } from '@nextui-org/divider';
+import { CommentsProps } from '@/types/posts';
 
 export default function Comments({ comentarios }: CommentsProps) {
-  const usuarioDefault = {
+  const baseuser = {
     name: 'Bitacora UP',
     username: 'bitacoraup',
     avatar: 'https://i.ibb.co/ZNyjQ2g/favicon.jpg',
@@ -46,7 +33,7 @@ export default function Comments({ comentarios }: CommentsProps) {
       </div>
       <Divider />
       {comentarios.map((comentario) => {
-        const usuario = { ...usuarioDefault, ...comentario.usuarioId };
+        const usuario = { ...baseuser, ...comentario.usuarioId };
         return (
           <div key={comentario._id}>
             <div className="flex items-start space-x-4 p-4">

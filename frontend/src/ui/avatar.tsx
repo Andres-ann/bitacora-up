@@ -2,11 +2,7 @@
 
 import { Avatar } from '@nextui-org/avatar';
 import { Spinner } from '@nextui-org/spinner';
-
-type AvatarImgProps = {
-  src: string;
-  isLoading?: boolean;
-};
+import { AvatarImgProps } from '@/types/layout';
 
 export default function AvatarImg({ src, isLoading = false }: AvatarImgProps) {
   return (

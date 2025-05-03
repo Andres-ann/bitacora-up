@@ -24,7 +24,6 @@ export async function POST(request: Request) {
 
     const data = await response.json();
 
-    // Si la respuesta no es exitosa, devolvemos el error
     if (!response.ok) {
       return NextResponse.json(
         { error: data.error || 'El nombre de usuario no está disponible' },
@@ -32,7 +31,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Si todo está bien, devolvemos la respuesta exitosa
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error('Error checking username:', error);

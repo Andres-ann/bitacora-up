@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-const baseUrl = `${process.env.API_URL}/frases`;
+const apiUrl = `${process.env.API_URL}/frases`;
 
 export async function GET(
   request: Request,
@@ -9,7 +9,7 @@ export async function GET(
   const { id } = await params;
 
   try {
-    const res = await fetch(`${baseUrl}/${id}`, {
+    const res = await fetch(`${apiUrl}/${id}`, {
       cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',

@@ -4,8 +4,6 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('authToken')?.value;
 
-  console.log('Token:', token);  // Debugging line to check the token value
-
   const protectedPaths = ['/add', '/profile'];
   const isProtectedPath = protectedPaths.some(path => request.nextUrl.pathname.startsWith(path));
 

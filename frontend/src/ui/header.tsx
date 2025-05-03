@@ -1,11 +1,8 @@
 'use client';
 
-import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 import Link from 'next/link';
-
-interface NavbarProps {
-  title: string;
-}
+import { NavbarProps } from '@/types/layout';
+import { Icon } from '@iconify-icon/react/dist/iconify.mjs';
 
 export default function Navbar({ title }: NavbarProps) {
   return (

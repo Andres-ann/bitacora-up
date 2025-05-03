@@ -1,8 +1,8 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import { Avatar } from '@nextui-org/react';
-import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@nextui-org/react';
 
