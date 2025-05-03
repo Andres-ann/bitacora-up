@@ -57,11 +57,16 @@ export default function Post() {
       }
 
       const data = await response.json();
-      if (data.frase) {
-        setFrase(data.frase);
-      }
+      setFrase((prev) =>
+        prev
+          ? {
+              ...prev,
+              visualizaciones: data.views || data.frase?.visualizaciones,
+            }
+          : null
+      );
     } catch (error) {
-      console.error('Error adding view:', error);
+      console.error('Error registrando visualización:', error);
     }
   };
 
