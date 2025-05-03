@@ -163,27 +163,22 @@ export const addView = async (req, res) => {
   try {
     const { id } = req.params;
 
-    await frasesModel.findByIdAndUpdate(id, { $inc: { visualizaciones: 1 } });
+    const result = await frasesModel.findByIdAndUpdate(
+      id,
+      { $inc: { visualizaciones: 1 } },
+      { new: true, select: 'visualizaciones' }
+    );
 
-    const updatedFrase = await frasesModel
-      .findById(id)
-      .populate('usuarioId', 'name username avatar')
-      .populate({
-        path: 'comentarios',
-        populate: {
-          path: 'usuarioId',
-          select: 'name username avatar',
-        },
-      });
-
-    if (!updatedFrase) {
+    if (!result) {
       return res.status(404).json({ error: 'Frase not found' });
     }
 
-    res
-      .status(200)
-      .json({ message: 'View added successfully', frase: updatedFrase });
+    res.status(200).json({
+      success: true,
+      views: result.visualizaciones,
+    });
   } catch (error) {
+    console.error('Error in addView:', error);
     res.status(500).json({ error: 'An error occurred while adding the view' });
   }
 };
