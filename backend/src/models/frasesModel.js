@@ -17,19 +17,20 @@ const comentariosSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
-  { _id: false }
+    _id: true,
+  }
 );
 
 const frasesSchema = new mongoose.Schema(
   {
     frase: {
       type: String,
-      required: [true, 'please complete this field'],
     },
     autor: {
       type: String,
-      required: [true, 'please complete this field'],
+    },
+    gif: {
+      type: String,
     },
     likes: {
       type: Number,

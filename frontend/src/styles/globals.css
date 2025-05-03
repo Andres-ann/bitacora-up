@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff; /* Fondo en modo claro */
+  --foreground: #171717; /* Texto en modo claro */
+}
+
+.dark {
+  --background: #171717; /* Fondo en modo oscuro */
+  --foreground: #ffffff; /* Texto en modo oscuro */
+}
+
+body {
+  @apply bg-background text-foreground;
+}

@@ -8,6 +8,10 @@ export const getAllFrases = async (req, res) => {
       page: parseInt(page, 10),
       limit: parseInt(limit, 10),
       sort: { createdAt: -1 },
+      populate: {
+        path: 'usuarioId',
+        select: 'name username avatar',
+      },
     };
 
     const frases = await frasesModel.paginate({}, options);
@@ -21,9 +25,19 @@ export const getAllFrases = async (req, res) => {
 export const getFrase = async (req, res) => {
   try {
     const { id } = req.params;
-    const frase = await frasesModel.findById(id);
+    const frase = await frasesModel
+      .findById(id)
+      .populate('usuarioId', 'name username avatar')
+      .populate({
+        path: 'comentarios',
+        populate: {
+          path: 'usuarioId',
+          select: 'name username avatar',
+        },
+      });
+
     if (!frase) {
-      return res.status(404).json(`Item with ID: ${id} not found`);
+      return res.status(404).json(`Frase with ID: ${id} not found`);
     }
     res.status(200).json(frase);
   } catch (error) {
@@ -44,7 +58,7 @@ export const createFrase = async (req, res) => {
     const nuevaFrase = await frasesModel.create(validatedData);
 
     res.status(201).json({
-      message: 'Frase creada exitosamente',
+      message: 'Frase created successfully',
       frase: nuevaFrase,
     });
   } catch (error) {
@@ -106,7 +120,7 @@ export const deleteFrase = async (req, res) => {
     const frase = await frasesModel.findById(id);
 
     if (!frase) {
-      return res.status(404).json({ error: 'Object not found' });
+      return res.status(404).json({ error: 'Frase not found' });
     }
 
     if (frase.usuarioId.toString() !== userIdFromToken) {
@@ -123,51 +137,104 @@ export const deleteFrase = async (req, res) => {
   }
 };
 
+export const addLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedFrase = await frasesModel.findByIdAndUpdate(
+      id,
+      { $inc: { likes: 1 } },
+      { new: true }
+    );
+
+    if (!updatedFrase) {
+      return res.status(404).json({ error: 'Frase not found' });
+    }
+
+    res
+      .status(200)
+      .json({ message: 'Like added successfully', frase: updatedFrase });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while adding the like' });
+  }
+};
+
+export const addView = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await frasesModel.findByIdAndUpdate(
+      id,
+      { $inc: { visualizaciones: 1 } },
+      { new: true, select: 'visualizaciones' }
+    );
+
+    if (!result) {
+      return res.status(404).json({ error: 'Frase not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      views: result.visualizaciones,
+    });
+  } catch (error) {
+    console.error('Error in addView:', error);
+    res.status(500).json({ error: 'An error occurred while adding the view' });
+  }
+};
+
 export const addComentario = async (req, res) => {
   const { id } = req.params;
   const { comentario, gif } = req.body;
+  const userId = req.user?.id;
 
   try {
-    const validatedData = await comentarioValidationSchema.validateAsync(
-      { comentario, gif },
-      { abortEarly: false }
-    );
+    if (!comentario && !gif) {
+      return res.status(400).json({
+        error: 'Either comment or gif must be provided',
+      });
+    }
 
-    const frase = await frasesModel.findById(id);
+    const frase = await frasesModel.findById(id).populate({
+      path: 'comentarios.usuarioId',
+      select: 'name username avatar',
+    });
 
     if (!frase) {
-      return res.status(404).json({ message: 'Frase not found' });
+      return res.status(404).json({ error: 'Frase not found' });
     }
 
     const nuevoComentario = {
-      comentario: validatedData.comentario,
-      usuarioId: req.user.id,
-      gif: validatedData.gif,
+      comentario: comentario || null,
+      usuarioId: userId,
+      gif: gif || null,
       createdAt: new Date(),
     };
 
     frase.comentarios.push(nuevoComentario);
     await frase.save();
 
+    const fraseActualizada = await frasesModel.findById(id).populate({
+      path: 'comentarios.usuarioId',
+      select: 'name username avatar',
+    });
+
     res.status(201).json({
-      message: 'Comment added successfully',
-      comentario: nuevoComentario,
+      mensaje: 'Comment added successfully',
+      comentarios: fraseActualizada.comentarios,
     });
   } catch (error) {
-    if (error.isJoi) {
-      return res
-        .status(400)
-        .json({ errors: error.details.map((detail) => detail.message) });
-    }
-    res
-      .status(500)
-      .json({ message: 'An error occurred while adding the comment.' });
+    console.error('Error adding comment:', error);
+    res.status(500).json({
+      error: 'Server error adding comment',
+      detalles: error.message,
+    });
   }
 };
 
 export const updateComentario = async (req, res) => {
   try {
-    const { fraseId, comentarioId } = req.params;
+    const { fraseId, commentId } = req.params;
     const { comentario, gif } = req.body;
     const userIdFromToken = req.user.id;
 
@@ -177,7 +244,7 @@ export const updateComentario = async (req, res) => {
       return res.status(404).json({ error: 'Frase not found' });
     }
 
-    const comentarioToUpdate = frase.comentarios.id(comentarioId);
+    const comentarioToUpdate = frase.comentarios.id(commentId);
 
     if (!comentarioToUpdate) {
       return res.status(404).json({ error: 'Comment not found' });
@@ -217,7 +284,7 @@ export const updateComentario = async (req, res) => {
 
 export const deleteComentario = async (req, res) => {
   try {
-    const { fraseId, comentarioId } = req.params;
+    const { fraseId, commentId } = req.params;
     const userIdFromToken = req.user.id;
 
     const frase = await frasesModel.findById(fraseId);
@@ -227,7 +294,7 @@ export const deleteComentario = async (req, res) => {
     }
 
     const comentarioToDelete = frase.comentarios.find(
-      (comentario) => comentario._id.toString() === comentarioId
+      (comentario) => comentario._id.toString() === commentId
     );
 
     if (!comentarioToDelete) {
@@ -239,7 +306,7 @@ export const deleteComentario = async (req, res) => {
     }
 
     frase.comentarios = frase.comentarios.filter(
-      (comentario) => comentario._id.toString() !== comentarioId
+      (comentario) => comentario._id.toString() !== commentId
     );
 
     await frase.save();
