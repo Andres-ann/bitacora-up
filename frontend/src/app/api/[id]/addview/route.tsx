@@ -1,15 +1,8 @@
 import { NextResponse } from 'next/server';
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export async function POST(request: Request, { params }: Props) {
+export async function POST(request: Request, { params }: { params: { id: string } }) {
   try {
-    const routeParams = await params;
-    const id = routeParams.id;
+    const id = params.id;
 
     if (!id) {
       return NextResponse.json(
