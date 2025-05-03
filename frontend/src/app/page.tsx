@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
-
 import Logo from '@/ui/logo';
 import Navbar from '@/ui/navbar';
 import UserAdd from '@/ui/userAdd';
@@ -9,6 +8,7 @@ import PostCard from '@/ui/postCard';
 
 import { Frase } from '@/types/posts';
 import { Divider } from '@nextui-org/react';
+
 interface PaginatedResponse {
   docs: Frase[];
   hasNextPage: boolean;
@@ -17,23 +17,20 @@ interface PaginatedResponse {
 
 export default function Home() {
   const [frases, setFrases] = useState<Frase[]>([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const fetchFrases = async (pageNum: number) => {
+  const fetchFrases = useCallback(async () => {
+    if (isLoading || !hasMore) return;
+
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/posts?page=${pageNum}`);
+      const response = await fetch(`/api/posts?page=${page + 1}`);
       if (!response.ok) throw new Error('Failed to fetch frases');
       const data: PaginatedResponse = await response.json();
-
-      if (data.docs.length === 0) {
-        setHasMore(false);
-        return;
-      }
 
       setFrases((prevFrases) => {
         const existingIds = new Set(prevFrases.map((f) => f._id));
@@ -44,44 +41,34 @@ export default function Home() {
       });
 
       setHasMore(data.hasNextPage);
+      setPage(data.page);
     } catch (error) {
       console.error('Error fetching frases:', error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isLoading, hasMore, page]);
 
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries;
-      if (target.isIntersecting && hasMore && !isLoading) {
-        setPage((prev) => prev + 1);
+      if (target.isIntersecting) {
+        fetchFrases();
       }
     },
-    [hasMore, isLoading]
+    [fetchFrases]
   );
-
-  useEffect(() => {
-    fetchFrases(page);
-  }, []);
-
-  useEffect(() => {
-    if (page > 1) {
-      fetchFrases(page);
-    }
-  }, [page]);
 
   useEffect(() => {
     const element = observerRef.current;
     if (!element) return;
 
-    const option = {
+    const observer = new IntersectionObserver(handleObserver, {
       root: null,
       rootMargin: '20px',
-      threshold: 0,
-    };
+      threshold: 0.5,
+    });
 
-    const observer = new IntersectionObserver(handleObserver, option);
     observer.observe(element);
 
     return () => observer.disconnect();
@@ -117,7 +104,6 @@ export default function Home() {
           <PostCard key={frase._id} frase={frase} onLike={handleLike} />
         ))}
 
-        {/* Elemento observador */}
         <div
           ref={observerRef}
           className="w-full h-10 flex items-center justify-center">
