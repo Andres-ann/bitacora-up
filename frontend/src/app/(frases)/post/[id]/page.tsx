@@ -29,7 +29,7 @@ export default function Post() {
       const postId = Array.isArray(params?.id) ? params.id[0] : params.id;
       if (!postId) return;
 
-      const response = await fetch(`http://localhost:3000/api/posts/${postId}`);
+      const response = await fetch(`/api/posts/${postId}`);
       if (!response.ok) throw new Error('Error al obtener la frase');
 
       const data = await response.json();
