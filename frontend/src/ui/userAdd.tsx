@@ -12,7 +12,7 @@ export default function UserAdd() {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   return (
-    <div className="flex items-center justify-between p-4">
+    <div className="flex items-center justify-between m-4">
       {user ? (
         <Link href="/add" className="w-full">
           <div className="flex items-center space-x-4">
@@ -25,15 +25,15 @@ export default function UserAdd() {
         </Link>
       ) : (
         <div className="w-full">
-          <Link href="/login" className="w-full">
-            <Button
-              className="w-full bg-black text-white dark:bg-white dark:text-black rounded-lg"
-              size="sm"
-              color="primary"
-              isLoading={isButtonLoading}>
-              Iniciar sesión
-            </Button>
-          </Link>
+          <Button
+            className="w-full bg-black text-white dark:bg-white dark:text-black rounded-lg"
+            as={Link}
+            href="/login"
+            size="sm"
+            color="primary"
+            isLoading={isButtonLoading}>
+            Iniciar sesión
+          </Button>
         </div>
       )}
     </div>
