@@ -274,21 +274,23 @@ export default function Register() {
           error={errors.confirmPassword}
         />
 
-        <div className="fixed bottom-0 left-0 right-0 pb-24">
-          <div className="text-center text-sm font-semibold pb-4">
-            <a href="/login" className="hover:underline">
-              Ya tengo una cuenta!
-            </a>
-          </div>
-          <div className="flex justify-center">
-            <Button
-              className="w-full max-w-lg m-4 bg-black text-white dark:bg-white dark:text-black rounded-lg"
-              size="lg"
-              color="primary"
-              type="submit"
-              disabled={!isFormValid || isCheckingUsername}>
-              Crear cuenta
-            </Button>
+        <div className="fixed bottom-0 left-0 right-0 pb-4 lg:1/3 lg:pb-0">
+          <div className="container mx-auto lg:w-1/3 px-4">
+            <div className="text-center text-sm font-semibold pb-4">
+              <a href="/login" className="hover:underline">
+                Ya tengo una cuenta!
+              </a>
+            </div>
+            <div className="flex justify-center">
+              <Button
+                className="w-full bg-black text-white dark:bg-white dark:text-black rounded-lg mb-12"
+                size="lg"
+                color="primary"
+                type="submit"
+                disabled={!isFormValid || isCheckingUsername}>
+                Crear cuenta
+              </Button>
+            </div>
           </div>
         </div>
       </form>
